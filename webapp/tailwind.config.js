@@ -9,6 +9,10 @@ module.exports = {
     extend: {
     
     },
+    fontSize:{
+      'header':"55px",
+      "para":"20px"
+    },
     colors:{
       'black-text':"#333333",
       'original-black':"#000000",
@@ -23,10 +27,13 @@ module.exports = {
      },
      fontFamily: {
         "Sequel-Sans-Light-Body":["Sequel-Sans-Light-Body"],
-        "Sequel-Sans-Medium-Head":["Sequel-Sans-Medium-Head"]
+        "Sequel-Sans-Medium-Head":["Sequel-Sans-Medium-Head"],
+        "Geist-SemiBold":["Geist-SemiBold"],
     },
     backgroundImage: theme => ({
-      'democratic-gradient':"linear-gradient(142.65deg, rgba(146, 189, 255, 0.02) -27.23%, rgba(81, 54, 255, 0.1) 31.69%, rgba(255, 255, 255, 0.159364) 60.92%, rgba(212, 179, 255, 0.2) 101.25%)"
+      'democratic-gradient':"linear-gradient(142.65deg, rgba(146, 189, 255, 0.02) -27.23%, rgba(81, 54, 255, 0.1) 31.69%, rgba(255, 255, 255, 0.159364) 60.92%, rgba(212, 179, 255, 0.2) 101.25%)",
+      "gradient-text":"linear-gradient(91.52deg, #4A28FF 0%, #92BDFF 115.35%)",
+      "buy-hover":"linear-gradient(95.28deg, #4A28FF 17.25%, #92BDFF 123.27%)"
    }),
     screens: {
       '2xl': '1800px',
