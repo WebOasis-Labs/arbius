@@ -46,7 +46,7 @@ export default function Header() {
   useEffect(() => {
     function handleScroll() {
       var header = document.getElementById('headerId');
-      console.log(header, "YO")
+
       let st = window.pageYOffset || document.documentElement.scrollTop;
       if (st > lastScrollTop) {
         header.style.opacity = 0
