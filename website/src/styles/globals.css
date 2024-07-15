@@ -439,6 +439,7 @@ input[type="number"] {
     font-family: 'Lato', sans-serif;
     color: black;
     margin-left: 10px;
+
 }
 
 .step-item:last-child::before {
@@ -515,7 +516,7 @@ input[type="number"]::-ms-reveal {
     width: 100%;
 }
 .slick-slide >div{
-    margin: 0 1rem;
+    margin: 0 .4rem;
 }
 
 .item-grid{

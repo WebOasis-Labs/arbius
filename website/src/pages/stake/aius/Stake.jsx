@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react"
 import arbius_logo_without_name from '@/app/assets/images/arbius_logo_without_name.png'
+import info_icon from '@/app/assets/images/info_icon_white.png'
 import Image from "next/image"
 import ReactSlider from 'react-slider'
 export default function Stake() {
@@ -38,7 +39,7 @@ export default function Stake() {
                             <div className="mb-8">
                                 <ReactSlider
                                     className=" text-original-white border-b border-4 border-[#ECECEC] rounded-2xl"
-                                    thumbClassName= " w-[28px] h-[28px] ml-[-5px] bg-thumb cursor-pointer rounded-[50%] flex items-center justify-center border-0 mt-[-14px] outline-none" 
+                                    thumbClassName=" w-[28px] h-[28px] ml-[-5px] bg-thumb cursor-pointer rounded-[50%] flex items-center justify-center border-0 mt-[-14px] outline-none"
                                     markClassName="customSlider-mark"
                                     marks={4}
                                     min={0}
@@ -46,7 +47,7 @@ export default function Stake() {
                                     max={24}
                                     defaultValue={0}
                                     value={sliderValue}
-                                    onChange={(value)=>{
+                                    onChange={(value) => {
                                         console.log(value);
                                         if (value < 1) {
                                             setDuration({ ...duration, months: 0, weeks: 4 * value })
@@ -58,22 +59,40 @@ export default function Stake() {
                                     renderMark={(props) => {
                                         props.className = "customSlider-mark customSlider-mark-before text-[16px] text-start ml-[0px] w-[16.66%]";
                                         return <span {...props} >
-                                                    <h1>{props.key}</h1>
-                                                </span>;
+                                            <h1>{props.key}</h1>
+                                        </span>;
                                     }}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center justify-between mt-8">
-                    <div className="bg-apr rounded-2xl w-[48%] py-4 px-4 box-border">
+                <div className="flex items-center justify-between mt-8 ">
+
+
+                    <div className="bg-apr rounded-2xl w-[48%] py-4 px-4 box-border relative">
+                        <div className="right-3 top-3 absolute group cursor-pointer">
+                            <Image src={info_icon} width={20} height={20} alt="info" />
+                            <div className="absolute hidden group-hover:block right-6 xl:w-[90px] top-0 text-[.6rem] lato-bold bg-white-background text-black-text p-2 rounded-md text-center">
+                            2-Year APR Est.
+
+                            </div>
+
+                        </div>
                         <p className="md:text-[16px] text-[12px] lato-regular mb-4 text-original-white">APR</p>
-                        <p className="md:text-[20px] text-[16px] lato-bold text-original-white">0%</p>
+                        <p className="md:text-[28px] text-[16px] lato-bold text-original-white">0%</p>
                     </div>
-                    <div className="bg-apr rounded-2xl w-[48%] py-4 px-4 box-border">
+                    <div className="bg-apr rounded-2xl w-[48%] py-4 px-4 box-border relative">
+                        <div className="right-3 top-3 absolute group cursor-pointer">
+                            <Image src={info_icon} width={20} height={20} alt="info" className="" />
+                            <div className="absolute hidden group-hover:block right-6 xl:w-[140px] top-0 text-[.6rem] lato-bold bg-white-background text-black-text p-2 rounded-md text-left">
+                                Total veAIUS staked by user
+
+                            </div>
+
+                        </div>
                         <p className="md:text-[16px] text-[12px] lato-regular mb-4 text-original-white">veAIUS Balance</p>
-                        <p className="md:text-[20px] text-[16px] lato-bold text-original-white">0.00 veAIUS</p>
+                        <p className="md:text-[28px] text-[16px] lato-bold text-original-white">0.00 <span className="md:text-[20px] text-[12px] lato-regular">veAIUS</span></p>
                     </div>
                 </div>
             </div>

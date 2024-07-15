@@ -59,20 +59,20 @@ function GanttChart() {
             <h1 className='text-[#4A28FF] text-[20px] font-semibold'>Staking</h1>
             <div className='flex justify-between items-center mt-6 mb-3'>
                 <div>
-                    <h2 className="text-[14px] opacity-30">First unlock in</h2>
-                    <h2 className='text-[16px]'>95 Days</h2>
+                    <h2 className="text-[14px] opacity-30 font-semibold">First unlock in</h2>
+                    <h2 className='text-[16px] font-semibold'>95 Days</h2>
 
                 </div>
                 <div>
-                    <h2 className="text-[14px] opacity-30">Total Staked</h2>
-                    <h2 className='text-[16px]'>340.21 AIUS</h2>
+                    <h2 className="text-[14px] opacity-30 font-semibold">Total Staked</h2>
+                    <h2 className='text-[16px] font-semibold'>340.21 AIUS</h2>
 
                 </div>
                 <div className='relative'>
-                    <h2 className="text-[14px] opacity-30">Governance Power</h2>
+                    <h2 className="text-[14px] opacity-30 font-semibold">Governance Power</h2>
                     <div className='flex justify-start items-center gap-1'>
 
-                        <h2 className='text-[16px]'>25</h2>
+                        <h2 className='text-[16px] font-semibold'>25</h2>
                         <div className=' cursor-pointer grayscale-[1] opacity-30 hover:grayscale-0 hover:opacity-100' onMouseOver={() => {
                             document.getElementById("info").style.display = "flex"
                         }}
@@ -118,8 +118,8 @@ function GanttChart() {
                                     <div className={` bg-[#4A28FF] h-[.4rem] my-3 rounded-full relative z-20`} id='start-stake' style={{
                                         gridColumn: `span ${item?.staked_till_now} / span ${item?.staked_till_now}`
                                     }}>
-                                        <h1 className='absolute left-0 bottom-[8px] text-[.6rem] opacity-30'>Locked Until</h1>
-                                        <h1 className='absolute left-0 top-[8px] text-[.6rem] opacity-30 text-[#4A28FF]'>7.021 AIUS Staked</h1>
+                                        <h1 className='absolute left-0 bottom-[8px] text-[.65rem]  font-semibold'><span className='opacity-60'>Locked Until</span>  <span className='opacity-100 ml-1'>01/02/2025</span></h1>
+                                        <h1 className='absolute left-0 top-[8px] text-[.65rem] opacity-80 font-semibold text-[#4A28FF]'>7.021 AIUS Staked</h1>
                                     </div>
                                 )}
                                 {
@@ -128,7 +128,7 @@ function GanttChart() {
                                         <div className={`bg-[#D9D9D9]  h-[.4rem] my-3   rounded-r-full relative z-20`} style={{
                                             gridColumn: `span ${item?.stake_completion} / span ${item?.stake_completion}`
                                         }}>
-                                            <h1 className='absolute right-0 bottom-[8px] text-[.7rem] text-[#4A28FF] min-w-[90px]'>14.12 veAIUS</h1>
+                                            <h1 className='absolute right-0 bottom-[8px] text-[.7rem] font-semibold text-[#4A28FF] min-w-[90px]'>14.12 veAIUS</h1>
                                         </div>
                                     )
                                 }

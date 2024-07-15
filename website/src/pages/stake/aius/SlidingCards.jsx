@@ -9,15 +9,16 @@ import cross_icon from "../../../app/assets/images/cross_icon.png"
 import arbius_logo_without_name from '@/app/assets/images/arbius_logo_without_name.png'
 import ReactSlider from 'react-slider'
 import info_icon from "../../../app/assets/images/info_icon.png"
+import arbius_logo_slider from '@/app/assets/images/arbius_logo_slider.png'
 function PrevBtn(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`absolute top-[40%]  left-[-10px] cursor-pointer rounded-full  z-20 bg-white-background p-3 w-[45px] h-[45px] border-2  flex justify-center items-center`}
+            className={`absolute top-[40%]  left-[-14px] cursor-pointer rounded-full  z-20 bg-white-background p-3 w-[45px] h-[45px] border-2  flex justify-center items-center`}
 
             onClick={onClick}
         >
-            <Image src={arrow_prev} className=' ' width={15} height={15} />
+            <Image src={arrow_prev} className=' mr-[2px]' width={15} height={15} />
 
         </div>
     );
@@ -27,17 +28,17 @@ function NextBtn(props) {
     const { className, style, onClick } = props;
     return (
         <div
-            className={`absolute top-[40%] rounded-full  right-[-8px] cursor-pointer  bg-white-background p-3 w-[45px] h-[45px] border-2  flex justify-center items-center`}
+            className={`absolute top-[40%] rounded-full  right-[-20px] cursor-pointer  bg-white-background p-3 w-[45px] h-[45px] border-2  flex justify-center items-center`}
 
             onClick={onClick}
         >
-            <Image src={arrow_prev} className='rotate-180 ' width={15} height={15} />
+            <Image src={arrow_prev} className='rotate-180 ml-[2px]' width={15} height={15} />
         </div>
     );
 
 }
 
-const AddPopUpChildren = ({setShowPopUp}) => {
+const AddPopUpChildren = ({ setShowPopUp }) => {
     return (
         <>
             <div className='flex justify-between items-center my-2'>
@@ -103,7 +104,7 @@ const AddPopUpChildren = ({setShowPopUp}) => {
     )
 }
 
-const ExtendPopUpChildren = ({setShowPopUp}) => {
+const ExtendPopUpChildren = ({ setShowPopUp }) => {
     const [sliderValue, setSliderValue] = useState(0)
     const [duration, setDuration] = useState({
         months: 0,
@@ -168,8 +169,8 @@ const ExtendPopUpChildren = ({setShowPopUp}) => {
             </div>
 
             <div className='border-2 rounded-xl  p-4 gap-3 flex justify-start items-center mt-4'>
-                    <Image src={info_icon}/>
-                    <h1 className='text-[0.66rem]  text-purple-text'>An extension's duration cannot exceed a two year maximum</h1>
+                <Image src={info_icon} />
+                <h1 className='text-[0.66rem]  text-purple-text'>An extension's duration cannot exceed a two year maximum</h1>
             </div>
 
             <div className='flex justify-end gap-2 mt-4'>
@@ -196,56 +197,56 @@ const ExtendPopUpChildren = ({setShowPopUp}) => {
 }
 
 
-const ClaimPopUpChildren = ({setShowPopUp}) =>{
+const ClaimPopUpChildren = ({ setShowPopUp }) => {
 
     return <>
-            <div className='flex justify-between items-center my-2'>
-                <div className='flex justify-start items-center gap-3'>
+        <div className='flex justify-between items-center my-2'>
+            <div className='flex justify-start items-center gap-3'>
 
-                    <h1>Claim</h1>
-                </div>
-                <div className='cursor-pointer' onClick={() => setShowPopUp(false)}>
-                    <Image src={cross_icon} className='w-[10px] h-[10px]' />
-                </div>
+                <h1>Claim</h1>
+            </div>
+            <div className='cursor-pointer' onClick={() => setShowPopUp(false)}>
+                <Image src={cross_icon} className='w-[10px] h-[10px]' />
+            </div>
+
+        </div>
+
+
+        <div className='flex justify-center gap-2 items-center mt-6'>
+            <div className='w-full bg-[#EEEAFF] text-center p-3 py-6 rounded-md'>
+
+                <h1 className='text-xs '><span className='text-purple-text font-semibold text-[30px]'>0.046</span> AIUS</h1>
+                <h1 className='text-[.6rem] mt-2'>Claimable AIUS</h1>
+            </div>
+
+
+        </div>
+
+        <div className='border-2 rounded-xl  p-4 gap-3 flex justify-start items-center mt-4'>
+            <Image src={info_icon} />
+            <h1 className='text-[0.66rem]  text-purple-text'>AIUS is claimable directly to your wallet </h1>
+        </div>
+
+        <div className='flex justify-end gap-2 mt-12'>
+            <button className='rounded-full bg-[#F1F0F3] text-[#AFAFB0] p-1 text-sm px-6' >Cancel</button>
+            <div className='flex justify-end'>
+
+                <button
+                    type="button"
+                    className="relative group bg-black-background py-1 px-3 lg:px-5 rounded-full flex items-center gap-3 "
+                >
+                    <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-5 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="lato-bold  relative z-10 text-original-white lg:text-[100%]">
+                        Add
+                    </div>
+
+                </button>
+
 
             </div>
 
-           
-            <div className='flex justify-center gap-2 items-center mt-6'>
-                <div className='w-full bg-[#EEEAFF] text-center p-3 py-6 rounded-md'>
-
-                    <h1 className='text-xs '><span className='text-purple-text font-semibold text-[30px]'>0.046</span> AIUS</h1>
-                    <h1 className='text-[.6rem] mt-2'>Claimable AIUS</h1>
-                </div>
-                
-
-            </div>
-
-            <div className='border-2 rounded-xl  p-4 gap-3 flex justify-start items-center mt-4'>
-                    <Image src={info_icon}/>
-                    <h1 className='text-[0.66rem]  text-purple-text'>AIUS is claimable directly to your wallet </h1>
-            </div>
-
-            <div className='flex justify-end gap-2 mt-12'>
-                <button className='rounded-full bg-[#F1F0F3] text-[#AFAFB0] p-1 text-sm px-6' >Cancel</button>
-                <div className='flex justify-end'>
-
-                    <button
-                        type="button"
-                        className="relative group bg-black-background py-1 px-3 lg:px-5 rounded-full flex items-center gap-3 "
-                    >
-                        <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-5 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div className="lato-bold  relative z-10 text-original-white lg:text-[100%]">
-                            Add
-                        </div>
-
-                    </button>
-
-
-                </div>
-
-            </div>
-        </>
+        </div>
+    </>
 
 }
 
@@ -310,43 +311,45 @@ function SlidingCards() {
         <div>
             {showPopUp !== false && (
                 <PopUp setShowPopUp={setShowPopUp}>
-                    {showPopUp === "add" && <AddPopUpChildren  setShowPopUp={setShowPopUp}/>}
-                    {showPopUp === "claim" && <ClaimPopUpChildren setShowPopUp={setShowPopUp}/>}
+                    {showPopUp === "add" && <AddPopUpChildren setShowPopUp={setShowPopUp} />}
+                    {showPopUp === "claim" && <ClaimPopUpChildren setShowPopUp={setShowPopUp} />}
                     {showPopUp === "extend" && <ExtendPopUpChildren setShowPopUp={setShowPopUp} />}
                 </PopUp>
             )}
             <div className='relative'>
-                <div className='  pl-6  w-full flex justify-start  items-center my-3 relative' ref={sliderRef}>
+                <div className='  pl-2  w-full flex justify-start  items-center my-3 relative' ref={sliderRef}>
 
 
 
                     <Slider {...settings}>
                         {data?.map((item, key) => (
 
-                            <div className='rounded-2xl px-8 py-6  bg-white-background w-[40%] ' key={key}>
-                                <div className='flex justify-start gap-12 items-center'>
+                            <div className='rounded-2xl px-8 py-6  bg-white-background w-[40%] relative' key={key}>
+
+                                <Image src={arbius_logo_slider} className='absolute top-2 right-2 w-[30px] h-[30px] z-20' />
+                                <div className='flex justify-start gap-8 items-center'>
                                     <div className='flex flex-col gap-3 justify-center items-start'>
                                         <div>
-                                            <h2 className="text-[10px] opacity-30 font-semibold">Total Staked</h2>
-                                            <h2 className='text-[11px] font-semibold'>{item?.staked}</h2>
+                                            <h2 className="text-[12px] opacity-30 font-semibold">Total Staked</h2>
+                                            <h2 className='text-[15px] font-semibold'>{item?.staked}</h2>
 
                                         </div>
                                         <div>
-                                            <h2 className="text-[10px] opacity-30 font-semibold">APR</h2>
-                                            <h2 className='text-[11px] font-semibold'>{item?.apr}</h2>
+                                            <h2 className="text-[12px] opacity-30 font-semibold">APR</h2>
+                                            <h2 className='text-[15px] font-semibold'>{item?.apr}</h2>
 
                                         </div>
 
                                     </div>
                                     <div className='flex flex-col gap-3 justify-center items-start'>
                                         <div>
-                                            <h2 className="text-[10px] opacity-30 font-semibold">Governance Power</h2>
-                                            <h2 className='text-[11px] font-semibold'>{item?.governance}</h2>
+                                            <h2 className="text-[12px] opacity-30 font-semibold">Governance Power</h2>
+                                            <h2 className='text-[15px] font-semibold'>{item?.governance}</h2>
 
                                         </div>
                                         <div>
-                                            <h2 className="text-[10px] opacity-30 font-semibold">Staked on</h2>
-                                            <h2 className='text-[11px] font-semibold'>{item?.stake_date}</h2>
+                                            <h2 className="text-[12px] opacity-30 font-semibold">Staked on</h2>
+                                            <h2 className='text-[15px] font-semibold'>{item?.stake_date}</h2>
 
                                         </div>
                                     </div>
@@ -355,8 +358,8 @@ function SlidingCards() {
 
                                 <div className='flex justify-start gap-12 items-center mt-3'>
                                     <div>
-                                        <h2 className="text-[10px] opacity-30 font-semibold">End Date</h2>
-                                        <h2 className='text-[11px] font-semibold'>{item?.end_date}</h2>
+                                        <h2 className="text-[12px] opacity-30 font-semibold">End Date</h2>
+                                        <h2 className='text-[15px] font-semibold'>{item?.end_date}</h2>
 
                                     </div>
 
@@ -364,40 +367,40 @@ function SlidingCards() {
 
                                 <div className='flex justify-between gap-2 items-center mt-4'>
 
-                                    <div>
+                                    <div className='w-[32%]'>
                                         <button
                                             type="button"
                                             onClick={() => setShowPopUp("add")}
-                                            className="relative group bg-black-background py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 "
+                                            className="relative justify-center py-2 group bg-black-background py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 w-full"
                                         >
                                             <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-4 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                            <div className="lato-bold  relative z-10 text-original-white lg:text-[12px]">
+                                            <div className="lato-bold  relative z-10 text-original-white lg:text-[15px]">
                                                 Add
                                             </div>
 
                                         </button>
                                     </div>
-                                    <div>
+                                    <div className='w-[32%]'>
                                         <button
                                             type="button"
                                             onClick={() => setShowPopUp("extend")}
-                                            className="relative group bg-black-background bg-opacity-10 py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 "
+                                            className="relative justify-center py-2 group bg-black-background bg-opacity-10 py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 w-full"
                                         >
-
-                                            <div className="lato-bold  relative z-10 text-black-text opacity-40 lg:text-[12px]">
+                                            <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-4 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                            <div className="lato-bold  relative z-10  text-black-text group-hover:text-original-white opacity-40 group-hover:opacity-100 lg:text-[15px]">
                                                 Extend
                                             </div>
 
                                         </button>
                                     </div>
-                                    <div>
+                                    <div className='w-[32%]'>
                                         <button
                                             type="button"
                                             onClick={() => setShowPopUp("claim")}
-                                            className="relative group bg-black-background bg-opacity-10 py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 "
+                                            className="relative justify-center py-2 group bg-black-background bg-opacity-10 py-1 px-3 lg:px-4 rounded-full flex items-center gap-3 w-full"
                                         >
-
-                                            <div className="lato-bold  relative z-10 text-black-text opacity-40 lg:text-[12px]">
+                                            <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-4 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                            <div className="lato-bold  relative z-10  text-black-text group-hover:text-original-white opacity-40 group-hover:opacity-100 lg:text-[15px]">
                                                 Claim
                                             </div>
 

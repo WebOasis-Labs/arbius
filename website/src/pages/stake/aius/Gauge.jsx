@@ -10,6 +10,7 @@ import search_icon from "../../../app/assets/images/search_icon.png"
 import PopUp from './PopUp'
 import cross_icon from "../../../app/assets/images/cross_icon.png"
 import arbius_logo_without_name from '@/app/assets/images/arbius_logo_without_name.png'
+import clock_icon from "../../../app/assets/images/clock_icon.png"
 function Gauge() {
     const data = [
         {
@@ -141,33 +142,35 @@ function Gauge() {
                 )
             }
 
-            <div className='hidden lg:flex justify-between items-center w-full'>
+            <div className='hidden lg:flex justify-between items-center w-full '>
                 <div className='flex justify-start items-center gap-4 w-full h-auto'>
-                    <h1 className='text-[40px] text-[#4A28FF] mb-2'>Gauge</h1>
+                    <h1 className='text-[40px] text-[#4A28FF] mb-2 lato-bold'>Gauge</h1>
                     <div className='rounded-md bg-white-background flex  items-center px-2 pr-3 justify-between h-auto w-[70%] stake-box-shadow'>
                         <input placeholder='Search Model name or ID' className='bg-transparent px-3 p-2 py-3 h-full w-full border-0 focus:outline-none ' />
                         <Image src={search_icon} className='h-4 w-4' />
                     </div>
                 </div>
 
-                <div className='text-[#4A28FF] text-sm w-[30%] text-end'>
+                <div className='text-[#4A28FF] text-[14px] w-[30%] gap-2 text-end font-semibold flex justify-end items-center'>
+                <Image src={clock_icon} className='h-4 w-4' />
                     <h1>Voting starts in   02 D : 13 Hr : 16 Min</h1>
                 </div>
 
             </div>
-            <div className='flex lg:hidden justify-between items-center'>
-                <h1 className='text-[40px] text-[#4A28FF] mb-2'>Gauge</h1>
-                <div className='text-[#4A28FF] text-[.85rem]  text-end'>
+            <div className='flex lg:hidden justify-between items-center font-semibold'>
+                <h1 className='text-[40px] text-[#4A28FF] mb-2  lato-bold'>Gauge</h1>
+                <div className='text-[#4A28FF] text-[.85rem]  text-end flex gap-2 justify-end items-center'>
+                    <Image src={clock_icon} className='h-4 w-4' />
                     <h1>Voting starts in   02 D : 13 Hr : 16 Min</h1>
                 </div>
 
             </div>
             <div className='flex lg:hidden rounded-md items-center px-2 pr-3  bg-white-background  justify-between h-auto stake-box-shadow'>
-                <input placeholder='Search Model name or ID' className='bg-transparent px-3 p-2 py-3 h-full w-full border-0 focus:outline-none ' />
+                <input placeholder='Search Model name or ID' className='bg-transparent px-3 p-2 py-3 h-full w-full border-0 focus:outline-none placeholder:lato-regular' />
                 <Image src={search_icon} className='h-4 w-4' />
             </div>
             <div className='w-full overflow-x-auto xl:overflow-x-visible'>
-                <div className='rounded-lg  p-6 px-10 flex justify-between gap-8 items-center bg-white-background mt-2 mb-4 min-w-[1200px]'>
+                <div className='rounded-lg  p-6 px-10 flex justify-between gap-8 items-center bg-white-background mt-2 mb-4 min-w-[1000px] font-semibold'>
                     <div className='w-[20%]'>
                         <h1>Model Name</h1>
                     </div>
@@ -189,7 +192,7 @@ function Gauge() {
                 {data?.map((item, key) => {
                     return (
 
-                        <div className='rounded-lg  p-4 px-10 flex justify-between gap-8 items-center bg-white-background my-2 relative min-w-[1200px]' key={key}>
+                        <div className='rounded-lg  p-4 px-10 flex justify-between gap-8 items-center bg-white-background my-2 relative min-w-[1000px] font-semibold' key={key}>
                             <div className='flex hidden justify-start items-center absolute left-[-110px]  top-[10%] z-20' id={key}>
                                 <div className='bg-white-background w-auto p-3 rounded-xl'>
                                     <h1 className='text-[.6rem] mb-1 opacity-40'>Model ID</h1>
@@ -198,7 +201,7 @@ function Gauge() {
                                 <Image src={polygon} className='-ml-2' />
 
                             </div>
-                            <div className='w-[20%] flex justify-start gap-4 items-center'>
+                            <div className='w-[20%] flex justify-start gap-2 items-center'>
                                 <div className='bg-[#4A28FF] p-3  rounded-full '>
                                     <Image src={item?.icon} className='w-[14px] h-[14px]' />
 
