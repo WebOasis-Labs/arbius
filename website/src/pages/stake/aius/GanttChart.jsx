@@ -95,7 +95,7 @@ function GanttChart() {
 
             </div>
 
-            <div className='max-h-[144px] overflow-y-auto mb-2 relative'>
+            <div className='max-h-[144px] px-1 overflow-y-auto mb-2 relative' id="gantt-chart">
 
                 {
                     data?.map((item, key) => {
