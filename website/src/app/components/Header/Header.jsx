@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ArbiusLogo from "../../assets/images/arbius_logo.png";
 import external_link from "../../assets/images/external_link.png";
+import arbiusBWlogo from "../../assets/images/connect_logo.png"
 import down_arrow from "../../assets/images/down_arrow.png";
 import amica_l from "../../assets/images/amica_l.png";
 import kasumi_l from "../../assets/images/kasumi_l.png";
