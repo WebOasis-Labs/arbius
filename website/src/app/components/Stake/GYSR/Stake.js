@@ -16,6 +16,7 @@ import {
 import { unstakeTokens } from '../../../Utils/unstake'
 import { claimableRewards } from '../../../Utils/claimableRewards'
 import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
+import { globalUnlocked } from '../../../Utils/globalUnlocked'
 function Stake() {
     const [currentHoverId, setCurrentHoverId] = useState(null);
     const [isStakeClicked, setIsStakeClicked] = useState(false)
@@ -26,13 +27,15 @@ function Stake() {
         const getData = async () => {
             const data1 = await stakeTokenBalance()
             const data2 = await claimableRewards()
+            const data3=  await globalUnlocked()
             setData({
                 unstake: {
                     rewards: data2[0],
                     balance: data1[0],
+                    globalUnlock: data3
                 }
             })
-            console.log(data1, data2, "kokokokokokok")
+            
         }
         getData()
     }, [])
@@ -252,7 +255,7 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1  '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">382</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{parseFloat(data?.unstake?.globalUnlock).toFixed(2)}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>AIUS</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium" id="globalUnlocked">Global Unlocked</h2>

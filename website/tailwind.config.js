@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       filter: {
-        'invert': 'invert(1)',
+       
         keyframes: {
           l3: {
             to: { transform: 'rotate(1turn)' },
@@ -18,6 +18,9 @@ module.exports = {
         animation: {
           l3: 'l3 1s infinite linear',
         },
+      },
+      filter:{
+        'invert': 'invert(1)',
       },
       boxShadow: {
         stats: '0px 4px 20px 0px rgba(74, 40, 255, 0.2)',

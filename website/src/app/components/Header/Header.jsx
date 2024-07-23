@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ArbiusLogo from "../../assets/images/arbius_logo.png";
 import external_link from "../../assets/images/external_link.png";
+import arbiusBWlogo from "../../assets/images/connect_logo.png"
 import down_arrow from "../../assets/images/down_arrow.png";
 import amica_l from "../../assets/images/amica_l.png";
 import kasumi_l from "../../assets/images/kasumi_l.png";
@@ -18,6 +19,7 @@ import { useWeb3Modal } from '@web3modal/react'; // main arbius component
 import {
   useAccount,
 } from 'wagmi';  // main arbius component
+import getGYSRBalance from "../../Utils/aggregatedWalletBalance";
 
 
 export default function Header() {
@@ -80,6 +82,9 @@ export default function Header() {
   const [loadingWeb3Modal, setLoadingWeb3Modal] = useState(false);
 
   useEffect(() => {
+    if(localStorage.getItem('gysrBalance')){
+      setWalletConnected(isConnected);
+    }
     setWalletConnected(isConnected);
   }, [isConnected]);
 
@@ -277,10 +282,13 @@ export default function Header() {
                 className="m-[auto] relative group bg-black-background lm:p-[7px_150px] lg:py-2 lg:px-8 rounded-full flex items-center gap-3"
               >
                 <div class="absolute w-[100%] h-[100%] left-0 z-0 lm:p-[7px_150px] lg:py-2 lg:px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="lato-bold relative mt-[-1.5px] z-10 text-original-white"
+                <div className="lato-bold relative mt-[-1.5px] z-10 text-original-white flex flex-row justify-between gap-5"
                   onClick={clickConnect}
                 >
-                  { walletConnected ? "Connected" : "Connect" }
+                  {
+                    walletConnected?<Image style={{filter:'invert(1)'}} src={arbiusBWlogo} height={20} alt="connected"/>:null
+                  }
+                  { walletConnected ? localStorage.getItem('gysrBalance') : "Connect" }
                 </div>
               </button>
             </div>

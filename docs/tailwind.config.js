@@ -24,6 +24,9 @@ module.exports = {
       boxShadow: {
         glow: '0 0 4px rgb(0 0 0 / 0.1)',
       },
+      filter:{
+        'invert': 'invert(1)',
+      },
       maxWidth: {
         lg: '33rem',
         '2xl': '40rem',
