@@ -71,8 +71,8 @@ function Stake() {
     const handleApproveClick = async () => {
         if (!document)
             return
-        let body = document.getElementsByTagName("body");
-        body[0].style.overflow = "hidden"
+        // let body = document.getElementsByTagName("body");
+        // body[0].style.overflow = "hidden"
         // setIsPopupOpen(true);
         // alert("clicked")
         await clickConnect()
@@ -177,7 +177,7 @@ function Stake() {
                             <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
                                 id={"approveUniV2"}
                                 onClick={() => {
-                                    // handleApproveClick()
+                                    handleApproveClick()
                                 }}>
                                 <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white text-[13px] ">Approve SUNI-V2</p>

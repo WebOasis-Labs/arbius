@@ -1,6 +1,6 @@
 import Web3 from "web3";
 // import { abi as stakingAbi } from './Staking.json'; // Import the ABI of the staking contract
-const UNIV2_ADDRESS = '0x12A1165b8784C9d322Ef2c4787d8f161FD8f551C';
+const UNIV2_ADDRESS = '0xCB37089fC6A6faFF231B96e000300a6994d7a625';
 // import Pool from '../src/app/abis/pool.json'
 import univV2 from '../abis/approveUNIV2.json'
 export const walletBalance = async () => {

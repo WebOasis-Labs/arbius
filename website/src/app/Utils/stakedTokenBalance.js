@@ -9,7 +9,7 @@ export const stakeTokenBalance = async (amount) => {
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
        
-        const balance =await pool.methods.stakingBalances('0xEe16DbAa6629F9f8fF9622BD03c9bdF5bb847C7F').call();
+        const balance =await pool.methods.stakingBalances(account).call();
         return balance
 
 };

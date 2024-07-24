@@ -21,7 +21,7 @@ export default async function getAIUSBalance() {
       localStorage.setItem("aiusBalance",adjustedBalance);
       return adjustedBalance;
     } catch (error) {
-      console.error('Error fetching GYSR balance:', error);
+      console.error('Error fetching AIUS balance:', error);
     }
   } else {
     console.error('MetaMask is not installed.');
