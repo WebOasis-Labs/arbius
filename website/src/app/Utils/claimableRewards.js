@@ -11,4 +11,3 @@ export const claimableRewards = async (amount) => {
         console.log(reward,"rewardss")
         return reward;
 };
-
