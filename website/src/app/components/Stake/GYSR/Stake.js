@@ -17,6 +17,7 @@ import { unstakeTokens } from '../../../Utils/unstake'
 import { claimableRewards } from '../../../Utils/claimableRewards'
 import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
+import fetchData from '../../../Utils/getStakedTokenTimeStamp'
 function Stake() {
     const [currentHoverId, setCurrentHoverId] = useState(null);
     const [isStakeClicked, setIsStakeClicked] = useState(false)
@@ -37,6 +38,7 @@ function Stake() {
             })
             
         }
+        fetchData()
         getData()
     }, [])
     const {
