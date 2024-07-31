@@ -1,5 +1,5 @@
 import Web3 from "web3";
-const POOL_ADDRESS='0xF0148B59D7F31084Fb22FF969321FDfAfA600C02'
+const POOL_ADDRESS=process.env.NEXT_PUBLIC_POOL_ADDRESS
 const POOL_INFO_ADDRESS = '0xF75beABb45EE2A81686821C3D0bD26856b9f6952';
 import Pool from '../abis/poolInfo.json'
 export const claimableRewards = async (amount) => {

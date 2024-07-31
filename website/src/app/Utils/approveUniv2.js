@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import UNIV2_ABI from '../../../src/app/abis/approveUNIV2.json'
-const UNIV2_ADDRESS = '0xCB37089fC6A6faFF231B96e000300a6994d7a625';
-const AIUS_STAKING_CONTRACT_ADDRESS = '0x12A1165b8784C9d322Ef2c4787d8f161FD8f551C'
+const UNIV2_ADDRESS = process.env.NEXT_PUBLIC_UNIV2_ADDRESS
+const AIUS_STAKING_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_UNIV2_APPROVE_SPENDER
 
 
 export const approveUNIV2 = async (amt) => {

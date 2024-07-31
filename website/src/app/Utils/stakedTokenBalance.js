@@ -11,4 +11,5 @@ export const stakeTokenBalance = async (amount) => {
         const balance =await pool.methods.stakingBalances(account).call();
         return balance
 
+
 };

@@ -6,7 +6,7 @@ export default async function getAIUSBalance() {
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' }); // Request account access if needed
       const web3 = new Web3(window.ethereum);
-      const aiusTokenAddress = '0x8AFE4055Ebc86Bd2AFB3940c0095C9aca511d852'; // Replace with the actual GYSR token contract address from Etherscan
+      const aiusTokenAddress = process.env.NEXT_PUBLIC_AIUS_TOKEN_ADDRESS; // Replace with the actual GYSR token contract address from Etherscan
       const contract = new web3.eth.Contract(contractABI, aiusTokenAddress);
 
       const accounts = await web3.eth.getAccounts();

@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import APPROVE_UNSTAKE from '../src/app/abis/approveUnstake.json'
 // Assuming you have the ABI and address of the UNI-V2 token contract
 
-const APPROVE_UNSTAKE_ADDRESS = '0xbEa98c05eEAe2f3bC8c3565Db7551Eb738c8CCAb';
+const APPROVE_UNSTAKE_ADDRESS = process.env.NEXT_PUBLIC_GYSR_REWARDS_MULTIPLIER_ADDRESS;
 
 export const approveUnstake = async (amt) => {
     if (window.ethereum) {

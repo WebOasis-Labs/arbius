@@ -156,13 +156,13 @@ function ActivityTable() {
                                    {data ? paginatedData?.map((item, key) => {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.functionName}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.amount).toFixed(2)} UNI-V2</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.reward).toFixed(2)=='0.00'?'-':`${parseFloat(item?.reward).toFixed(2)} AIUS`}  </td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{hexToDecimal(item?.decodedParams.rewarddata) =='-'?"-": `${hexToDecimal(item?.decodedParams.rewarddata)} GYSR`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.earnings==0?'-':`${parseFloat(item?.earnings).toFixed(2)} AIUS`}  </td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.gysrSpent ==0?"-": `${parseFloat(item?.gysrSpent).toFixed(2)} GYSR`}</td>
                                              
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
-                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.from)}</a></td>
+                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.user.id)}</a></td>
                                                
                                                
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
