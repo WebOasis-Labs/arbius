@@ -7,7 +7,13 @@ export const stakeTokens = async (amount) => {
         const pool = new web3.eth.Contract(Pool,POOL_ADDRESS );
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
-       const stakedTokens= await pool.methods.stake(Web3.utils.toWei('0.1', 'ether'), [], []).send({ from: account });
-       console.log(stakeTokens) 
+       try{
+        const stakedTokens= await pool.methods.stake(Web3.utils.toWei('0.1', 'ether'), [], []).send({ from: account });
+       console.log(stakeTokens,"staked token") 
        return stakedTokens
+       }
+       catch(err){
+        console.log(stakeTokens,"staked token error")
+        return err
+       }
 };

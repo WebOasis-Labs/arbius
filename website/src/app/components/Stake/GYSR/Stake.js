@@ -16,9 +16,15 @@ import {
 import { unstakeTokens } from '../../../Utils/unstake'
 import { claimableRewards } from '../../../Utils/claimableRewards'
 import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
+import getAIUSBalance from '../../../Utils/aiusWalletBalance'
 function Stake() {
     const [currentHoverId, setCurrentHoverId] = useState(null);
     const [isStakeClicked, setIsStakeClicked] = useState(false)
+    const [aprroved, setaprroved] = useState(false)
+    const [walletBalance, setWalletBalance] = useState({
+        totalUniv2:0,
+        stakedUniv2:0,
+    })
     const [isPopupOpen, setIsPopupOpen] = useState(false)
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
@@ -33,6 +39,14 @@ function Stake() {
                 }
             })
             console.log(data1, data2, "kokokokokokok")
+        }
+        const getAccountsData=async()=>{
+            const data1= await getAIUSBalance();
+            const data2= await stakeTokenBalance()
+            setWalletBalance({
+                totalUniv2:data1,
+                stakedUniv2:data2
+            })
         }
         getData()
     }, [])
@@ -79,8 +93,21 @@ function Stake() {
         // connectWalletHandler()
 
         const approved = await approveUNIV2('1')
-        if (approved) {
-            stakeTokens('1')
+        setaprroved(approved)
+        
+    }
+    const handleStake=async()=>{
+        
+        if (aprroved) {
+          try{
+            const stakedTokens= await  stakeTokens('1')
+          if(stakedTokens){
+            setWalletBalance({...walletBalance,stakedUniv2:stakeTokens})
+          }
+          }
+        catch(err){
+            alert(err)
+        }
         }
     }
     const connectWallet = async () => {
@@ -126,7 +153,7 @@ function Stake() {
 
                                 <div className="mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
                                     <div className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">0.000</h1>
+                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{walletBalance.totalUniv2}</h1>
                                         <p className="text-para ml-2 text-black-text ">Uni-V2</p>
                                     </div>
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text">Wallet Balance</h1>
@@ -161,7 +188,7 @@ function Stake() {
                                 </div>
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                 <div className='w-[80%]'>
-                                <input className='w-[100%] outline-none'  placeholder="Amount of UNI-V2 to stake" 
+                                <input className='w-[100%] outline-none bg-white'  placeholder="Amount of UNI-V2 to stake" 
                                 /> 
                                 </div> 
                                 <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
@@ -192,7 +219,7 @@ function Stake() {
                                 />
                             </button>
 
-                            <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3" onClick={() => connectWallet()}>
+                            <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3" onClick={() => handleStake()}>
                                 <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-[#101010] opacity-30 text-[15px] ">Stake</p>
                             </button>
@@ -300,7 +327,7 @@ function Stake() {
                                 </div>
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                 <div className='w-[80%]'>
-                                <input className='w-[100%]'  placeholder="Amount of UNI-V2 to stake" 
+                                <input className='w-[100%] bg-white'  placeholder="Amount of UNI-V2 to stake" 
                                 /> 
                                 </div> 
                                 <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
@@ -322,7 +349,7 @@ function Stake() {
                                         </div>
                                         <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
                                             <div className='w-[80%]'>
-                                            <input className='w-[100%]'  placeholder="0.00" 
+                                            <input className='w-[100%] bg-white'  placeholder="0.00" 
                                             /> 
                                             </div> 
                                             <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
