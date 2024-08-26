@@ -10,7 +10,6 @@ import arbius from "../../assets/images/arbius_logo_without_name.png";
 import gysr from "../../assets/images/gysr_logo_without_name.png";
 import kandinsky from "../../assets/images/kandinsky.png";
 import Image from "next/image";
-import arbiusBWlogo from "../../assets/images/connect_logo.png"
 import { usePathname, useRouter } from "next/navigation";
 import AnimateHeight from "react-animate-height";
 import Link from "next/link";
