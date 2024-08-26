@@ -75,7 +75,7 @@ function Stake() {
         body[0].style.overflow = "hidden"
         // setIsPopupOpen(true);
         // alert("clicked")
-        await clickConnect()
+        // await clickConnect()
         // connectWalletHandler()
 
         const approved = await approveUNIV2('1')
@@ -161,7 +161,7 @@ function Stake() {
                                 </div>
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                 <div className='w-[80%]'>
-                                <input className='w-[100%]'  placeholder="Amount of UNI-V2 to stake" 
+                                <input className='w-[100%] outline-none'  placeholder="Amount of UNI-V2 to stake" 
                                 /> 
                                 </div> 
                                 <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
@@ -177,7 +177,7 @@ function Stake() {
                             <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
                                 id={"approveUniV2"}
                                 onClick={() => {
-                                    // handleApproveClick()
+                                    handleApproveClick()
                                 }}>
                                 <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white text-[13px] ">Approve SUNI-V2</p>
