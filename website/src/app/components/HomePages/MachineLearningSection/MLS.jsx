@@ -4,7 +4,10 @@ import right_arrow from "../../../assets/images/arrow.png";
 import Image from "next/image";
 import { Fade } from "react-awesome-reveal";
 import Link from "next/link";
+
+import { getUserTransactions } from "../../../Utils/getUserTransactions";
 export default function MachineLearningSection() {
+  console.log(getUserTransactions('0xF21aED47F2b14874e834cbc58c63FCc60563e5F0'))
   return (
     <div className="bg-[url('../app/assets/images/peer_background.jpg')] bg-cover lato-bold  lg:h-[75vh] lg:flex lg:items-center mt-[72px]">
       <div className="py-16 lg:py-24 lg:p-0 w-mobile-section-width lg:w-section-width m-[auto] max-w-center-width">

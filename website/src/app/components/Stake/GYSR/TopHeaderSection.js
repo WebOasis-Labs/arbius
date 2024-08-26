@@ -7,8 +7,9 @@ import arbiuslogorounded from "@/app/assets/images/arbiuslogo_rounded.png"
 import gysrlogorounded from "@/app/assets/images/gysrlogo_rounded.png"
 import GradientCrad from "@/app/components/Stake/GYSR/GradientCrad";
 import Link from "next/link"
+import { getUserTransactions } from '../../../Utils/getUserTransactions';
 function TopHeaderSection({ data }) {
-
+    getUserTransactions()
     const headerCardData = [
 
         {
