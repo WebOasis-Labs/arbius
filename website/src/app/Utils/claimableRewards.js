@@ -9,5 +9,7 @@ export const claimableRewards = async (amount) => {
         const account = accounts[0];
         const reward= await pool.methods.rewards(POOL_ADDRESS,account,'0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000000000000000000000000000').call();
         console.log(reward,"rewardss")
-        return reward;
+        const decimals = 18;
+       const adjustedReward = reward[0] / (10 ** decimals);
+        return adjustedReward;
 };
