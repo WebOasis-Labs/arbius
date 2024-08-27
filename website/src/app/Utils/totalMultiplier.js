@@ -6,8 +6,5 @@ export const  calculateBonusMultiplier=(timeStaked, totalStakedTokens, bonusPeri
     let totalMultiplier = M * totalStakedTokens;
     
     // Return the results as an object
-    return {
-        bonusMultiplier: M,
-        totalMultiplier: totalMultiplier
-    };
+    return M
 }

@@ -21,6 +21,7 @@ import getGYSRBalance from '../../../Utils/gysrWalletBalance'
 import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
 import { getTimeStaked } from '../../../Utils/getTimeStaked'
+import { calculateBonusMultiplier } from '../../../Utils/totalMultiplier'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -30,6 +31,7 @@ function Stake() {
     const [allowance, setAllowance] = useState(0);
     const [globalUnlockedValue, setGlobalUnlocked] = useState(0);
     const [daysStaked, setDaysStaked] = useState(0);
+    const [timeMultiplier, setTimeMultiplier] = useState(1);
 
     const [inputValue, setInputValue] = useState({
         univ2:'',
@@ -59,9 +61,14 @@ function Stake() {
             }
             if(data3){
                 data3 = Number(data3) / eth_wei
+                setAllowance(data3)
             }
             if(data4){
                 data4 = (Number(data4) / eth_wei).toFixed(0)
+                setGlobalUnlocked(data4)
+            }
+            if(data5){
+                setDaysStaked(data5)
             }
             setData({
                 unstake: {
@@ -69,9 +76,11 @@ function Stake() {
                     balance: data1,
                 }
             })
-            setAllowance(data3)
-            setGlobalUnlocked(data4)
-            setDaysStaked(data5)
+
+            const tMultiplier = calculateBonusMultiplier(data5, data1)
+            if(tMultiplier){
+                setTimeMultiplier(tMultiplier.toFixed(2))
+            }
             console.log(data1, data2, data3, data4, data5, "kokokokokokok")
         }
         const getAccountsData=async()=>{
@@ -358,10 +367,10 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1 text-[#101010] '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">1.25</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{timeMultiplier}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>X</h1>
                                     </div>
-                                    <h2 className="text-[15px] font-medium">Total Mult</h2>
+                                    <h2 className="text-[15px] font-medium">Time mult.</h2>
 
                                 </div>
 
