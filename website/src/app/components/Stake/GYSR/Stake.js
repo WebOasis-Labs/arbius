@@ -18,18 +18,21 @@ import { claimableRewards } from '../../../Utils/claimableRewards'
 import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
 import getAIUSBalance from '../../../Utils/aiusWalletBalance'
 import getGYSRBalance from '../../../Utils/gysrWalletBalance'
+import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 
 function Stake() {
+    const eth_wei = 1000000000000000000;
     const [currentHoverId, setCurrentHoverId] = useState(null);
     const [isStakeClicked, setIsStakeClicked] = useState(false)
     const [aprroved, setaprroved] = useState(false)
+    const [allowance, setAllowance] = useState(0);
     const [inputValue, setInputValue] = useState({
         univ2:'',
         stakedUniv2:'',
         gysr:''
     });
     const [walletBalance, setWalletBalance] = useState({
-        totalUniv2:1,
+        totalUniv2:0,
         stakedUniv2:0,
     })
     const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -37,20 +40,37 @@ function Stake() {
     const [error, setError] = useState(null);
     useEffect(() => {
         const getData = async () => {
-            const data1 = await stakeTokenBalance()
-            const data2 = await claimableRewards()
+            let data1 = await stakeTokenBalance()
+            let data2 = await claimableRewards()
+            let data3 = await UNIV2_allowance()
+            if(data1){
+                data1 = (Number(data1) / eth_wei).toFixed(4)
+            }
+            if(data2){
+                data2 = (Number(data2) / eth_wei).toFixed(4)
+            }
+            if(data3){
+                data3 = Number(data3) / eth_wei
+            }
             setData({
                 unstake: {
                     rewards: data2,
                     balance: data1,
                 }
             })
-            console.log(data1, data2, "kokokokokokok")
+            setAllowance(data3)
+            console.log(data1, data2, data3, "kokokokokokok")
         }
         const getAccountsData=async()=>{
-            const data1= await getGYSRBalance();
-            const data2= await stakeTokenBalance()
+            let data1= await getGYSRBalance();
+            let data2= await stakeTokenBalance()
             console.log(data1,data2,"balances")
+            if(data1){
+                data1 = data1.toFixed(3)
+            }
+            if(data2){
+                data2 = (Number(data2) / eth_wei).toFixed(4)
+            }
             setWalletBalance({
                 totalUniv2:data1,
                 stakedUniv2:data2
@@ -92,35 +112,31 @@ function Stake() {
         f();
       }
     const handleApproveClick = async () => {
-        if (!document)
-            return
-        let body = document.getElementsByTagName("body");
+        //if (!document)
+        //    return
+        //let body = document.getElementsByTagName("body");
         // body[0].style.overflow = "hidden"
         // setIsPopupOpen(true);
         // alert("clicked")
         // await clickConnect()
         // connectWalletHandler()
+        const approved = await approveUNIV2()        
+    }
+    const handleStake = async() => {
+        if (inputValue.univ2 && allowance > inputValue.univ2) {
+            try{
+                const stakedTokens = await stakeTokens(inputValue.univ2);
+                if(stakedTokens){
+                    const newStakedTokens = await stakeTokenBalance()
+                    setWalletBalance({...walletBalance,stakedUniv2:newStakedTokens})
+                }
+            }
+            catch(err){
+                alert(err)
+            }
+        }
+    }
 
-        const approved = await approveUNIV2('1')
-        setaprroved(approved)
-        
-    }
-    const handleStake=async()=>{
-        
-        if (aprroved) {
-          try{
-            const stakedTokens= await  stakeTokens(inputValue.univ2)
-          if(stakedTokens){
-            
-            const newStakedTokens= await stakeTokenBalance()
-            setWalletBalance({...walletBalance,stakedUniv2:newStakedTokens})
-          }
-          }
-        catch(err){
-            alert(err)
-        }
-        }
-    }
     const connectWallet = async () => {
 
         const connct =await clickConnect()
@@ -155,7 +171,7 @@ function Stake() {
 
     // Function to handle changes in the input field
     const handleInputChange = (e,key) => {
-      setInputValue({...inputValue,[key]:e.target.value});
+      setInputValue({...inputValue,[key]: Number(e.target.value)});
     };
   
     // Function to handle the "max" button click
@@ -230,7 +246,8 @@ function Stake() {
 
 
                         <div className="flex justify-end items-center gap-4 mt-4 md:mb-0 text-[#101010]">
-                            <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
+                            { allowance > inputValue.univ2 ? null
+                            : <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
                                 id={"approveUniV2"}
                                 onClick={() => {
                                     handleApproveClick()
@@ -246,11 +263,11 @@ function Stake() {
                                     currentHoverId={currentHoverId}
                                     setCurrentHoverId={setCurrentHoverId}
                                 />
-                            </button>
+                            </button> }
 
-                            <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3" onClick={() => handleStake()}>
-                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                <p className="relative z-10 text-[#101010] opacity-30 text-[15px] ">Stake</p>
+                            <button type="button" className={`relative group ${ inputValue.univ2 && allowance > inputValue.univ2 ? "bg-black-background" : "bg-[#121212] bg-opacity-5"} py-2 px-8 rounded-full flex items-center  gap-3`} onClick={() => handleStake()}>
+                                <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                <p className={`relative z-10 ${ inputValue.univ2 && allowance > inputValue.univ2 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] `}>Stake</p>
                             </button>
                         </div>
 
