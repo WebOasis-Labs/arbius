@@ -97,7 +97,7 @@ function Stake() {
                 data1 = data1.toFixed(3)
             }
             if(data2){
-                data2 = (Number(data2) / eth_wei).toFixed(4)
+                data2 = (Number(data2?.userStake) / eth_wei).toFixed(4)
             }
             setWalletBalance({
                 totalUniv2:data1,
@@ -113,7 +113,7 @@ function Stake() {
         const gysrAmount = Number(inputValue.gysr)
         console.log(totalStaked, "TST")
         if(unstakeAmount && gysrAmount){
-            const val = gysrBonus(gysrAmount, unstakeAmount, totalStaked, 0)
+            const val = gysrBonus(gysrAmount, unstakeAmount, totalStaked, 650092074457522230/eth_wei)
             console.log(val, "gysr bonus");
         }
     },[inputValue.unstake, inputValue.gysr])
@@ -216,7 +216,7 @@ function Stake() {
   
     // Function to handle the "max" button click
     const handleMaxClick = (value,key) => {
-      
+      console.log(key)
       setInputValue({...inputValue,[value]:key});
     };
     return (
@@ -333,7 +333,7 @@ function Stake() {
                                             setCurrentHoverId={setCurrentHoverId}
                                         />
                                     </div>
-                                    <h1 className="text-[8px] lg:text-[13px] font-medium">Wallet Balance</h1>
+                                    <h1 className="text-[8px] lg:text-[13px] font-medium">Staked</h1>
                                 </div>
 
 

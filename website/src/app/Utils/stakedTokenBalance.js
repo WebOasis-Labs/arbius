@@ -10,9 +10,10 @@ export const stakeTokenBalance = async (amount) => {
         const account = accounts[0];
        
         try{
-                const balance =await pool.methods.stakingBalances(account).call();
-                const balance2 =await pool.methods.stakingTotals().call();
-                console.log(balance2, "stakingTotals")
+                const balance = await pool.methods.stakingBalances(account).call();
+                const balance2 = await pool.methods.stakingTotals().call();
+                const balance3 = await pool.methods.usage().call();
+                console.log(balance3, "stakingTotals")
                 return {
                         "userStake": balance[0],
                         "totalStake": balance2[0]
