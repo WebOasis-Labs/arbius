@@ -19,6 +19,7 @@ import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
 import getAIUSBalance from '../../../Utils/aiusWalletBalance'
 import getGYSRBalance from '../../../Utils/gysrWalletBalance'
 import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
+import { globalUnlocked } from '../../../Utils/globalUnlocked'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -26,6 +27,8 @@ function Stake() {
     const [isStakeClicked, setIsStakeClicked] = useState(false)
     const [aprroved, setaprroved] = useState(false)
     const [allowance, setAllowance] = useState(0);
+    const [globalUnlockedValue, setGlobalUnlocked] = useState(0);
+
     const [inputValue, setInputValue] = useState({
         univ2:'',
         stakedUniv2:'',
@@ -43,6 +46,7 @@ function Stake() {
             let data1 = await stakeTokenBalance()
             let data2 = await claimableRewards()
             let data3 = await UNIV2_allowance()
+            let data4 = await globalUnlocked()
             if(data1){
                 data1 = (Number(data1) / eth_wei).toFixed(4)
             }
@@ -52,6 +56,9 @@ function Stake() {
             if(data3){
                 data3 = Number(data3) / eth_wei
             }
+            if(data4){
+                data4 = (Number(data4) / eth_wei).toFixed(0)
+            }
             setData({
                 unstake: {
                     rewards: data2,
@@ -59,7 +66,8 @@ function Stake() {
                 }
             })
             setAllowance(data3)
-            console.log(data1, data2, data3, "kokokokokokok")
+            setGlobalUnlocked(data4)
+            console.log(data1, data2, data3, data4, "kokokokokokok")
         }
         const getAccountsData=async()=>{
             let data1= await getGYSRBalance();
@@ -123,7 +131,7 @@ function Stake() {
         const approved = await approveUNIV2()        
     }
     const handleStake = async() => {
-        if (inputValue.univ2 && allowance > inputValue.univ2) {
+        if (Number(inputValue.univ2) && allowance > Number(inputValue.univ2)) {
             try{
                 const stakedTokens = await stakeTokens(inputValue.univ2);
                 if(stakedTokens){
@@ -171,7 +179,7 @@ function Stake() {
 
     // Function to handle changes in the input field
     const handleInputChange = (e,key) => {
-      setInputValue({...inputValue,[key]: Number(e.target.value)});
+      setInputValue({...inputValue,[key]: e.target.value});
     };
   
     // Function to handle the "max" button click
@@ -246,7 +254,7 @@ function Stake() {
 
 
                         <div className="flex justify-end items-center gap-4 mt-4 md:mb-0 text-[#101010]">
-                            { allowance > inputValue.univ2 ? null
+                            { allowance > Number(inputValue.univ2) ? null
                             : <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
                                 id={"approveUniV2"}
                                 onClick={() => {
@@ -265,9 +273,9 @@ function Stake() {
                                 />
                             </button> }
 
-                            <button type="button" className={`relative group ${ inputValue.univ2 && allowance > inputValue.univ2 ? "bg-black-background" : "bg-[#121212] bg-opacity-5"} py-2 px-8 rounded-full flex items-center  gap-3`} onClick={() => handleStake()}>
+                            <button type="button" className={`relative group ${ Number(inputValue.univ2) && allowance > Number(inputValue.univ2) ? "bg-black-background" : "bg-[#121212] bg-opacity-5"} py-2 px-8 rounded-full flex items-center  gap-3`} onClick={() => handleStake()}>
                                 <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                <p className={`relative z-10 ${ inputValue.univ2 && allowance > inputValue.univ2 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] `}>Stake</p>
+                                <p className={`relative z-10 ${ Number(inputValue.univ2) && allowance > Number(inputValue.univ2) ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] `}>Stake</p>
                             </button>
                         </div>
 
@@ -325,7 +333,7 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1  '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">382</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{globalUnlockedValue}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>AIUS</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium" id="globalUnlocked">Global Unlocked</h2>
@@ -374,7 +382,7 @@ function Stake() {
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                 <div className='w-[80%]'>
                                 <input 
-                                className='w-[100%] bg-white-background'  
+                                className='w-[100%] outline-none bg-white-background'  
                                 placeholder="Amount of UNI-V2 to stake"
                                 value={inputValue.unstake}
                                 onChange={(e)=>handleInputChange(e,"unstake")}
@@ -401,7 +409,7 @@ function Stake() {
                                         <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
                                             <div className='w-[80%]'>
                                             <input 
-                                            className='w-[100%] bg-white-background'  
+                                            className='w-[100%] outline-none bg-white-background'  
                                             placeholder="0.00"
                                             value={inputValue.gysr}
                                             onChange={(e)=>handleInputChange(e,"gysr")}
