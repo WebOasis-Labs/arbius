@@ -95,7 +95,7 @@ function Stake() {
         if (!document)
             return
         let body = document.getElementsByTagName("body");
-        body[0].style.overflow = "hidden"
+        // body[0].style.overflow = "hidden"
         // setIsPopupOpen(true);
         // alert("clicked")
         // await clickConnect()
@@ -109,7 +109,7 @@ function Stake() {
         
         if (aprroved) {
           try{
-            const stakedTokens= await  stakeTokens('1')
+            const stakedTokens= await  stakeTokens(inputValue.univ2)
           if(stakedTokens){
             
             const newStakedTokens= await stakeTokenBalance()
