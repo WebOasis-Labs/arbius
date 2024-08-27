@@ -11,7 +11,12 @@ export const stakeTokenBalance = async (amount) => {
        
         try{
                 const balance =await pool.methods.stakingBalances(account).call();
-                return balance[0]
+                const balance2 =await pool.methods.stakingTotals().call();
+                console.log(balance2, "stakingTotals")
+                return {
+                        "userStake": balance[0],
+                        "totalStake": balance2[0]
+                }
         }
         catch(err){
              return err;

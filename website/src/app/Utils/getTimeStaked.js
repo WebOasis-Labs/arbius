@@ -29,7 +29,7 @@ export const getTimeStaked = async () => {
         const now = Math.floor(Date.now() / 1000); // Current time in UNIX format
         const diffInSeconds = now - earliestTime;
         console.log(diffInSeconds, "DIFF SECONDS")
-        const diffInDays = Math.ceil(diffInSeconds / (24 * 60 * 60)); // Convert seconds to days
+        const diffInDays = Math.round(diffInSeconds / (24 * 60 * 60)); // Convert seconds to days
         return diffInDays;
     }
 }

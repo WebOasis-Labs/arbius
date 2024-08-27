@@ -21,7 +21,8 @@ import getGYSRBalance from '../../../Utils/gysrWalletBalance'
 import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
 import { getTimeStaked } from '../../../Utils/getTimeStaked'
-import { calculateBonusMultiplier } from '../../../Utils/totalMultiplier'
+import { calculateBonusMultiplier } from '../../../Utils/timeMultiplier'
+import { gysrBonus } from '../../../Utils/getGysrMultiplier'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -32,6 +33,7 @@ function Stake() {
     const [globalUnlockedValue, setGlobalUnlocked] = useState(0);
     const [daysStaked, setDaysStaked] = useState(0);
     const [timeMultiplier, setTimeMultiplier] = useState(1);
+    const [totalStaked, setTotalStaked] = useState(0);
 
     const [inputValue, setInputValue] = useState({
         univ2:'',
@@ -52,9 +54,13 @@ function Stake() {
             let data3 = await UNIV2_allowance()
             let data4 = await globalUnlocked()
             let data5 = await getTimeStaked()
-
-            if(data1){
-                data1 = (Number(data1) / eth_wei).toFixed(4)
+            console.log(data1, "D1")
+            let data1_1 = 0;
+            if(data1?.totalStake){
+                setTotalStaked((Number(data1?.totalStake) / eth_wei).toFixed(2))
+            }
+            if(data1?.userStake){
+                data1_1 = (Number(data1?.userStake) / eth_wei).toFixed(4)
             }
             if(data2){
                 data2 = (Number(data2) / eth_wei).toFixed(4)
@@ -73,15 +79,15 @@ function Stake() {
             setData({
                 unstake: {
                     rewards: data2,
-                    balance: data1,
+                    balance: data1_1,
                 }
             })
 
-            const tMultiplier = calculateBonusMultiplier(data5, data1)
+            const tMultiplier = calculateBonusMultiplier(data5, data1_1)
             if(tMultiplier){
                 setTimeMultiplier(tMultiplier.toFixed(2))
             }
-            console.log(data1, data2, data3, data4, data5, "kokokokokokok")
+            console.log(data1_1, data2, data3, data4, data5, "kokokokokokok")
         }
         const getAccountsData=async()=>{
             let data1= await getGYSRBalance();
@@ -101,6 +107,17 @@ function Stake() {
         getData()
         getAccountsData()
     }, [])
+
+    useEffect(() => {
+        const unstakeAmount = Number(inputValue.unstake)
+        const gysrAmount = Number(inputValue.gysr)
+        console.log(totalStaked, "TST")
+        if(unstakeAmount && gysrAmount){
+            const val = gysrBonus(gysrAmount, unstakeAmount, totalStaked, 0)
+            console.log(val, "gysr bonus");
+        }
+    },[inputValue.unstake, inputValue.gysr])
+
     const {
         isConnected,
         isConnecting,
@@ -193,6 +210,7 @@ function Stake() {
 
     // Function to handle changes in the input field
     const handleInputChange = (e,key) => {
+        console.log(key)
       setInputValue({...inputValue,[key]: e.target.value});
     };
   
@@ -397,7 +415,7 @@ function Stake() {
                                 <div className='w-[80%]'>
                                 <input 
                                 className='w-[100%] outline-none bg-white-background'  
-                                placeholder="Amount of UNI-V2 to stake"
+                                placeholder="Amount of UNI-V2 to unstake"
                                 value={inputValue.unstake}
                                 onChange={(e)=>handleInputChange(e,"unstake")}
                                 /> 
