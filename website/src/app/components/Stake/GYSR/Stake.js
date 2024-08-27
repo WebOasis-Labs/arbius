@@ -20,6 +20,7 @@ import getAIUSBalance from '../../../Utils/aiusWalletBalance'
 import getGYSRBalance from '../../../Utils/gysrWalletBalance'
 import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
+import { getTimeStaked } from '../../../Utils/getTimeStaked'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -28,6 +29,7 @@ function Stake() {
     const [aprroved, setaprroved] = useState(false)
     const [allowance, setAllowance] = useState(0);
     const [globalUnlockedValue, setGlobalUnlocked] = useState(0);
+    const [daysStaked, setDaysStaked] = useState(0);
 
     const [inputValue, setInputValue] = useState({
         univ2:'',
@@ -47,6 +49,8 @@ function Stake() {
             let data2 = await claimableRewards()
             let data3 = await UNIV2_allowance()
             let data4 = await globalUnlocked()
+            let data5 = await getTimeStaked()
+
             if(data1){
                 data1 = (Number(data1) / eth_wei).toFixed(4)
             }
@@ -67,7 +71,8 @@ function Stake() {
             })
             setAllowance(data3)
             setGlobalUnlocked(data4)
-            console.log(data1, data2, data3, data4, "kokokokokokok")
+            setDaysStaked(data5)
+            console.log(data1, data2, data3, data4, data5, "kokokokokokok")
         }
         const getAccountsData=async()=>{
             let data1= await getGYSRBalance();
@@ -366,8 +371,8 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1 '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">10</h1>
-                                        <h1 className='text-[14px] self-end mb-1'>days</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{daysStaked}</h1>
+                                        <h1 className='text-[14px] self-end mb-1'>{daysStaked == 1 ? " day" : " days"}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time Staked</h2>
 
