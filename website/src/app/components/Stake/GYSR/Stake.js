@@ -22,7 +22,7 @@ import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
 import { getTimeStaked } from '../../../Utils/getTimeStaked'
 import { calculateBonusMultiplier } from '../../../Utils/timeMultiplier'
-import { gysrBonus } from '../../../Utils/getGysrMultiplier'
+import { getGysrMultiplier } from '../../../Utils/getGysrMultiplier'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -34,10 +34,11 @@ function Stake() {
     const [daysStaked, setDaysStaked] = useState(0);
     const [timeMultiplier, setTimeMultiplier] = useState(1);
     const [totalStaked, setTotalStaked] = useState(0);
+    const [gysrMultiplier, setGysrMultiplier] = useState(1);
 
     const [inputValue, setInputValue] = useState({
         univ2:'',
-        stakedUniv2:'',
+        unstake:'',
         gysr:''
     });
     const [walletBalance, setWalletBalance] = useState({
@@ -109,13 +110,19 @@ function Stake() {
     }, [])
 
     useEffect(() => {
-        const unstakeAmount = Number(inputValue.unstake)
-        const gysrAmount = Number(inputValue.gysr)
-        console.log(totalStaked, "TST")
-        if(unstakeAmount && gysrAmount){
-            const val = gysrBonus(gysrAmount, unstakeAmount, totalStaked, 650092074457522230/eth_wei)
-            console.log(val, "gysr bonus");
+        const getMult = async() => {
+            const unstakeAmount = Number(inputValue.unstake)
+            const gysrAmount = Number(inputValue.gysr)
+            console.log(totalStaked, "TST")
+            if(unstakeAmount && gysrAmount){
+                let gysrM = await getGysrMultiplier(unstakeAmount*eth_wei, gysrAmount*eth_wei)
+                if(gysrM?.[2]){
+                    console.log(gysrM)
+                    setGysrMultiplier(gysrM[2] / eth_wei)
+                }
+            }
         }
+        getMult()
     },[inputValue.unstake, inputValue.gysr])
 
     const {
@@ -461,7 +468,7 @@ function Stake() {
                                 </div>
                                 <div className='flex justify-center gap-1 items-center rounded-full p-4 px-3 shadow-stats inner-shdadow w-[50%]' id="inner-shdadow">
                                     <div id="multiplyQuotient">
-                                        <h1 className="text-[16px]  text-[#777777]">1.00 x</h1>
+                                        <h1 className="text-[16px]  text-[#777777]">{gysrMultiplier.toFixed(2)} x</h1>
                                     </div>
                                     <HintBox
                                         content={"By spending GYSR you will multiply the number of share seconds that you have accrued"}
@@ -473,7 +480,7 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                     <div className="text-[#101010] text-[10px] xl:text-[14px] ">
-                                        <h1 className="text-[#777777]">You&apos;ll Receive <span className='text-purple-text  text-[12px] xl:text-[16px] lato-bold'>0 AIUS</span></h1>
+                                        <h1 className="text-[#777777]">You&apos;ll Receive <span className='text-purple-text  text-[12px] xl:text-[16px] lato-bold'>{(gysrMultiplier * inputValue?.unstake).toFixed(4)} AIUS</span></h1>
 
                                     </div>
                                 </div>

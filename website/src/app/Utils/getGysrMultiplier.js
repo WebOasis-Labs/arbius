@@ -1,23 +1,45 @@
-export function gysrBonus(gysr, amount, total, ratio) {
-    if (amount == 0) {
-        return 0;
-    }
-    if (total == 0) {
-        return 0;
-    }
-    if (gysr == 0) {
-        return 1e18;
-    }
+import Web3 from "web3";
+import Pool from '../abis/ERC20CompetitiveRewardModule.json'
+// import Pool from '@gysr/core/abis/Pool.json'
+function padAddress(address) {
+    // Remove the '0x' prefix from the address
+    const strippedAddress = address.slice(2);
 
-    // scale GYSR amount with respect to proportion
-    const GYSR_PROPORTION = 1e18; // Assuming GYSR_PROPORTION is defined as 1e18
-    const portion = (GYSR_PROPORTION * total) / 1e18;
-    if (amount > portion) {
-        gysr = (gysr * portion) / amount;
-    }
+    // Calculate the number of zeros to pad
+    const padLength = 64 - strippedAddress.length;
 
-    // 1 + gysr / (0.01 + ratio)
-    const x = 2 ** 64 + ((2 ** 64 * gysr) / (1e16 + ratio));
-    console.log(x, "X", Math.log10(x))
-    return 1e18 + (Math.log10(x) * 1e18) / (2 ** 64)
+    // Pad the address with zeros
+    const paddedAddress = '0x' + '0'.repeat(padLength) + strippedAddress;
+
+    return paddedAddress;
 }
+
+
+export const getGysrMultiplier = async (amount, gysr) => {
+        try {
+            // Connect to the Web3 provider (MetaMask)
+            const web3 = new Web3(window.ethereum);
+            
+            // Ensure MetaMask is enabled
+            await window.ethereum.enable();
+    
+            // Create a new contract instance
+            const pool = new web3.eth.Contract(Pool, '0xeFE16a20dee30e61872E30D050ED0AD659055307');
+            
+            // Get the list of accounts from MetaMask
+            const accounts = await web3.eth.getAccounts();
+            
+            // Use the first account
+            let account = accounts[0];
+            account = padAddress(account)
+            console.log(account, amount, gysr)
+            // Call the unlocked function
+            const reward = await pool.methods.preview('0xA8f103eEcfb619358C35F98c9372B31c64d3f4A1', account, amount.toString(), gysr.toString()).call();
+
+            return reward;
+        } catch (error) {
+            console.error("Error fetching claimable rewards:", error);
+            return null;
+        }
+    };
+//poolInfo method as 2nd option
