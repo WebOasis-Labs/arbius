@@ -226,6 +226,9 @@ function Stake() {
       console.log(key)
       setInputValue({...inputValue,[value]:key});
     };
+
+   
+    
     return (
         <>
             {isPopupOpen && <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />}
@@ -239,7 +242,7 @@ function Stake() {
 
                                 <div className="mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
                                     <div className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{walletBalance.totalUniv2}</h1>
+                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{walletBalance.totalUniv2?walletBalance.totalUniv2:0}</h1>
                                         <p className="text-para ml-2 text-black-text ">Uni-V2</p>
                                     </div>
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text">Wallet Balance</h1>
@@ -328,7 +331,7 @@ function Stake() {
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
                                     <div id="unstakeBalance" className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake.balance}&nbsp;</h1>
+                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake ?data?.unstake.balance : 0}&nbsp;</h1>
                                         <p className="text-para  text-black-text  ">Uni-V2</p>
                                         <HintBox
                                             content={"Total UNI-V2 you have staked in this Pool"}
@@ -346,7 +349,7 @@ function Stake() {
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
                                     <div id="claimableRewards" className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake.rewards}&nbsp;</h1>
+                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake.rewards?data?.unstake.rewards:0}&nbsp;</h1>
                                         <p className="text-para ">AIUS</p>
                                         <HintBox
                                             content={"Your estimated rewards if you unstake now"}
@@ -491,13 +494,13 @@ function Stake() {
 
                             <div className="flex justify-end items-center gap-4 mt-6">
                                 <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
-                                    onClick={() => claimTokens()}>
+                                    onClick={() => claimTokens(inputValue?.unstake>0 ? inputValue.unstake:null,inputValue.gysr>0?inputValue.gysr:null)}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                     <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Claim</p>
 
                                 </button>
                                 <button type="button" className="relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3"
-                                    onClick={() => unstakeTokens()}>
+                                    onClick={() => unstakeTokens(inputValue?.unstake>0 ? inputValue.unstake:null,inputValue.gysr>0?inputValue.gysr:null)}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     <p className="relative z-10 text-original-white  text-[15px]  mb-[1px]">Unstake & Claim</p>
 
