@@ -64,7 +64,7 @@ function Stake() {
                 data1_1 = (Number(data1?.userStake) / eth_wei).toFixed(4)
             }
             if(data2){
-                data2 = (Number(data2) / eth_wei).toFixed(4)
+                data2 = Number(data2).toFixed(4)
             }
             if(data3){
                 data3 = Number(data3) / eth_wei
@@ -494,7 +494,7 @@ function Stake() {
 
                             <div className="flex justify-end items-center gap-4 mt-6">
                                 <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
-                                    onClick={() => claimTokens(inputValue?.unstake>0 ? inputValue.unstake:null,inputValue.gysr>0?inputValue.gysr:null)}>
+                                    onClick={() => claimTokens(inputValue.gysr > 0 ? inputValue.gysr : null)}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                     <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Claim</p>
 
