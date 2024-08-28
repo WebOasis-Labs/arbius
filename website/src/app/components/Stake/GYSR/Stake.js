@@ -55,6 +55,7 @@ function Stake() {
             let data3 = await UNIV2_allowance()
             let data4 = await globalUnlocked()
             let data5 = await getTimeStaked()
+            let rewardWithFixed
             console.log(data1, "D1")
             let data1_1 = 0;
             if(data1?.totalStake){
@@ -64,7 +65,8 @@ function Stake() {
                 data1_1 = (Number(data1?.userStake) / eth_wei).toFixed(4)
             }
             if(data2){
-                data2 = Number(data2).toFixed(4)
+               rewardWithFixed = data2 *eth_wei
+                data2=Number(data2).toFixed(4)
             }
             if(data3){
                 data3 = Number(data3) / eth_wei
@@ -81,6 +83,7 @@ function Stake() {
                 unstake: {
                     rewards: data2,
                     balance: data1_1,
+                    rewardsFull:rewardWithFixed
                 }
             })
 
@@ -330,7 +333,7 @@ function Stake() {
                             <div className="flex justify-start items-end mt-6 mb-8 gap-6 text-[#101010]">
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
-                                    <div id="unstakeBalance" className="flex justify-start items-baseline">
+                                    <div id="unstakeBalance" className="flex justify-start items-baseline h-[50px]">
                                         <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake ?data?.unstake.balance : 0}&nbsp;</h1>
                                         <p className="text-para  text-black-text  ">Uni-V2</p>
                                         <HintBox
@@ -348,8 +351,16 @@ function Stake() {
 
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
-                                    <div id="claimableRewards" className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake.rewards?data?.unstake.rewards:0}&nbsp;</h1>
+                                    <div id="claimableRewards" className="flex justify-start items-baseline  h-[50px]">
+                                        
+                                    <div className="group flex align-bottom">
+                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text group-hover:hidden">
+                                            {data?.unstake.rewards ? data?.unstake.rewards : 0}&nbsp;
+                                        </h1>
+                                        <h1 className="text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block">
+                                            {data?.unstake.rewardsFull ? data?.unstake.rewardsFull :0}&nbsp;
+                                        </h1>
+                                    </div>
                                         <p className="text-para ">AIUS</p>
                                         <HintBox
                                             content={"Your estimated rewards if you unstake now"}
@@ -493,18 +504,36 @@ function Stake() {
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
-                                <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
+                                {
+                                    data?.unstake.rewards > 0 ?
+                                    <button type="button" className="relative group bg-[#121212] py-2 px-8 rounded-full flex items-center  gap-3"
                                     onClick={() => claimTokens(inputValue.gysr > 0 ? inputValue.gysr : null)}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                    <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Claim</p>
+                                    <p className="relative z-10 text-original-white text-[15px]  mb-[1px]">Claim</p>
 
-                                </button>
-                                <button type="button" className="relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3"
+                                </button>:
+                                <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
+                                >
+                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Claim</p>
+
+                            </button>
+                                }
+                                
+                               
+                                {
+                                    data?.unstake.balance >0  ? <button type="button" className="relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3"
                                     onClick={() => unstakeTokens(inputValue?.unstake>0 ? inputValue.unstake:null,inputValue.gysr>0?inputValue.gysr:null)}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     <p className="relative z-10 text-original-white  text-[15px]  mb-[1px]">Unstake & Claim</p>
 
-                                </button>
+                                </button>:<button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
+                                >
+                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Unstake & Claim</p>
+
+                            </button>
+                                }
                             </div>
                         </div>
 
