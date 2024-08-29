@@ -24,10 +24,11 @@ export const claimTokens = async (rewards) => {
                 getRewards=[]
         }
         try{
-                await pool.methods.claim(_claimableRewards, [], getRewards).send({ from: account });
+                const res = await pool.methods.claim(_claimableRewards, [], getRewards).send({ from: account });
+                return true
         }
         catch(err){
-                return err
+                console.log(err)
+                return false
         }
-
 };

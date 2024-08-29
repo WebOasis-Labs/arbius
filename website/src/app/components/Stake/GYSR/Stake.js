@@ -194,20 +194,41 @@ function Stake() {
                 }
             }
             catch(err){
+                console.log(err)
                 setShowPopUp("Error")
             }
         }
     }
 
-    // const connectWallet = async () => {
+    const handleClaimTokens = async(gysr) => {
+        try{
+            setShowPopUp("2")
+            const claimed = await claimTokens(gysr)
+            if(claimed){
+                setShowPopUp("Success")
+            }else{
+                setShowPopUp("Error")
+            }
+        }catch(err){
+            console.log(err)
+            setShowPopUp("Error")
+        }
+    }
 
-    //     const connct =await clickConnect()
-        
-    //     // await connectWalletHandler()
-    //     if (connct) {
-    //         setIsStakeClicked(true)
-    //     }
-    // }
+    const handleUnstake = async(amount, gysr) => {
+        try{
+            setShowPopUp("2")
+            const unstaked = await unstakeTokens(amount, gysr)
+            if(unstaked){
+                setShowPopUp("Success")
+            }else{
+                setShowPopUp("Error")
+            }
+        }catch(err){
+            console.log(err)
+            setShowPopUp("Error")
+        }
+    }
 
     function convertLargeNumber(numberStr) {
         // Convert the string to a BigInt
@@ -223,13 +244,13 @@ function Stake() {
     // Function to handle changes in the input field
     const handleInputChange = (e,key) => {
         console.log(key)
-      setInputValue({...inputValue,[key]: e.target.value});
+        setInputValue({...inputValue,[key]: e.target.value});
     };
   
     // Function to handle the "max" button click
     const handleMaxClick = (value,key) => {
-      console.log(key)
-      setInputValue({...inputValue,[value]:key});
+        console.log(key)
+        setInputValue({...inputValue,[value]:key});
     };
 
    
@@ -512,13 +533,13 @@ function Stake() {
 
                             <div className="flex justify-end items-center gap-4 mt-6">
                                 <button type="button" className={`${data?.unstake.rewardsFull > 0 ? "" : "bg-opacity-5"}relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
-                                    onClick={() => { data?.unstake.rewardsFull > 0 ? claimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
+                                    onClick={() => { data?.unstake.rewardsFull > 0 ? handleClaimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                     <p className={`relative z-10 ${data?.unstake.rewardsFull > 0 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Claim</p>
                                 </button>
                                 
                                 <button type="button" className={`${data?.unstake.balance > 0 && inputValue.unstake ? "" : "bg-opacity-5"} relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3`}
-                                    onClick={() => { data?.unstake.balance > 0 && inputValue.unstake ? unstakeTokens(inputValue?.unstake>0 ? inputValue.unstake:null, inputValue.gysr>0?inputValue.gysr:null) : null }}>
+                                    onClick={() => { data?.unstake.balance > 0 && inputValue.unstake ? handleUnstake(inputValue?.unstake>0 ? inputValue.unstake:null, inputValue.gysr>0?inputValue.gysr:null) : null }}>
                                     <div class={`absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full ${data?.unstake.balance > 0 ? "bg-buy-hover group-hover:opacity-100": ""} opacity-0 transition-opacity duration-500`}></div>
                                     <p className={`relative z-10 ${data?.unstake.balance > 0 && inputValue.unstake ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Unstake & Claim</p>
                                 </button>

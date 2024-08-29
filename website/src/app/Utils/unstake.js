@@ -15,30 +15,31 @@ export const convertGYSRToBytes32=(gysrAmount)=> {
     }
     
 export const unstakeTokens = async (amount,rewards) => {
-       if(amount){
-        const web3 = new Web3(window.ethereum);
-        const pool = new web3.eth.Contract(Pool,POOL_ADDRESS );
-        console.log(amount,rewards,"unstake")
-        const accounts = await web3.eth.getAccounts();
-        const account = accounts[0];
-       
-        try{
-                let getRewards
+        if(amount){
+                const web3 = new Web3(window.ethereum);
+                const pool = new web3.eth.Contract(Pool,POOL_ADDRESS );
+                console.log(amount,rewards,"unstake")
+                const accounts = await web3.eth.getAccounts();
+                const account = accounts[0];
+               
+                try{
+                        let getRewards
 
-                if(rewards){
-                        getRewards=convertGYSRToBytes32(rewards)
+                        if(rewards){
+                                getRewards=convertGYSRToBytes32(rewards)
+                        }
+                        else{
+                                getRewards=[]
+                        }
+                        const res = await pool.methods.unstake(Web3.utils.toWei(amount, 'ether'), [], getRewards).send({ from: account });
+                        return true
                 }
-                else{
-                        getRewards=[]
+                catch(err){
+                        console.log(err)
+                        return false
                 }
-                await pool.methods.unstake(Web3.utils.toWei(amount, 'ether'), [], getRewards).send({ from: account });
         }
-        catch(err){
-                return err
+        else{
+                return false
         }
-       }
-       else{
-        alert("please enter a amount to unstake or claim")
-       }
-
-};
+}
