@@ -8,7 +8,7 @@ export const convertGYSRToBytes32=(gysrAmount)=> {
        
         const ethWei = eth_wei 
         const weiGysr = gysrAmount * ethWei;
-    
+        console.log()
         const bytes32Value = Web3.utils.padLeft(Web3.utils.toHex(weiGysr), 64);
         
         return bytes32Value;
@@ -26,12 +26,12 @@ export const unstakeTokens = async (amount,rewards) => {
                         let getRewards
 
                         if(rewards){
-                                getRewards=convertGYSRToBytes32(rewards)
+                                getRewards = convertGYSRToBytes32(rewards)
                         }
                         else{
-                                getRewards=[]
+                                getRewards = []
                         }
-                        const res = await pool.methods.unstake(Web3.utils.toWei(amount, 'ether'), [], getRewards).send({ from: account });
+                        const res = await pool.methods.unstake(Web3.utils.toWei(amount, 'ether'), [], getRewards.toString()).send({ from: account });
                         return true
                 }
                 catch(err){

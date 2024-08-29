@@ -18,11 +18,15 @@ import { claimableRewards } from '../../../Utils/claimableRewards'
 import { stakeTokenBalance } from '../../../Utils/stakedTokenBalance'
 import getAIUSBalance from '../../../Utils/aiusWalletBalance'
 import getGYSRBalance from '../../../Utils/gysrWalletBalance'
+import gysrTokenBalance from '../../../Utils/gysrTokenBalance'
 import { UNIV2_allowance } from '../../../Utils/getAllowanceGYSR'
 import { globalUnlocked } from '../../../Utils/globalUnlocked'
 import { getTimeStaked } from '../../../Utils/getTimeStaked'
 import { calculateBonusMultiplier } from '../../../Utils/timeMultiplier'
 import { getGysrMultiplier } from '../../../Utils/getGysrMultiplier'
+import { approveGYSR } from '../../../Utils/approveGYSR'
+import { gysrAllowance } from '../../../Utils/checkGYSRAllowance'
+
 import PopUp from '../AIUS/PopUp'
 import { SuccessChildren, ErrorPopUpChildren, StepTwoChildren } from './PopupStages'
 
@@ -57,6 +61,8 @@ function Stake() {
     const [timeMultiplier, setTimeMultiplier] = useState(1);
     const [totalStaked, setTotalStaked] = useState(0);
     const [gysrMultiplier, setGysrMultiplier] = useState(1);
+    const [gysrBalance, setGYSRBalance] = useState(0);
+    const [gysrAllowanceValue, setGYSRAllowanceValue] = useState(0);
 
     const [inputValue, setInputValue] = useState({
         univ2:'',
@@ -77,6 +83,8 @@ function Stake() {
             let data3 = await UNIV2_allowance()
             let data4 = await globalUnlocked()
             let data5 = await getTimeStaked()
+            let data6 = await gysrTokenBalance()
+            let data7 = await gysrAllowance()
             let rewardWithFixed
             let data1_1 = 0;
 
@@ -101,6 +109,13 @@ function Stake() {
             if(data5){
                 setDaysStaked(data5)
             }
+            if(data6){
+                setGYSRBalance(data6)
+            }
+            if(data7){
+                data7 = Number(data7) / eth_wei
+                setGYSRAllowanceValue(data7)
+            }
             setData({
                 unstake: {
                     rewards: data2,
@@ -113,11 +128,11 @@ function Stake() {
             if(tMultiplier){
                 setTimeMultiplier(tMultiplier.toFixed(2))
             }
-            console.log(data1_1, data2, data3, data4, data5, "kokokokokokok")
+            console.log(data1_1, data2, data3, data4, data5, data6, data7, "kokokokokokok")
         }
         const getAccountsData=async()=>{
-            let data1= await getGYSRBalance();
-            let data2= await stakeTokenBalance()
+            let data1 = await getGYSRBalance();
+            let data2 = await stakeTokenBalance()
             console.log(data1,data2,"balances")
             if(data1){
                 data1 = data1.toFixed(3)
@@ -220,6 +235,21 @@ function Stake() {
             setShowPopUp("2")
             const unstaked = await unstakeTokens(amount, gysr)
             if(unstaked){
+                setShowPopUp("Success")
+            }else{
+                setShowPopUp("Error")
+            }
+        }catch(err){
+            console.log(err)
+            setShowPopUp("Error")
+        }
+    }
+
+    const handleGYSRApprove = async() => {
+        try{
+            setShowPopUp("2")
+            const approved = await approveGYSR()
+            if(approved){
                 setShowPopUp("Success")
             }else{
                 setShowPopUp("Error")
@@ -484,7 +514,7 @@ function Stake() {
                                     <div className="rounded-[25px]  flex justify-center w-[100%] ">
                                         <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
                                             
-                                            <h1 className="text-[10px] lg:text-[14px] font-medium">GYSR</h1>
+                                            <h1 className="text-[10px] lg:text-[14px] font-medium">GYSR : {gysrBalance}</h1>
 
                                         </div>
                                         <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
@@ -494,19 +524,14 @@ function Stake() {
                                             placeholder="0.00"
                                             value={inputValue.gysr}
                                             onChange={(e)=>handleInputChange(e,"gysr")}
-                                            /> 
+                                            />
                                             </div> 
                                             <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center"
-                                            // onClick={()=>handleMaxClick(walletBalance.)}
-                                            >
-                                                    <p className="text-[6px] lg:text-[11px] pb-[2px]">max</p>
+                                                onClick={()=>handleMaxClick("gysr", gysrBalance)}>
+                                                <p className="text-[6px] lg:text-[11px] pb-[2px]">max</p>
                                             </div>
                                             </div>
-
-
-
                                     </div>
-
                                 </div>
                                 <div className='flex justify-center gap-1 items-center rounded-full p-4 px-3 shadow-stats inner-shdadow w-[50%]' id="inner-shdadow">
                                     <div id="multiplyQuotient">
@@ -532,6 +557,13 @@ function Stake() {
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
+                                { inputValue.gysr && gysrAllowance < inputValue.gysr ?
+                                <button type="button" className={`relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
+                                    onClick={() => handleGYSRApprove()}>
+                                    <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                    <p className={`relative z-10 text-original-white text-[15px] mb-[1px]`}>Approve GYSR</p>
+                                </button> : null }
+
                                 <button type="button" className={`${data?.unstake.rewardsFull > 0 ? "" : "bg-opacity-5"}relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
                                     onClick={() => { data?.unstake.rewardsFull > 0 ? handleClaimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>

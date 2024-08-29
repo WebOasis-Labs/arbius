@@ -24,6 +24,7 @@ export const claimTokens = async (rewards) => {
                 getRewards=[]
         }
         try{
+                console.log(_claimableRewards, getRewards, rewards)
                 const res = await pool.methods.claim(_claimableRewards, [], getRewards).send({ from: account });
                 return true
         }
