@@ -76,8 +76,8 @@ function Stake() {
             let data4 = await globalUnlocked()
             let data5 = await getTimeStaked()
             let rewardWithFixed
-            console.log(data1, "D1")
             let data1_1 = 0;
+
             if(data1?.totalStake){
                 setTotalStaked((Number(data1?.totalStake) / eth_wei).toFixed(2))
             }
@@ -103,7 +103,7 @@ function Stake() {
                 unstake: {
                     rewards: data2,
                     balance: data1_1,
-                    rewardsFull:rewardWithFixed
+                    rewardsFull: rewardWithFixed
                 }
             })
 
