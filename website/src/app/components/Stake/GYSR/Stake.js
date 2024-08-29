@@ -6,9 +6,9 @@ import Popup from './Popup'
 import HintBox from '../../HintBox/Hintbox'
 import { approveUNIV2 } from '../../../Utils/approveUniv2'
 import { stakeTokens } from '../../../Utils/staking'
-import { connectWalletHandler } from '../../../Utils/connectWallet'
+//import { connectWalletHandler } from '../../../Utils/connectWallet'
 import { claimTokens } from '../../../Utils/claim'
-import ConnectWallet from '@/components/ConnectWallet'; // main arbius component
+//import ConnectWallet from '@/components/ConnectWallet'; // main arbius component
 import { useWeb3Modal } from '@web3modal/react'; // main arbius component
 import {
     useAccount,
@@ -26,8 +26,28 @@ import { getGysrMultiplier } from '../../../Utils/getGysrMultiplier'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
+    const {address, isConnected} = useAccount()
+    console.log(isConnected, "IS CONNECT")
+    const { open: openWeb3Modal } = useWeb3Modal()
+
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [loadingWeb3Modal, setLoadingWeb3Modal] = useState(false);
+
+    //useEffect(() => {
+    //    setWalletConnected(isConnected);
+    //}, [isConnected]);
+
+    function clickConnect() {
+        async function f() {
+            setLoadingWeb3Modal(true);
+            await openWeb3Modal();
+            setLoadingWeb3Modal(false)
+        }
+        f();
+    }
+
     const [currentHoverId, setCurrentHoverId] = useState(null);
-    const [isStakeClicked, setIsStakeClicked] = useState(false)
+
     const [aprroved, setaprroved] = useState(false)
     const [allowance, setAllowance] = useState(0);
     const [globalUnlockedValue, setGlobalUnlocked] = useState(0);
@@ -65,8 +85,8 @@ function Stake() {
                 data1_1 = (Number(data1?.userStake) / eth_wei).toFixed(4)
             }
             if(data2){
-               rewardWithFixed = data2 *eth_wei
-                data2=Number(data2).toFixed(4)
+                rewardWithFixed = data2
+                data2 = Number(data2).toFixed(4)
             }
             if(data3){
                 data3 = Number(data3) / eth_wei
@@ -108,9 +128,11 @@ function Stake() {
                 stakedUniv2:data2
             })
         }
-        getData()
-        getAccountsData()
-    }, [])
+        if(isConnected){
+            getData()
+            getAccountsData()
+        }
+    }, [address, isConnected])
 
     useEffect(() => {
         const getMult = async() => {
@@ -127,39 +149,25 @@ function Stake() {
         }
         getMult()
     },[inputValue.unstake, inputValue.gysr])
-
-    const {
-        isConnected,
-        isConnecting,
-        isDisconnected,
-      } = useAccount()
-      const { open: openWeb3Modal } = useWeb3Modal()
     
-      const [walletConnected, setWalletConnected] = useState(false);
-      const [loadingWeb3Modal, setLoadingWeb3Modal] = useState(false);
-    
-      useEffect(() => {
-        setWalletConnected(isConnected);
-      }, [isConnected]);
-    
-      function clickConnect() {
-        async function f() {
-          setLoadingWeb3Modal(true);
+      // function clickConnect() {
+      //   async function f() {
+      //     setLoadingWeb3Modal(true);
          
-          try {
-            await openWeb3Modal();
-            setLoadingWeb3Modal(false)
-            localStorage.setItem("walletConnected", "true");
-            return true;
-        } catch (error) {
-            console.error("User denied account access");
-            localStorage.removeItem("walletConnected");
-            return false;
-        }
-        //   return true;
-        }
-        f();
-      }
+      //     try {
+      //       await openWeb3Modal();
+      //       setLoadingWeb3Modal(false)
+      //       localStorage.setItem("walletConnected", "true");
+      //       return true;
+      //   } catch (error) {
+      //       console.error("User denied account access");
+      //       localStorage.removeItem("walletConnected");
+      //       return false;
+      //   }
+      //   //   return true;
+      //   }
+      //   f();
+      // }
     const handleApproveClick = async () => {
         //if (!document)
         //    return
@@ -186,15 +194,15 @@ function Stake() {
         }
     }
 
-    const connectWallet = async () => {
+    // const connectWallet = async () => {
 
-        const connct =await clickConnect()
+    //     const connct =await clickConnect()
         
-        // await connectWalletHandler()
-        if (connct) {
-            setIsStakeClicked(true)
-        }
-    }
+    //     // await connectWalletHandler()
+    //     if (connct) {
+    //         setIsStakeClicked(true)
+    //     }
+    // }
 
     useEffect(() => {
         if (isPopupOpen == false) {
@@ -237,7 +245,7 @@ function Stake() {
             {isPopupOpen && <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-mobile-section-width lg:w-section-width m-[auto] pt-8 pb-8 max-w-center-width">
 
-                {isStakeClicked || localStorage.getItem('walletConnected') ? (<>
+                { isConnected ? (<>
                     <div className="rounded-2xl p-6 lg:p-10 flex flex-col justify-between h-[auto] bg-white-background stake-card">
                         <div>
                             <h1 className="text-[15px] lg:text-[20px] font-medium text-[#4A28FF]">Stake</h1>
@@ -560,7 +568,7 @@ function Stake() {
                         </div>
                         <div className="flex justify-center lg:justify-end">
 
-                            <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => connectWallet()}>
+                            <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => clickConnect()}>
                                 <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white  mb-1 w-[100%] lg:w-[auto]">Connect Wallet</p>
 
@@ -588,7 +596,7 @@ function Stake() {
                         </div>
                         <div className="flex justify-center lg:justify-end">
 
-                            <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => connectWallet()}>
+                            <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => clickConnect()}>
                                 <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white  mb-1 w-[100%] lg:w-[auto]">Connect Wallet</p>
 
