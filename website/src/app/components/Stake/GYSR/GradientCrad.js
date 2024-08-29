@@ -16,7 +16,7 @@ function GradientCrad({ heading, subheading, para, logo,data }) {
                 <h3 className='text-[11px] lg:text-para '>{para}</h3>
                 <div className='relative w-[20px] lg:w-[30px] h-auto '>
 
-                    <Image src={logo} />
+                    <Image src={logo} alt="" />
 
                 </div>
 

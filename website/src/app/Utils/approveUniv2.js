@@ -27,13 +27,11 @@ export const approveUNIV2 = async () => {
             // Call the approve function
             alert('UNI-V2 approved successfully!');
             return true;
-
-            
         } catch (error) {
             console.error('Approval failed', error);
-            alert('Approval failed');
+            return false
         }
     } else {
-        alert('Please install MetaMask!');
+        return false
     }
 };

@@ -121,32 +121,32 @@ function ActivityTable() {
                                 <thead>
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
-                                            <div className=' flex justify-center'><Image width={15} height={15} src={sort_icon} /></div>
+                                            <div className=' flex justify-center'><Image width={15} height={15} src={sort_icon} alt="" /></div>
 
                                             <h1>Action</h1>
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
-                                            <div className=' flex justify-center'><Image width={15} height={15} src={up_icon} /></div>
+                                            <div className=' flex justify-center'><Image width={15} height={15} src={up_icon} alt="" /></div>
 
                                             <h1>Amount</h1>
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
-                                            <div className=' flex justify-center'><Image width={15} height={15} src={gift_icon} /></div>
+                                            <div className=' flex justify-center'><Image width={15} height={15} src={gift_icon} alt="" /></div>
 
                                             <h1>Earnings</h1>
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500">
-                                            <div className=' flex justify-center'><Image width={15} height={15} src={gysr_logo} className='table-icon' /></div>
+                                            <div className=' flex justify-center'><Image width={15} height={15} src={gysr_logo} alt="" className='table-icon' /></div>
 
                                             <h1>GYSR Spent</h1>
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
-                                            <div className='flex justify-center'><Image width={15} height={15} src={wallet_icon} className='table-icon' /></div>
+                                            <div className='flex justify-center'><Image width={15} height={15} src={wallet_icon} alt="" className='table-icon' /></div>
 
                                             <h1>Account</h1>
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
-                                            <div className=' flex justify-center'><Image width={15} height={15} src={time_icon} /></div>
+                                            <div className=' flex justify-center'><Image width={15} height={15} src={time_icon} alt="" /></div>
 
                                             <h1>Time</h1>
                                         </th>
@@ -193,7 +193,7 @@ function ActivityTable() {
                 <div className='bg-white-background flex gap-4 justify-center items-center p-3 rounded-md'>
                     <button className='p-1 rotate-180 'onClick={()=>handleClickPrev()}>
 
-                        <Image src={arrow_icon} width={20} height={20} />
+                        <Image src={arrow_icon} width={20} height={20} alt="" />
 
                     </button>
 
@@ -208,7 +208,7 @@ function ActivityTable() {
 
                     <button className='p-1' onClick={()=>handleClickNext()}>
 
-                        <Image src={arrow_icon} width={20} height={20} />
+                        <Image src={arrow_icon} width={20} height={20} alt="" />
 
                     </button>
                 </div>

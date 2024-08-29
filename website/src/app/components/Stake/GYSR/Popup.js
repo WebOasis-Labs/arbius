@@ -11,7 +11,7 @@ function Popup({isPopupOpen, setIsPopupOpen}) {
 
                     <h1 className='text-[18px]'>Confirm</h1>
 
-                    <Image src={crossIcon} width={12} className='cursor-pointer' onClick={()=> setIsPopupOpen(false)} />
+                    <Image src={crossIcon} width={12} className='cursor-pointer' alt="" onClick={()=> setIsPopupOpen(false)} />
 
                 </div>
 
@@ -28,13 +28,11 @@ function Popup({isPopupOpen, setIsPopupOpen}) {
                     <div className="rounded-[25px]  flex justify-center w-[100%] mt-6">
                         <input className="p-2 lg:p-3 border-[1px] border-r-0 rounded-l-[25px] rounded-r-none w-[70%] focus:outline-none" placeholder="0" />
                         <div className="p-2 lg:p-3 w-[50%] rounded-r-[25px] rounded-l-none  border-[1px] border-l-0 bg-[#E6DFFF] flex justify-center gap-2 lg:gap-4 items-center">
-                            <h className="text-[10px] lg:text-[15px] font-medium">GYSR</h>
+                            <h1 className="text-[10px] lg:text-[15px] font-medium">GYSR</h1>
                             <div className=" bg-[#5E40FD] rounded-full px-3 py-[1px] text-original-white flex items-center">
                                 <p className="text-[6px] lg:text-[12px] pb-[2px]">max</p>
                             </div>
                         </div>
-
-
                     </div>
                     <div>
                         <h1 className="text-[30px] font-medium">1.00x</h1>

@@ -40,7 +40,7 @@ function TopHeaderSection({ data }) {
                     <div className="flex justify-start items-center">
 
                         <div className="relative w-[30px] lg:w-[40px] h-[auto]">
-                            <Image src={gysr} />
+                            <Image src={gysr} alt="" />
                         </div>
 
                         <div className="flex justify-start items-baseline pl-2">

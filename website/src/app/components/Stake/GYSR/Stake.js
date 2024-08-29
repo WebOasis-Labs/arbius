@@ -23,6 +23,8 @@ import { globalUnlocked } from '../../../Utils/globalUnlocked'
 import { getTimeStaked } from '../../../Utils/getTimeStaked'
 import { calculateBonusMultiplier } from '../../../Utils/timeMultiplier'
 import { getGysrMultiplier } from '../../../Utils/getGysrMultiplier'
+import PopUp from '../AIUS/PopUp'
+import { SuccessChildren, ErrorPopUpChildren, StepTwoChildren } from './PopupStages'
 
 function Stake() {
     const eth_wei = 1000000000000000000;
@@ -65,7 +67,7 @@ function Stake() {
         totalUniv2:0,
         stakedUniv2:0,
     })
-    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const [showPopUp, setShowPopUp] = useState(false)
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     useEffect(() => {
@@ -168,28 +170,31 @@ function Stake() {
       //   }
       //   f();
       // }
+
     const handleApproveClick = async () => {
-        //if (!document)
-        //    return
-        //let body = document.getElementsByTagName("body");
-        // body[0].style.overflow = "hidden"
-        // setIsPopupOpen(true);
-        // alert("clicked")
-        // await clickConnect()
-        // connectWalletHandler()
-        const approved = await approveUNIV2()        
+        setShowPopUp("2")
+        const approved = await approveUNIV2()
+        if(approved){
+            setShowPopUp("Success")
+        }else{
+            setShowPopUp("Error")
+        }
     }
     const handleStake = async() => {
         if (Number(inputValue.univ2) && allowance > Number(inputValue.univ2)) {
             try{
+                setShowPopUp("2")
                 const stakedTokens = await stakeTokens(inputValue.univ2);
                 if(stakedTokens){
                     const newStakedTokens = await stakeTokenBalance()
                     setWalletBalance({...walletBalance,stakedUniv2:newStakedTokens})
+                    setShowPopUp("Success")
+                }else{
+                    setShowPopUp("Error")
                 }
             }
             catch(err){
-                alert(err)
+                setShowPopUp("Error")
             }
         }
     }
@@ -203,17 +208,6 @@ function Stake() {
     //         setIsStakeClicked(true)
     //     }
     // }
-
-    useEffect(() => {
-        if (isPopupOpen == false) {
-
-            if (!document)
-                return
-            let body = document.getElementsByTagName("body");
-            body[0].style.overflow = "auto"
-        }
-
-    }, [isPopupOpen])
 
     function convertLargeNumber(numberStr) {
         // Convert the string to a BigInt
@@ -242,7 +236,16 @@ function Stake() {
     
     return (
         <>
-            {isPopupOpen && <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />}
+            {showPopUp !== false && (
+                <>
+                    <PopUp setShowPopUp={setShowPopUp} >
+                        {showPopUp === ("Success") && (<SuccessChildren setShowPopUp={setShowPopUp} />)}
+                        {showPopUp ===("Error") && (<ErrorPopUpChildren setShowPopUp={setShowPopUp} />)}
+                        {showPopUp ===("2") && (<StepTwoChildren setShowPopUp={setShowPopUp} isError={false} noChildren={true} repeat={false} />)}
+                    </PopUp>
+                </>
+            )}
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-mobile-section-width lg:w-section-width m-[auto] pt-8 pb-8 max-w-center-width">
 
                 { isConnected ? (<>
@@ -283,7 +286,7 @@ function Stake() {
                             <div className="rounded-[25px]  flex justify-center w-[100%] mt-6 text-[#101010]">
                                 <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[30%] border-l-0 bg-[#E6DFFF] flex justify-center gap-2 lg:gap-2 items-center">
                                     
-                                    <h className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h>
+                                    <h1 className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h1>
 
                                 </div>
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
@@ -437,7 +440,7 @@ function Stake() {
                             <div className="rounded-[25px]  flex justify-center w-[100%] mt-6 text-[#101010]">
                                 <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[25%] border-l-0 bg-[#E6DFFF] flex justify-center gap-2 lg:gap-2 items-center">
                                     
-                                    <h className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h>
+                                    <h1 className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h1>
 
                                 </div>
                                 <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
@@ -454,17 +457,13 @@ function Stake() {
                                         <p className="text-[6px] lg:text-[11px] pb-[2px]">max</p>
                                 </div>
                                 </div>
-                                
-
-
-
                             </div>
                             <div className="flex justify-between items-center gap-2 text-[#101010] mt-6">
                                 <div className="w-[50%] flex justify-between items-end gap-0">
                                     <div className="rounded-[25px]  flex justify-center w-[100%] ">
                                         <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
                                             
-                                            <h className="text-[10px] lg:text-[14px] font-medium">GYSR</h>
+                                            <h1 className="text-[10px] lg:text-[14px] font-medium">GYSR</h1>
 
                                         </div>
                                         <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
@@ -512,43 +511,20 @@ function Stake() {
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
-                                {
-                                    data?.unstake.rewards > 0 ?
-                                    <button type="button" className="relative group bg-[#121212] py-2 px-8 rounded-full flex items-center  gap-3"
-                                    onClick={() => claimTokens(inputValue.gysr > 0 ? inputValue.gysr : null)}>
+                                <button type="button" className={`${data?.unstake.rewardsFull > 0 ? "" : "bg-opacity-5"}relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
+                                    onClick={() => { data?.unstake.rewardsFull > 0 ? claimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
                                     <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                    <p className="relative z-10 text-original-white text-[15px]  mb-[1px]">Claim</p>
-
-                                </button>:
-                                <button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
-                                >
-                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Claim</p>
-
-                            </button>
-                                }
+                                    <p className={`relative z-10 ${data?.unstake.rewardsFull > 0 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Claim</p>
+                                </button>
                                 
-                               
-                                {
-                                    data?.unstake.balance >0  ? <button type="button" className="relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3"
-                                    onClick={() => unstakeTokens(inputValue?.unstake>0 ? inputValue.unstake:null,inputValue.gysr>0?inputValue.gysr:null)}>
-                                    <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                    <p className="relative z-10 text-original-white  text-[15px]  mb-[1px]">Unstake & Claim</p>
-
-                                </button>:<button type="button" className="relative group bg-[#121212] py-2 bg-opacity-5 px-8 rounded-full flex items-center  gap-3"
-                                >
-                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
-                                <p className="relative z-10 text-[#101010] opacity-30 text-[15px]  mb-[1px]">Unstake & Claim</p>
-
-                            </button>
-                                }
+                                <button type="button" className={`${data?.unstake.balance > 0 && inputValue.unstake ? "" : "bg-opacity-5"} relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3`}
+                                    onClick={() => { data?.unstake.balance > 0 && inputValue.unstake ? unstakeTokens(inputValue?.unstake>0 ? inputValue.unstake:null, inputValue.gysr>0?inputValue.gysr:null) : null }}>
+                                    <div class={`absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full ${data?.unstake.balance > 0 ? "bg-buy-hover group-hover:opacity-100": ""} opacity-0 transition-opacity duration-500`}></div>
+                                    <p className={`relative z-10 ${data?.unstake.balance > 0 && inputValue.unstake ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Unstake & Claim</p>
+                                </button>
                             </div>
                         </div>
-
-
-
                     </div>
-
                 </>) : (<>
                     <div className="rounded-2xl p-6 lg:p-10 flex flex-col justify-between h-[350px] lg:h-[auto] bg-white-background stake-card">
                         <div>
@@ -561,7 +537,7 @@ function Stake() {
 
                             <div className="relative w-[100px] h-[100px] lg:w-[100px] lg:h-[100px]">
 
-                                <Image src={walletImage} fill />
+                                <Image src={walletImage} alt="" />
 
                             </div>
 
@@ -589,7 +565,7 @@ function Stake() {
 
                             <div className="relative w-[100px] h-[100px] lg:w-[100px] lg:h-[100px]">
 
-                                <Image src={walletImage} fill />
+                                <Image src={walletImage} alt="" />
 
                             </div>
 
