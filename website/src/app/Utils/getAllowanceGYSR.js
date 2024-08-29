@@ -29,6 +29,6 @@ export const UNIV2_allowance = async () => {
             return 0
         }
     } else {
-        alert('Please install MetaMask!');
+        return 0
     }
 };

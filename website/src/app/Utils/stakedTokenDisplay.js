@@ -16,6 +16,6 @@ export const updateStakedTokensDisplay = async () => {
         return stakedBalance
     } catch (error) {
         console.error("Failed to fetch staked tokens", error);
-        alert("Failed to fetch staked tokens");
+        return 0
     }
 };

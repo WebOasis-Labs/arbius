@@ -25,7 +25,6 @@ export const approveUNIV2 = async () => {
             const result = await uniV2Contract.methods.approve(AIUS_STAKING_CONTRACT_ADDRESS,'115792089237316195423570985008687907853269984665640564039457584007913129639935').send({ from:account  });
             console.log(result,"result")
             // Call the approve function
-            alert('UNI-V2 approved successfully!');
             return true;
         } catch (error) {
             console.error('Approval failed', error);
