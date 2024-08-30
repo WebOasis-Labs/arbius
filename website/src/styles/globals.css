@@ -14,6 +14,13 @@
 .proposal-container h6 {
   font-weight: bolder;
 }
+input[type="number"] {
+    -webkit-appearance: none;   /* Chrome, Safari, newer versions of Edge */
+    appearance: none;     
+    outline: none !important;
+    box-shadow: none !important; /* Removes any default box-shadow */
+}
+
 
 .proposal-container h1 {
   font-size: 2.125rem;
@@ -404,6 +411,9 @@ input[type="number"]::-webkit-outer-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+  -webkit-appearance: none;   /* Chrome, Safari, newer versions of Edge */
+  appearance: none;     
+  outline: none;
 }
 .container {
     display: flex;

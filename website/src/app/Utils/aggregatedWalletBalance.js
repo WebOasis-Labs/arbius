@@ -9,7 +9,7 @@ export default async function getGYSRBalance() {
       
       
 
-      const gysrTokenAddress = '0xDA9b55DE6e04404F6c77673D4B243142a4efC6B8'; // Replace with the actual GYSR token contract address from Etherscan
+      const gysrTokenAddress = '0xbEa98c05eEAe2f3bC8c3565Db7551Eb738c8CCAb'; // Replace with the actual GYSR token contract address from Etherscan
       const contract = new web3.eth.Contract(contractABI, gysrTokenAddress);
 
       const accounts = await web3.eth.getAccounts();
@@ -21,8 +21,8 @@ export default async function getGYSRBalance() {
       const decimals = 18;
       const adjustedBalance = balance / (10 ** decimals);
       
-      console.log(`UNIV2 Balance: ${adjustedBalance}`);
-      localStorage.setItem("UNIV2",adjustedBalance);
+      console.log(`NEW GYSR Balance: ${adjustedBalance}`);
+      localStorage.setItem("GYSR",adjustedBalance);
       return adjustedBalance;
     } catch (error) {
       console.error('Error fetching GYSR balance:', error);
