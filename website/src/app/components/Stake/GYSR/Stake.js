@@ -387,7 +387,7 @@ function Stake() {
                                     onClick={() => {
                                         handleApproveClick()
                                     }}>
-                                    <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     <p className="relative z-10 text-original-white text-[13px] ">Approve $UNI-V2</p>
                                     <HintBox
                                         content={"Approve the Pool to access $UNI-V2 in your wallet in order to stake"}
@@ -583,19 +583,19 @@ function Stake() {
                                 {(inputValue.gysr && gysrAllowance < inputValue.gysr) && data?.unstake.rewardsFull > 0 && data?.unstake.balance > 0 ?
                                     <button type="button" className={`relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
                                         onClick={() => handleGYSRApprove()}>
-                                        <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                        <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                         <p className={`relative z-10 text-original-white text-[15px] mb-[1px]`}>Approve GYSR</p>
                                     </button> : null}
 
                                 <button type="button" className={`${data?.unstake.rewardsFull > 0 ? "" : " bg-opacity-5"} relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
                                     onClick={() => { data?.unstake.rewardsFull > 0 ? handleClaimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
-                                    <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
+                                    <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"></div>
                                     <p className={`relative z-10 ${data?.unstake.rewardsFull > 0 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Claim</p>
                                 </button>
 
                                 <button type="button" className={`${data?.unstake.balance > 0 && inputValue.unstake ? "" : "bg-opacity-5"} relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3`}
                                     onClick={() => { data?.unstake.balance > 0 && inputValue.unstake ? handleUnstake(inputValue?.unstake > 0 ? inputValue.unstake : null, inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
-                                    <div class={`absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full ${data?.unstake.balance > 0 ? "bg-buy-hover group-hover:opacity-100" : ""} opacity-0 transition-opacity duration-500`}></div>
+                                    <div className={`absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full ${data?.unstake.balance > 0 ? "bg-buy-hover group-hover:opacity-100" : ""} opacity-0 transition-opacity duration-500`}></div>
                                     <p className={`relative z-10 ${data?.unstake.balance > 0 && inputValue.unstake ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Unstake & Claim</p>
                                 </button>
                             </div>
@@ -621,7 +621,7 @@ function Stake() {
                         <div className="flex justify-center lg:justify-end">
 
                             <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => clickConnect()}>
-                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white  mb-1 w-[100%] lg:w-[auto]">Connect Wallet</p>
 
                             </button>
@@ -649,7 +649,7 @@ function Stake() {
                         <div className="flex justify-center lg:justify-end">
 
                             <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3 w-[100%] lg:w-[auto]" onClick={() => clickConnect()}>
-                                <div class="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                 <p className="relative z-10 text-original-white  mb-1 w-[100%] lg:w-[auto]">Connect Wallet</p>
 
                             </button>
