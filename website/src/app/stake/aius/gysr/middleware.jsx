@@ -35,15 +35,10 @@ const Middleware = () => {
   }, [switchNetworkMainnet]);
   return (
     <div>
-        <>
-      {
-          data===null
-          ?<>Loading..</>
-          :<div className="relative" id="body">
-          <TopHeaderSection data={data} />
-          <Tabs data={data} />
+      <div className="relative" id="body">
+        <TopHeaderSection data={data} />
+        <Tabs data={data} />
       </div>
-        }</>
     </div>
   )
 }
