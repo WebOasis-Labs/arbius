@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import contractABI from '../abis/aiusBalance.json'
-export default async function getGYSRBalance() {
+export default async function getGYSRBalance(connected_address) {
   // Connect to MetaMask
   if (window.ethereum) {
     try {
@@ -9,8 +9,8 @@ export default async function getGYSRBalance() {
       const gysrTokenAddress = '0xCB37089fC6A6faFF231B96e000300a6994d7a625'; // Replace with the actual GYSR token contract address from Etherscan
       const contract = new web3.eth.Contract(contractABI, gysrTokenAddress);
 
-      const accounts = await web3.eth.getAccounts();
-      const account = accounts[0]; // Get the current account
+      //const accounts = await web3.eth.getAccounts();
+      const account = connected_address//accounts[0]; // Get the current account
 
       const balance = await contract.methods.balanceOf(account).call();
 
@@ -18,7 +18,6 @@ export default async function getGYSRBalance() {
       const decimals = 18;
       const adjustedBalance = balance / (10 ** decimals);
 
-      localStorage.setItem("gysrBalance",adjustedBalance);
       return adjustedBalance;
     } catch (error) {
       console.error('Error fetching AIUS balance:', error);

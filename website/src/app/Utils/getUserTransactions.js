@@ -43,7 +43,7 @@ export const getUserTransactions = async (userId) => {
         });
         console.log(response.data)
         // return response.data.data.transactions;
-        const unstakeTransactions=response.data.data.transactions.filter(trs=>trs.type=="Stake");
+        const unstakeTransactions=response?.data?.data?.transactions?.filter(trs=>trs.type=="Stake");
         let totalEarnings=0
         let totalUnstaked=0
         for(let i=0;i<unstakeTransactions.length;i++){

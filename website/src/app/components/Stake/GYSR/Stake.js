@@ -38,7 +38,6 @@ function Stake() {
 
     const [walletConnected, setWalletConnected] = useState(false);
     const [loadingWeb3Modal, setLoadingWeb3Modal] = useState(false);
-
     //useEffect(() => {
     //    setWalletConnected(isConnected);
     //}, [isConnected]);
@@ -63,7 +62,7 @@ function Stake() {
     const [gysrMultiplier, setGysrMultiplier] = useState(1);
     const [gysrBalance, setGYSRBalance] = useState(0);
     const [gysrAllowanceValue, setGYSRAllowanceValue] = useState(0);
-
+    const [userStaked, setUserStaked] = useState(false);
     const [inputValue, setInputValue] = useState({
         univ2: '',
         unstake: '',
@@ -94,7 +93,9 @@ function Stake() {
             let data7 = await gysrAllowance(address)
             let rewardWithFixed
             let data1_1 = 0;
-
+            if(data1.userStake !== "0"){
+                setUserStaked(true)
+            }
             if (data1?.totalStake) {
                 setTotalStaked((Number(data1?.totalStake) / eth_wei).toFixed(2))
             }
@@ -138,8 +139,8 @@ function Stake() {
             console.log(data1_1, data2, data3, data4, data5, data6, data7, "kokokokokokok")
         }
         const getAccountsData = async () => {
-            let data1 = await getGYSRBalance();
-            let data2 = await stakeTokenBalance()
+            let data1 = await getGYSRBalance(address);
+            let data2 = await stakeTokenBalance(address)
             console.log(data1, data2, "balances")
             if (data1) {
                 data1 = data1.toFixed(3)
@@ -487,8 +488,8 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1 text-[#101010] '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{timeMultiplier}</h1>
-                                        <h1 className='text-[14px] self-end mb-1'>X</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? timeMultiplier : "-"}</h1>
+                                        <h1 className='text-[14px] self-end mb-1'>{userStaked ? "X" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time mult.</h2>
 
@@ -500,8 +501,8 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1 '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{daysStaked}</h1>
-                                        <h1 className='text-[14px] self-end mb-1'>{daysStaked == 1 ? " day" : " days"}</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? daysStaked : "-"}</h1>
+                                        <h1 className='text-[14px] self-end mb-1'>{userStaked ? daysStaked == 1 ? " day" : " days" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time Staked</h2>
 
