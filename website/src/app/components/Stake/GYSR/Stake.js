@@ -575,8 +575,8 @@ function Stake() {
 
 
                             </div>
-                            <div className="flex justify-start items-center gap-4 mt-4 opacity-40 text-[14px] ml-2 ">
-                                <span className='font-Geist-SemiBold text-original-black'>Available GYSR:</span>{gysrBalance}
+                            <div className="flex justify-start items-center gap-4 mt-4 opacity-40 text-[14px] ml-2 text-original-black ">
+                                <span className='font-Geist-SemiBold '>Available GYSR:</span>{gysrBalance}
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
