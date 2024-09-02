@@ -8,8 +8,8 @@ import gift_icon from "../../../assets/images/gift.png"
 import time_icon from "../../../assets/images/time.png"
 import arrow_icon from "../../../assets/images/rounded_arrow.png"
 import Image from 'next/image'
-import { getTransactions } from '../../../Utils/getActivities'
 import Loader from '../../Loader/loader'
+import { getUserTransactions } from '../../../Utils/getUserActivity'
 
 
 
@@ -21,7 +21,7 @@ function ActivityTable() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedData = await getTransactions();
+                const fetchedData = await getUserTransactions()
                  console.log(fetchedData,"transactions")
                 setData(fetchedData);
             } catch (error) {
@@ -75,31 +75,11 @@ function ActivityTable() {
         }
     }
     function hexToDecimal(hexString) {
-        // alert(hexString)
-        // Remove the '0x' prefix if present
-        if(hexString=="0x" ||hexString==null  ){
-            return '-'
-        }
-        hexString = hexString?.startsWith('0x') ? hexString.slice(2) : hexString;
         
-        // Convert hexadecimal to decimal using BigInt
-        const decimalValue = BigInt('0x' + hexString).toString();
-    
-        return formatNumber(decimalValue)
+        return formatNumber(hexString)
     }
-    function formatNumber(number) {
-        const symbols = ['', 'k', 'M', 'B', 'T']; // Add more as needed for larger numbers
-        const tier = Math.floor(Math.log10(number) / 3);
-    
-        if (tier === 0) return number.toString(); // Less than 1000, no abbreviation needed
-    
-        const suffix = symbols[tier];
-        const scale = Math.pow(10, tier * 3);
-    
-        const scaledNumber = number / scale;
-        const formattedNumber = scaledNumber.toFixed(1); // Adjust decimals as needed
-    
-        return formattedNumber ;
+    function formatNumber(numb) {
+        return parseFloat(numb).toFixed(0)
     }
     function cropAddress(address) {
         var start = window.innerWidth > '786' ? address.substring(0, 6) : address.substring(0, 2); // Change the numbers to adjust the length of the beginning part you want to keep
@@ -172,13 +152,13 @@ function ActivityTable() {
                                    {data ? paginatedData?.map((item, key) => {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.functionName}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount)} UNI-V2</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.reward) == "-" ? "-" : `${convertNumber(item?.reward)} AIUS`}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{hexToDecimal(item?.decodedParams.rewarddata) =='-'?"-": `${hexToDecimal(item?.decodedParams.rewarddata)} GYSR`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.amount).toFixed(3)} UNI-V2</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.earnings == "0" ? "-" : `${convertNumber(item?.earnings)} AIUS`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.gysrSpent == "0" ?"-": `${hexToDecimal(item?.gysrSpent)} GYSR`}</td>
                                              
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
-                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.from)}</a></td>
+                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.id)}</a></td>
                                                
                                                
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>

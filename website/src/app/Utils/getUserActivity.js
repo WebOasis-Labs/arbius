@@ -9,39 +9,16 @@ export const getUserTransactions = async (userId) => {
             "variables": {
                 "poolId": "0xf0148b59d7f31084fb22ff969321fdfafa600c02",
                 "first": 10,
-                "skip": 0,
+                "skip":0,
                 "orderBy": "timestamp",
-                "orderDirection": "desc",
-                "userId": userId
+                "orderDirection": "desc"
             },
-            "query": `
-                query TRANSACTIONS($poolId: String!, $first: Int!, $skip: Int!, $orderBy: Transaction_orderBy!, $orderDirection: OrderDirection!, $userId: String!) {
-                    transactions(
-                        first: $first
-                        skip: $skip
-                        orderBy: $orderBy
-                        orderDirection: $orderDirection
-                        where: {pool: $poolId, user: $userId}
-                    ) {
-                        id
-                        type
-                        timestamp
-                        user {
-                            id
-                            __typename
-                        }
-                        amount
-                        earnings
-                        gysrSpent
-                        __typename
-                    }
-                }
-            `
+            "query": "query TRANSACTIONS($poolId: String!, $first: Int!, $skip: Int!, $orderBy: Transaction_orderBy!, $orderDirection: OrderDirection!) {\n  transactions(\n    first: $first\n    skip: $skip\n    orderBy: $orderBy\n    orderDirection: $orderDirection\n    where: {pool: $poolId}\n  ) {\n    id\n    type\n    timestamp\n    user {\n      id\n      __typename\n    }\n    amount\n    earnings\n    gysrSpent\n    __typename\n  }\n}\n"
+        
         });
-        console.log(response.data)
-        // return response.data.data.transactions;
-        const unstakeTransactions=response.data.data.transactions.filter(trs=>trs.type=="unstake");
-        console.log(unstakeTransactions)
+        console.log(response.data.data,"BALLE")
+        return response.data.data.transactions
+      
     } catch (error) {
         console.error('There was a problem with the axios operation:', error);
         throw error;
