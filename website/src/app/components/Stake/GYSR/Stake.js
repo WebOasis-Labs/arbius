@@ -567,17 +567,16 @@ function Stake() {
                                         currentHoverId={currentHoverId}
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
-                                    <div className="text-[#101010] text-[8px] xl:text-[10px] ">
-                                        <h1 className="text-[#777777]">You&apos;ll Receive <span className='text-purple-text  text-[12px] xl:text-[16px] lato-bold'>{formatNumber(gysrMultiplier * inputValue?.unstake)} AIUS</span></h1>
-
+                                    <div className="text-[#101010] text-[8px] xl:text-[10px]">
+                                        <h1 className="text-[#777777] mt-[2px]">You&apos;ll Receive <span className='text-purple-text  text-[12px] xl:text-[12px] lato-bold'>{formatNumber(gysrMultiplier * inputValue?.unstake)} AIUS</span></h1>
                                     </div>
                                 </div>
 
 
 
                             </div>
-                            <div className="flex justify-start items-center gap-4 mt-4 opacity-40 text-[14px] ml-2 text-original-black ">
-                                <span className='font-Geist-SemiBold '>Available GYSR:</span>{gysrBalance}
+                            <div className="flex justify-start items-center mt-4 opacity-40 text-[15px] text-original-black ">
+                                <span className='font-Geist-SemiBold '>Available GYSR:&nbsp;</span>{gysrBalance.toFixed(2)}
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
