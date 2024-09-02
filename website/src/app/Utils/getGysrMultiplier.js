@@ -15,7 +15,7 @@ function padAddress(address) {
 }
 
 
-export const getGysrMultiplier = async (amount, gysr) => {
+export const getGysrMultiplier = async (amount, gysr, connected_address) => {
         try {
             // Connect to the Web3 provider (MetaMask)
             const web3 = new Web3(window.ethereum);
@@ -27,10 +27,10 @@ export const getGysrMultiplier = async (amount, gysr) => {
             const pool = new web3.eth.Contract(Pool, '0xeFE16a20dee30e61872E30D050ED0AD659055307');
             
             // Get the list of accounts from MetaMask
-            const accounts = await web3.eth.getAccounts();
+            //const accounts = await web3.eth.getAccounts();
             
             // Use the first account
-            let account = accounts[0];
+            let account = connected_address//accounts[0];
             account = padAddress(account)
             console.log(account, amount, gysr)
             // Call the unlocked function

@@ -4,13 +4,13 @@ import Pool from '@gysr/core/abis/Pool.json'
 import { convertGYSRToBytes32 } from "./unstake";
 import { claimableRewards } from './claimableRewards'
 
-export const claimTokens = async (rewards) => {
+export const claimTokens = async (rewards, connected_address) => {
         const eth_wei = 1000000000000000000;
         const web3 = new Web3(window.ethereum);
         const pool = new web3.eth.Contract(Pool,POOL_ADDRESS );
 
-        const accounts = await web3.eth.getAccounts();
-        const account = accounts[0];
+        //const accounts = await web3.eth.getAccounts();
+        const account = connected_address//accounts[0];
         
         let _claimableRewards = await claimableRewards()
         _claimableRewards = _claimableRewards * eth_wei;

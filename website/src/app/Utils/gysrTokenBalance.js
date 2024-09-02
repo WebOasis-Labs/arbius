@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import contractABI from '../abis/gysrToken.json'
 
-export default async function gysrTokenBalance() {
+export default async function gysrTokenBalance(connected_address) {
   // Connect to MetaMask
   if (window.ethereum) {
     try {
@@ -10,8 +10,8 @@ export default async function gysrTokenBalance() {
       const gysrTokenAddress = '0xbea98c05eeae2f3bc8c3565db7551eb738c8ccab'; // Replace with the actual GYSR token contract address from Etherscan
       const contract = new web3.eth.Contract(contractABI, gysrTokenAddress);
 
-      const accounts = await web3.eth.getAccounts();
-      const account = accounts[0]; // Get the current account
+      //const accounts = await web3.eth.getAccounts();
+      const account = connected_address//accounts[0]; // Get the current account
 
       const balance = await contract.methods.balanceOf(account).call();
 

@@ -2,12 +2,12 @@ import Web3 from "web3";
 const POOL_ADDRESS='0xF0148B59D7F31084Fb22FF969321FDfAfA600C02'
 const POOL_INFO_ADDRESS = '0xF75beABb45EE2A81686821C3D0bD26856b9f6952';
 import Pool from '../abis/poolInfo.json'
-export const claimableRewards = async (amount) => {
+export const claimableRewards = async (connected_address) => {
         const web3 = new Web3(window.ethereum);
         const pool = new web3.eth.Contract(Pool,POOL_INFO_ADDRESS );
-        const accounts = await web3.eth.getAccounts();
-        const account = accounts[0];
-        const reward= await pool.methods.rewards(POOL_ADDRESS,account,'0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000000000000000000000000000').call();
+        //const accounts = await web3.eth.getAccounts();
+        const account = connected_address//accounts[0];
+        const reward = await pool.methods.rewards(POOL_ADDRESS,account,'0x0000000000000000000000000000000000000000000000000000000000000000','0x0000000000000000000000000000000000000000000000000000000000000000').call();
         console.log(reward,"rewardss")
         const decimals = 18;
        const adjustedReward = reward[0] / (10 ** decimals);

@@ -85,13 +85,13 @@ function Stake() {
     const [error, setError] = useState(null);
     useEffect(() => {
         const getData = async () => {
-            let data1 = await stakeTokenBalance()
-            let data2 = await claimableRewards()
-            let data3 = await UNIV2_allowance()
+            let data1 = await stakeTokenBalance(address)
+            let data2 = await claimableRewards(address)
+            let data3 = await UNIV2_allowance(address)
             let data4 = await globalUnlocked()
-            let data5 = await getTimeStaked()
-            let data6 = await gysrTokenBalance()
-            let data7 = await gysrAllowance()
+            let data5 = await getTimeStaked(address)
+            let data6 = await gysrTokenBalance(address)
+            let data7 = await gysrAllowance(address)
             let rewardWithFixed
             let data1_1 = 0;
 
@@ -164,7 +164,7 @@ function Stake() {
             const gysrAmount = Number(inputValue.gysr)
             console.log(totalStaked, "TST")
             if (unstakeAmount && gysrAmount) {
-                let gysrM = await getGysrMultiplier(unstakeAmount * eth_wei, gysrAmount * eth_wei)
+                let gysrM = await getGysrMultiplier(unstakeAmount * eth_wei, gysrAmount * eth_wei, address)
                 if (gysrM?.[2]) {
                     console.log(gysrM)
                     setGysrMultiplier(gysrM[2] / eth_wei)
@@ -207,7 +207,7 @@ function Stake() {
     }
     const handleApproveClick = async () => {
         setShowPopUp("2")
-        const approved = await approveUNIV2()
+        const approved = await approveUNIV2(address)
         if (approved) {
             setShowPopUp("Success")
         } else {
@@ -237,7 +237,7 @@ function Stake() {
     const handleClaimTokens = async (gysr) => {
         try {
             setShowPopUp("2")
-            const claimed = await claimTokens(gysr)
+            const claimed = await claimTokens(gysr, address)
             if (claimed) {
                 setShowPopUp("Success")
             } else {
@@ -252,7 +252,7 @@ function Stake() {
     const handleUnstake = async (amount, gysr) => {
         try {
             setShowPopUp("2")
-            const unstaked = await unstakeTokens(amount, gysr)
+            const unstaked = await unstakeTokens(amount, gysr, address)
             if (unstaked) {
                 setShowPopUp("Success")
             } else {
@@ -267,7 +267,7 @@ function Stake() {
     const handleGYSRApprove = async () => {
         try {
             setShowPopUp("2")
-            const approved = await approveGYSR()
+            const approved = await approveGYSR(address)
             if (approved) {
                 setShowPopUp("Success")
             } else {

@@ -4,7 +4,7 @@ const UNIV2_ADDRESS = '0xCB37089fC6A6faFF231B96e000300a6994d7a625';
 const AIUS_STAKING_CONTRACT_ADDRESS = '0x12A1165b8784C9d322Ef2c4787d8f161FD8f551C'
 
 
-export const UNIV2_allowance = async () => {
+export const UNIV2_allowance = async (connected_address) => {
     if (window.ethereum) {
         // Initialize web3
         const web3 = new Web3(window.ethereum);
@@ -13,8 +13,8 @@ export const UNIV2_allowance = async () => {
             await window.ethereum.enable();
 
             // Get the user's accounts
-            const accounts = await web3.eth.getAccounts();
-            const account = accounts[0];
+            //const accounts = await web3.eth.getAccounts();
+            const account = connected_address//accounts[0];
             console.log(account,"ACCOUNT")
 
             // Create the contract instance

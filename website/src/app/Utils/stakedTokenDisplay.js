@@ -3,10 +3,10 @@ import { abi as stakingAbi } from './pool.json'; // Import the ABI of the stakin
 
 const stakingAddress = '0x811a2389Ae2eFaaEAEC2f5FCa71e7DAc7533e755';
 
-export const updateStakedTokensDisplay = async () => {
+export const updateStakedTokensDisplay = async (connected_address) => {
     const web3 = window.web3;
-    const accounts = await web3.eth.getAccounts();
-    const account = accounts[0];
+    //const accounts = await web3.eth.getAccounts();
+    const account = connected_address//accounts[0];
 
     const stakingContract = new web3.eth.Contract(stakingAbi, stakingAddress);
 

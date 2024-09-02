@@ -4,11 +4,11 @@ const UNIV2_ADDRESS = '0xCB37089fC6A6faFF231B96e000300a6994d7a625';
 // import Pool from '../src/app/abis/pool.json'
 //import Pool from '@gysr/core/abis/Pool.json'
 import contractABI from '../abis/aiusBalance.json'
-export const getTimeStaked = async () => {
+export const getTimeStaked = async (connected_address) => {
     const web3 = new Web3(window.ethereum);
     const pool = new web3.eth.Contract(contractABI, UNIV2_ADDRESS );
-    const accounts = await web3.eth.getAccounts();
-    const account = accounts[0];
+    //const accounts = await web3.eth.getAccounts();
+    const account = connected_address//accounts[0];
     const events = await pool.getPastEvents('Transfer', {
         filter: {from: account, to: "0x12A1165b8784C9d322Ef2c4787d8f161FD8f551C"},
         fromBlock: 0,

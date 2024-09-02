@@ -14,13 +14,13 @@ export const convertGYSRToBytes32=(gysrAmount)=> {
         return bytes32Value;
     }
     
-export const unstakeTokens = async (amount,rewards) => {
+export const unstakeTokens = async (amount, rewards, connected_address) => {
         if(amount){
                 const web3 = new Web3(window.ethereum);
                 const pool = new web3.eth.Contract(Pool,POOL_ADDRESS );
                 console.log(amount,rewards,"unstake")
-                const accounts = await web3.eth.getAccounts();
-                const account = accounts[0];
+                //const accounts = await web3.eth.getAccounts();
+                const account = connected_address//accounts[0];
                
                 try{
                         let getRewards
