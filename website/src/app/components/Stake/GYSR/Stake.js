@@ -534,7 +534,7 @@ function Stake() {
                                     <div className="rounded-[25px]  flex justify-center w-[100%] ">
                                         <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
 
-                                            <h1 className="text-[10px] lg:text-[14px] font-medium ">GYSR : {gysrBalance}</h1>
+                                            <h1 className="text-[10px] lg:text-[14px] font-medium ">GYSR</h1>
 
                                         </div>
                                         <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
