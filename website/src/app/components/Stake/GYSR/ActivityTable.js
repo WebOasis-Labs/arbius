@@ -107,7 +107,23 @@ function ActivityTable() {
         return start + "..." + end;
     }
  // Output: e.g., "2 days ago", "1 hour ago", "5 minutes ago", etc.
-    
+    function convertNumber(num) {
+        num = parseFloat(num)
+        if(num == 0){
+            console.log(num, "NUM")
+            return "-"
+        }
+        if (num < 0.001) {
+            return Number(num.toFixed(8));
+        } else {
+            return Math.round(num * 10) / 10;
+        }
+    }
+
+
+
+
+
     
     return (
         <div className=''>
@@ -157,8 +173,8 @@ function ActivityTable() {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.functionName}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.amount).toFixed(2)} UNI-V2</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.reward).toFixed(2)=='0.00'?'-':`${parseFloat(item?.reward).toFixed(2)} AIUS`}  </td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount)} UNI-V2</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.reward) == "-" ? "-" : `${convertNumber(item?.reward)} AIUS`}</td>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{hexToDecimal(item?.decodedParams.rewarddata) =='-'?"-": `${hexToDecimal(item?.decodedParams.rewarddata)} GYSR`}</td>
                                              
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
