@@ -98,18 +98,25 @@ function ActivityTable() {
         return start + "..." + end;
     }
  // Output: e.g., "2 days ago", "1 hour ago", "5 minutes ago", etc.
-    function convertNumber(num) {
-        num = parseFloat(num)
-        if(num == 0){
-            console.log(num, "NUM")
-            return "-"
-        }
-        if (num < 0.001) {
-            return Number(num.toFixed(8));
-        } else {
-            return Math.round(num * 10) / 10;
-        }
+ function convertNumber(num , convertLarg) {
+    num = parseFloat(num);
+    
+    if (num === 0) {
+        return "0.00";
     }
+    
+    if (num < 0.001 && convertLarg) {
+        // Use toExponential to get the scientific notation with 2 significant figures
+        return num.toExponential(2);
+    }
+    else if(num < 0.001){
+        return Number(num.toFixed(8));
+    }
+     else {
+        return Math.round(num * 10) / 10;
+    }
+}
+
 
 
 
@@ -164,12 +171,12 @@ function ActivityTable() {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount)} UNI-V2</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.earnings == "0" ? "-" : `${convertNumber(item?.earnings)} AIUS`}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.gysrSpent == "0" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount,false)} UNI-V2</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-" : `${convertNumber(item?.earnings,true)} AIUS`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
                                              
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
-                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.id)}</a></td>
+                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.user.id)}</a></td>
                                                
                                                
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
