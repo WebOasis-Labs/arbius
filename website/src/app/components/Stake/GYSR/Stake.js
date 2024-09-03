@@ -219,7 +219,7 @@ function Stake() {
         if (Number(inputValue.univ2) && allowance > Number(inputValue.univ2)) {
             try {
                 setShowPopUp("2")
-                const stakedTokens = await stakeTokens(inputValue.univ2);
+                const stakedTokens = await stakeTokens(inputValue.univ2, address);
                 if (stakedTokens) {
                     const newStakedTokens = await stakeTokenBalance()
                     setWalletBalance({ ...walletBalance, stakedUniv2: newStakedTokens })
