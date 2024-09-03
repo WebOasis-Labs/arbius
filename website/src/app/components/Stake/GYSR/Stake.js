@@ -328,7 +328,7 @@ function Stake() {
                                 <div className="mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
                                     <div className="flex justify-start items-baseline">
                                         <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{walletBalance.totalUniv2 ? walletBalance.totalUniv2 : 0}</h1>
-                                        <p className="text-para ml-2 text-black-text ">Uni-V2</p>
+                                        <p className="text-para ml-2 text-black-text ">UNI-V2</p>
                                     </div>
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text">Wallet Balance</h1>
 
@@ -417,7 +417,7 @@ function Stake() {
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
                                     <div id="unstakeBalance" className="flex justify-start items-baseline h-[50px]">
                                         <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake?.balance ? data?.unstake?.balance : 0}&nbsp;</h1>
-                                        <p className="text-para  text-black-text  ">Uni-V2</p>
+                                        <p className="text-para  text-black-text  ">UNI-V2</p>
                                         <HintBox
                                             content={"Total UNI-V2 you have staked in this Pool"}
                                             customStyle={{}}
