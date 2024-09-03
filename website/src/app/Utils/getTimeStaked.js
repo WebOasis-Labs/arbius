@@ -4,7 +4,7 @@ const UNIV2_ADDRESS = '0xCB37089fC6A6faFF231B96e000300a6994d7a625';
 // import Pool from '../src/app/abis/pool.json'
 //import Pool from '@gysr/core/abis/Pool.json'
 import contractABI from '../abis/aiusBalance.json'
-export const getTimeStaked = async (connected_address) => {
+/*export const getTimeStaked = async (connected_address) => {
     const web3 = new Web3(window.ethereum);
     const pool = new web3.eth.Contract(contractABI, UNIV2_ADDRESS );
     //const accounts = await web3.eth.getAccounts();
@@ -32,4 +32,12 @@ export const getTimeStaked = async (connected_address) => {
         const diffInDays = Math.round(diffInSeconds / (24 * 60 * 60)); // Convert seconds to days
         return diffInDays;
     }
+}*/
+
+export const getTimeStaked = async (timestamp) => {
+    const now = Math.floor(Date.now() / 1000); // Current time in UNIX format
+    const diffInSeconds = now - timestamp;
+    console.log(diffInSeconds, "DIFF SECONDS")
+    const diffInDays = Math.round(diffInSeconds / (24 * 60 * 60)); // Convert seconds to days
+    return diffInDays;
 }

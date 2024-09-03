@@ -11,7 +11,6 @@ export const getUserTransactions = async (userId) => {
             "operationName": "TRANSACTIONS",
             "variables": {
                 "poolId": "0xf0148b59d7f31084fb22ff969321fdfafa600c02",
-              
                 "skip": 0,
                 "orderBy": "timestamp",
                 "orderDirection": "desc",

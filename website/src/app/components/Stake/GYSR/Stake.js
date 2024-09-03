@@ -30,7 +30,7 @@ import { gysrAllowance } from '../../../Utils/checkGYSRAllowance'
 import PopUp from '../AIUS/PopUp'
 import { SuccessChildren, ErrorPopUpChildren, StepTwoChildren } from './PopupStages'
 
-function Stake() {
+function Stake(poolData) {
     const eth_wei = 1000000000000000000;
     const { address, isConnected } = useAccount()
     console.log(isConnected, "IS CONNECT")
@@ -82,13 +82,15 @@ function Stake() {
     });
 
     const [error, setError] = useState(null);
+
     useEffect(() => {
         const getData = async () => {
             let data1 = await stakeTokenBalance(address)
             let data2 = await claimableRewards(address)
             let data3 = await UNIV2_allowance(address)
             let data4 = await globalUnlocked()
-            let data5 = await getTimeStaked(address)
+            console.log(poolData, "POOL DATA")
+            let data5 = await getTimeStaked(poolData?.data?.position?.stakes?.[0].timestamp)
             let data6 = await gysrTokenBalance(address)
             let data7 = await gysrAllowance(address)
             let rewardWithFixed

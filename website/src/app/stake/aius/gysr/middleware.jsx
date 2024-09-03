@@ -5,10 +5,12 @@ import { useState } from 'react';
 import fetchData from "../../../Utils/getGysrData";
 import Tabs from "@/app/components/Stake/GYSR/Tabs";
 import TopHeaderSection from "@/app/components/Stake/GYSR/TopHeaderSection";
-import { useSwitchNetwork } from 'wagmi';
+import { useSwitchNetwork, useAccount } from 'wagmi';
 
 const Middleware = () => {
     const [data, setData] = useState(null)
+    const { address, isConnected } = useAccount();
+
     const CHAIN = process?.env?.NEXT_PUBLIC_AIUS_ENV === "dev" ? 1 : 1;
     const { switchNetwork: switchNetworkMainnet } = useSwitchNetwork({
       chainId:CHAIN,
@@ -17,7 +19,7 @@ const Middleware = () => {
     useEffect(() => {
       const getData = async () => {
         try {
-          const result = await fetchData();
+          const result = await fetchData(address);
           setData(result.data)
           // setData(result);
           const check = await window.ethereum.request({ method: 'eth_accounts' }); // Request account access if needed

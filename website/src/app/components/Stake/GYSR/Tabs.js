@@ -78,7 +78,7 @@ function Tabs({data}) {
 
                 </div>
 
-                {selectedTab === "Stake" && (<Stake />)}
+                {selectedTab === "Stake" && (<Stake data={data} />)}
                 {selectedTab === "Stats" && (
                     <Stats data={data} />
                 )}
