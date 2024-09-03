@@ -26,11 +26,12 @@ import { calculateBonusMultiplier } from '../../../Utils/timeMultiplier'
 import { getGysrMultiplier } from '../../../Utils/getGysrMultiplier'
 import { approveGYSR } from '../../../Utils/approveGYSR'
 import { gysrAllowance } from '../../../Utils/checkGYSRAllowance'
+import fetchData from "../../../Utils/getGysrData";
 
 import PopUp from '../AIUS/PopUp'
 import { SuccessChildren, ErrorPopUpChildren, StepTwoChildren } from './PopupStages'
 
-function Stake(poolData) {
+function Stake() {
     const eth_wei = 1000000000000000000;
     const { address, isConnected } = useAccount()
     console.log(isConnected, "IS CONNECT")
@@ -89,8 +90,8 @@ function Stake(poolData) {
             let data2 = await claimableRewards(address)
             let data3 = await UNIV2_allowance(address)
             let data4 = await globalUnlocked()
-            console.log(poolData, "POOL DATA")
-            let data5 = await getTimeStaked(poolData?.data?.position?.stakes?.[0].timestamp)
+            const result = await fetchData(address);
+            let data5 = await getTimeStaked(result?.data?.position?.stakes?.[0].timestamp)
             let data6 = await gysrTokenBalance(address)
             let data7 = await gysrAllowance(address)
             let rewardWithFixed
