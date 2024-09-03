@@ -78,8 +78,19 @@ function ActivityTable() {
         
         return formatNumber(hexString)
     }
-    function formatNumber(numb) {
-        return parseFloat(numb).toFixed(0)
+    function formatNumber(number) {
+        const symbols = ['', 'k', 'M', 'B', 'T']; // Add more as needed for larger numbers
+        const tier = Math.floor(Math.log10(number) / 3);
+    
+        if (tier === 0) return number.toString(); // Less than 1000, no abbreviation needed
+    
+        const suffix = symbols[tier];
+        const scale = Math.pow(10, tier * 3);
+    
+        const scaledNumber = number / scale;
+        const formattedNumber = scaledNumber.toFixed(1); // Adjust decimals as needed
+    
+        return formattedNumber ;
     }
     function cropAddress(address) {
         var start = window.innerWidth > '786' ? address.substring(0, 6) : address.substring(0, 2); // Change the numbers to adjust the length of the beginning part you want to keep
@@ -153,9 +164,9 @@ function ActivityTable() {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{parseFloat(item?.amount).toFixed(3)} UNI-V2</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount)} UNI-V2</td>
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.earnings == "0" ? "-" : `${convertNumber(item?.earnings)} AIUS`}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.gysrSpent == "0" ?"-": `${hexToDecimal(item?.gysrSpent)} GYSR`}</td>
+                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.gysrSpent == "0" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
                                              
                                                <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
                                                <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.id)}</a></td>
