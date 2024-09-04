@@ -69,6 +69,7 @@ function Stake() {
         unstake: '',
         gysr: ''
     });
+    const [successText, setSuccessText] = useState("");
     const [walletBalance, setWalletBalance] = useState({
         totalUniv2: 0,
         stakedUniv2: 0,
@@ -97,7 +98,7 @@ function Stake() {
             let data8 = await getGysrMultiplier(1, 0, address) // time multiplier comes with the same function - passing sample amount for unstake and gysr
             let rewardWithFixed
             let data1_1 = 0;
-            if(data1.userStake !== "0"){
+            if (data1.userStake !== "0") {
                 setUserStaked(true)
             }
             if (data1?.totalStake) {
@@ -207,7 +208,7 @@ function Stake() {
         if (typeof value !== 'number' || isNaN(value)) {
             return '0'; // Return an empty string or handle invalid input as needed
         }
-        
+
         // Check if the value is a whole number
         if (value % 1 === 0) {
             return value.toString(); // Return as a whole number
@@ -232,6 +233,7 @@ function Stake() {
                 if (stakedTokens) {
                     const newStakedTokens = await stakeTokenBalance()
                     setWalletBalance({ ...walletBalance, stakedUniv2: newStakedTokens })
+                    setSuccessText(`You have successfully staked ${Number.isInteger(Number(inputValue.univ2)) ? Number(inputValue.univ2) : Number(inputValue.univ2).toFixed(6)} UNI-V2`)
                     setShowPopUp("Success")
                 } else {
                     setShowPopUp("Error")
@@ -242,6 +244,8 @@ function Stake() {
                 setShowPopUp("Error")
             }
         }
+
+
     }
 
     const handleClaimTokens = async (gysr) => {
@@ -249,6 +253,8 @@ function Stake() {
             setShowPopUp("2")
             const claimed = await claimTokens(gysr, address)
             if (claimed) {
+                let _claimableRewards = data?.unstake.rewards
+                setSuccessText(`You have successfully earned ${Number.isInteger(Number(_claimableRewards)) ? Number(_claimableRewards) : Number(_claimableRewards).toFixed(6)} AIUS`)
                 setShowPopUp("Success")
             } else {
                 setShowPopUp("Error")
@@ -257,6 +263,7 @@ function Stake() {
             console.log(err)
             setShowPopUp("Error")
         }
+
     }
 
     const handleUnstake = async (amount, gysr) => {
@@ -264,6 +271,8 @@ function Stake() {
             setShowPopUp("2")
             const unstaked = await unstakeTokens(amount, gysr, address)
             if (unstaked) {
+                let _claimableRewards = data?.unstake.rewards
+                setSuccessText(`You have successfully unstaked ${Number.isInteger(Number(amount)) ? Number(amount) : Number(amount).toFixed(6)} UNI-V2 and earned ${Number.isInteger(Number(_claimableRewards)) ? Number(_claimableRewards) : Number(_claimableRewards).toFixed(6)} AIUS. `)
                 setShowPopUp("Success")
             } else {
                 setShowPopUp("Error")
@@ -312,6 +321,22 @@ function Stake() {
         setInputValue({ ...inputValue, [value]: key });
     };
 
+    function convertNumber(num) {
+        num = parseFloat(num);
+
+        if (num === 0) {
+            return "0.00";
+        }
+
+
+        else if (num < 0.001) {
+            return Number(num.toFixed(5));
+        }
+        else {
+            return Math.round(num * 10) / 10;
+        }
+    }
+
 
 
     return (
@@ -319,7 +344,7 @@ function Stake() {
             {showPopUp !== false && (
                 <>
                     <PopUp setShowPopUp={setShowPopUp} >
-                        {showPopUp === ("Success") && (<SuccessChildren setShowPopUp={setShowPopUp} />)}
+                        {showPopUp === ("Success") && (<SuccessChildren setShowPopUp={setShowPopUp} text={successText} />)}
                         {showPopUp === ("Error") && (<ErrorPopUpChildren setShowPopUp={setShowPopUp} />)}
                         {showPopUp === ("2") && (<StepTwoChildren setShowPopUp={setShowPopUp} isError={false} noChildren={true} repeat={false} />)}
                     </PopUp>
@@ -336,7 +361,7 @@ function Stake() {
 
                                 <div className="mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
                                     <div className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{walletBalance.totalUniv2 ? walletBalance.totalUniv2 : 0}</h1>
+                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{walletBalance.totalUniv2 ? convertNumber(walletBalance.totalUniv2) : 0}</h1>
                                         <p className="text-para ml-2 text-black-text ">UNI-V2</p>
                                     </div>
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text">Wallet Balance</h1>
@@ -346,7 +371,7 @@ function Stake() {
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
                                     <div className="flex justify-start items-baseline" id="BonusPeriod">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">90</h1>
+                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">90</h1>
                                         <p className="text-para ml-2 text-black-text">Days</p>
                                     </div>
 
@@ -369,18 +394,19 @@ function Stake() {
                                     <h1 className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h1>
 
                                 </div>
-                                <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
+                                <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                     <div className='w-[80%]'>
                                         <input
 
-                                            className='w-[100%] outline-none bg-white-background'
+                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
                                             placeholder="Amount of UNI-V2 to stake"
                                             value={inputValue.univ2}
+                                            type='number'
                                             onChange={(e) => handleInputChange(e, "univ2")} />
                                     </div>
                                     <div
                                         onClick={() => handleMaxClick("univ2", walletBalance.totalUniv2)}
-                                        className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
+                                        className=" maxButtonHover  rounded-full m-[0.5rem] px-3 py-[1px] text-original-white flex items-center">
                                         <p className="text-[6px] lg:text-[11px] pb-[2px]">max</p>
                                     </div>
                                 </div>
@@ -408,10 +434,10 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                 </button>}
-                            
-                            <button type="button" className={`relative group ${Number(inputValue.univ2) && allowance > Number(inputValue.univ2)  ? "bg-black-background" : "bg-[#121212] bg-opacity-5"} py-2 px-8 rounded-full flex items-center  gap-3`} onClick={() => handleStake()}>
-                                <div className={Number(inputValue.univ2) && allowance > Number(inputValue.univ2)  ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500":"absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
-                                <p className={`relative z-10 ${Number(inputValue.univ2) && allowance > Number(inputValue.univ2)  ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] `}>Stake</p>
+
+                            <button type="button" className={`relative group ${Number(inputValue.univ2) && allowance > Number(inputValue.univ2) ? "bg-black-background" : "bg-[#121212] bg-opacity-5"} py-2 px-8 rounded-full flex items-center  gap-3`} onClick={() => handleStake()}>
+                                <div className={Number(inputValue.univ2) && allowance > Number(inputValue.univ2) ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500" : "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
+                                <p className={`relative z-10 ${Number(inputValue.univ2) && allowance > Number(inputValue.univ2) ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] `}>Stake</p>
                             </button>
                         </div>
 
@@ -425,8 +451,8 @@ function Stake() {
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
                                     <div id="unstakeBalance" className="flex justify-start items-baseline h-[50px]">
-                                        <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{data?.unstake?.balance ? data?.unstake?.balance : 0}&nbsp;</h1>
-                                        <p className="text-para  text-black-text  ">UNI-V2</p>
+                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0}&nbsp;</h1>
+                                        <p className="text-[14px] xl:text-[16px]  text-black-text  ">UNI-V2</p>
                                         <HintBox
                                             content={"Total UNI-V2 you have staked in this Pool"}
                                             customStyle={{}}
@@ -437,7 +463,7 @@ function Stake() {
                                             setCurrentHoverId={setCurrentHoverId}
                                         />
                                     </div>
-                                    <h1 className="text-[8px] lg:text-[13px] font-medium">Staked</h1>
+                                    <h1 className="text-[10px] xl:text-[13px] font-medium">Staked</h1>
                                 </div>
 
 
@@ -445,14 +471,14 @@ function Stake() {
                                     <div id="claimableRewards" className="flex justify-start items-baseline  h-[50px]">
 
                                         <div className="group flex align-bottom">
-                                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text group-hover:hidden">
-                                                {data?.unstake.rewards ? data?.unstake.rewards : 0}&nbsp;
+                                            <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden">
+                                                {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                             </h1>
-                                            <h1 className="text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block">
-                                                {data?.unstake.rewardsFull ? data?.unstake.rewardsFull : 0.00}&nbsp;
+                                            <h1 className={convertNumber(data?.unstake.rewardsFull).toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
+                                                {data?.unstake.rewardsFull ? convertNumber(data?.unstake.rewardsFull) : 0.00}&nbsp;
                                             </h1>
                                         </div>
-                                        <p className="text-para ">AIUS</p>
+                                        <p className="text-[14px] xl:text-[16px] ">AIUS</p>
                                         <HintBox
                                             content={"Your estimated rewards if you unstake now"}
                                             customStyle={{}}
@@ -463,7 +489,7 @@ function Stake() {
                                             setCurrentHoverId={setCurrentHoverId}
                                         />
                                     </div>
-                                    <h1 className=" text-[#101010] text-[8px] lg:text-[13px] font-medium">Claimable Rewards</h1>
+                                    <h1 className=" text-[#101010] text-[10px] xl:text-[13px] font-medium">Claimable Rewards</h1>
 
 
                                 </div>
@@ -473,7 +499,7 @@ function Stake() {
 
                             <hr className="opacity-10" />
 
-                            <div className="flex justify-center gap-[50px] mt-4 text-[#101010] ">
+                            <div className="flex justify-center gap-[50px] lg:gap-[30px] xl:gap-[50px] mt-4 text-[#101010] ">
                                 <div >
 
                                     <div className='flex flex-row gap-1  '>
@@ -523,50 +549,54 @@ function Stake() {
                                     <h1 className="text-[10px] lg:text-[14px] font-medium">UNI-V2</h1>
 
                                 </div>
-                                <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
+                                <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                     <div className='w-[80%]'>
                                         <input
-                                            className='w-[100%] outline-none bg-white-background'
+                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
                                             placeholder="Amount of UNI-V2 to unstake"
                                             value={inputValue.unstake}
+                                            type='number'
                                             onChange={(e) => handleInputChange(e, "unstake")}
                                         />
                                     </div>
                                     <div
-                                         onClick={() => handleMaxClick("unstake", walletBalance.stakedUniv2)}
-                                        className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center">
+                                        onClick={() => handleMaxClick("unstake", walletBalance.stakedUniv2)}
+                                        className=" maxButtonHover  rounded-full m-[0.5rem] px-3 py-[1px] text-original-white flex items-center">
                                         <p className="text-[6px] lg:text-[11px] pb-[1px]">max</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2 text-[#101010] mt-6">
-                                <div className="w-[50%] flex justify-between items-end gap-0">
+                            <div className="flex justify-between items-center gap-2 lg:gap-1 xl:gap-2 text-[#101010] mt-6">
+                                <div className="w-[50%]  flex justify-between items-end gap-0">
                                     <div className="rounded-[25px]  flex justify-center w-[100%] ">
                                         <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
 
                                             <h1 className="text-[10px] lg:text-[14px] font-medium ">GYSR</h1>
 
                                         </div>
-                                        <div className="p-2 lg:p-3 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
+                                        <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
                                             <div className='w-[80%]'>
                                                 <input
-                                                    className='w-[100%] outline-none bg-white-background'
+                                                    className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
                                                     placeholder="0.00"
+                                                    type='number'
                                                     value={inputValue.gysr}
                                                     onChange={(e) => handleInputChange(e, "gysr")}
                                                 />
                                             </div>
-                                            <div className=" maxButtonHover  rounded-full px-3 py-[1px] text-original-white flex items-center"
+                                            <div className=" maxButtonHover  rounded-full m-[0.5rem] px-3 py-[1px] text-original-white flex items-center"
                                                 onClick={() => handleMaxClick("gysr", gysrBalance)}>
                                                 <p className="text-[6px] lg:text-[11px] pb-[1px]">max</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='flex justify-center gap-1 items-center rounded-full p-4 px-3 shadow-stats inner-shdadow w-[50%]' id="inner-shdadow">
-                                    <div id="multiplyQuotient">
-                                        <h1 className="text-[16px]  text-[#777777]">{gysrMultiplier.toFixed(2)} x</h1>
-                                    </div>
+
+                                <div id="multiplyQuotient">
+                                    <h1 className="text-[16px] lg:text-[10px] xl:text-[14px] font-semibold 2xl:text-[20px]  text-[#000]">{gysrMultiplier.toFixed(2)} x</h1>
+                                </div>
+                                <div className='flex justify-center gap-1 items-center rounded-full p-4 px-2 py-3 xl:py-3 border-2 border-[#4A28FF] w-[40%]   xl:w-[38%]' id="">
+
                                     <HintBox
                                         content={"By spending GYSR you will multiply the number of share seconds that you have accrued"}
                                         customStyle={{ 'arrowLeft': '35%' }}
@@ -577,14 +607,14 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] mt-[2px]">You&apos;ll Receive <span className='text-purple-text  text-[12px] xl:text-[12px] lato-bold'>{formatNumber(gysrMultiplier * inputValue?.unstake)} AIUS</span></h1>
+                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{formatNumber(gysrMultiplier * inputValue?.unstake)} AIUS</span></h1>
                                     </div>
                                 </div>
 
 
 
                             </div>
-                            <div className="flex justify-start items-center mt-4 opacity-40 text-[15px] text-original-black ">
+                            <div className="flex justify-start items-center mt-4 opacity-40 text-[12px] text-original-black ">
                                 <span className='font-Geist-SemiBold '>Available GYSR:&nbsp;</span>{gysrBalance.toFixed(2)}
                             </div>
 
@@ -592,19 +622,19 @@ function Stake() {
                                 {(inputValue.gysr && gysrAllowance < inputValue.gysr) && data?.unstake.rewardsFull > 0 && data?.unstake.balance > 0 ?
                                     <button type="button" className={`relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
                                         onClick={() => handleGYSRApprove()}>
-                                        <div className= "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                        <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         <p className={`relative z-10 text-original-white text-[15px] mb-[1px]`}>Approve GYSR</p>
                                     </button> : null}
 
                                 <button type="button" className={`${data?.unstake.rewardsFull > 0 ? "" : " bg-opacity-5"} relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
                                     onClick={() => { data?.unstake.rewardsFull > 0 ? handleClaimTokens(inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
-                                     <div className={data?.unstake.rewardsFull > 0  ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500":"absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
+                                    <div className={data?.unstake.rewardsFull > 0 ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500" : "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
                                     <p className={`relative z-10 ${data?.unstake.rewardsFull > 0 ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Claim</p>
                                 </button>
 
                                 <button type="button" className={`${data?.unstake.balance > 0 && inputValue.unstake ? "" : "bg-opacity-5"} relative group bg-[#121212] py-2  px-8 rounded-full flex items-center  gap-3`}
                                     onClick={() => { data?.unstake.balance > 0 && inputValue.unstake ? handleUnstake(inputValue?.unstake > 0 ? inputValue.unstake : null, inputValue.gysr > 0 ? inputValue.gysr : null) : null }}>
-                                     <div className={data?.unstake.balance > 0 && inputValue.unstake  ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500":"absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
+                                    <div className={data?.unstake.balance > 0 && inputValue.unstake ? "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500" : "absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full  opacity-0  transition-opacity duration-500"}></div>
                                     <p className={`relative z-10 ${data?.unstake.balance > 0 && inputValue.unstake ? "text-original-white" : "text-[#101010] opacity-30"} text-[15px] mb-[1px]`}>Unstake & Claim</p>
                                 </button>
                             </div>
