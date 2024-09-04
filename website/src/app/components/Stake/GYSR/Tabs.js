@@ -57,7 +57,7 @@ function Tabs({data}) {
 
             </div>
 
-            <div className="pt-4 pb-4 lg:py-24 max-w-center-width bg-aius-stake min-w-full">
+            <div className="pt-4 pb-4 lg:py-12 max-w-center-width bg-aius-stake min-w-full">
 
                 <div className="w-mobile-section-width lg:w-[90%] m-[auto] lg:hidden">
                     <div className="flex lg:hidden justify-center rounded-full bg-white-background w-[100%] mb-6 ">

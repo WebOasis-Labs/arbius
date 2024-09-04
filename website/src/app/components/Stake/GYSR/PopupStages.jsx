@@ -35,7 +35,7 @@ export const StepTwoChildren = ({ setShowPopUp, isError, noChildren, repeat = tr
     )
 }
 
-export const SuccessChildren = ({ setShowPopUp }) => {
+export const SuccessChildren = ({ setShowPopUp, text }) => {
 
     return (
         <div>
@@ -54,7 +54,7 @@ export const SuccessChildren = ({ setShowPopUp }) => {
                 </div>
 
                 <h1 className="text-[20px] mt-4 text-[#000] text-center">Congrats!</h1>
-                <h1 className="text-[12px] text-[#8C8C8C] text-center">Transaction Completed.</h1>
+                <h1 className="text-[12px] text-[#8C8C8C] text-center">{text}</h1>
 
 
             </div>
