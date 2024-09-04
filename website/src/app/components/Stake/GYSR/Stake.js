@@ -138,6 +138,7 @@ function Stake() {
                 unstake: {
                     rewards: data2,
                     balance: data1_1,
+                    balanceFull: data1?.userStake,
                     rewardsFull: rewardWithFixed
                 }
             })
@@ -153,10 +154,10 @@ function Stake() {
             let data2 = await stakeTokenBalance(address)
             console.log(data1, data2, "balances")
             if (data1) {
-                data1 = data1.toFixed(3)
+                data1 = data1
             }
             if (data2) {
-                data2 = (Number(data2?.userStake) / eth_wei).toFixed(4)
+                data2 = Number(data2?.userStake) / eth_wei
             }
             setWalletBalance({
                 totalUniv2: data1,
@@ -251,9 +252,9 @@ function Stake() {
     const handleClaimTokens = async (gysr) => {
         try {
             setShowPopUp("2")
-            const claimed = await claimTokens(gysr, address)
+            const claimed = await claimTokens(data?.unstake?.balanceFull, gysr, address)
             if (claimed) {
-                let _claimableRewards = data?.unstake.rewards
+                let _claimableRewards = data?.unstake?.rewards
                 setSuccessText(`You have successfully earned ${Number.isInteger(Number(_claimableRewards)) ? Number(_claimableRewards) : Number(_claimableRewards).toFixed(6)} AIUS`)
                 setShowPopUp("Success")
             } else {
@@ -328,8 +329,7 @@ function Stake() {
             return "0.00";
         }
 
-
-        else if (num < 0.001) {
+        else if (num < 1) {
             return Number(num.toFixed(5));
         }
         else {
@@ -475,7 +475,7 @@ function Stake() {
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                             </h1>
                                             <h1 className={convertNumber(data?.unstake.rewardsFull).toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
-                                                {data?.unstake.rewardsFull ? convertNumber(data?.unstake.rewardsFull) : 0.00}&nbsp;
+                                                {data?.unstake.rewardsFull ? data?.unstake.rewardsFull : 0.00}&nbsp;
                                             </h1>
                                         </div>
                                         <p className="text-[14px] xl:text-[16px] ">AIUS</p>
