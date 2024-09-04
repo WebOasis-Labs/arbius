@@ -94,6 +94,7 @@ function Stake() {
             let data5 = await getTimeStaked(result?.data?.position?.stakes?.[0].timestamp)
             let data6 = await gysrTokenBalance(address)
             let data7 = await gysrAllowance(address)
+            let data8 = await getGysrMultiplier(1, 0, address) // time multiplier comes with the same function - passing sample amount for unstake and gysr
             let rewardWithFixed
             let data1_1 = 0;
             if(data1.userStake !== "0"){
@@ -127,6 +128,11 @@ function Stake() {
                 data7 = Number(data7) / eth_wei
                 setGYSRAllowanceValue(data7)
             }
+            if (data8) {
+                if(data8?.[1]){
+                    setTimeMultiplier((data8[1] / eth_wei).toFixed(2))
+                }
+            }
             setData({
                 unstake: {
                     rewards: data2,
@@ -135,10 +141,10 @@ function Stake() {
                 }
             })
 
-            const tMultiplier = calculateBonusMultiplier(data5, data1_1)
+            /*const tMultiplier = calculateBonusMultiplier(data5, data1_1)
             if (tMultiplier) {
                 setTimeMultiplier(tMultiplier.toFixed(2))
-            }
+            }*/
             console.log(data1_1, data2, data3, data4, data5, data6, data7, "kokokokokokok")
         }
         const getAccountsData = async () => {
