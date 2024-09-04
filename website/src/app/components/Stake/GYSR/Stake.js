@@ -145,7 +145,7 @@ function Stake() {
             if (tMultiplier) {
                 setTimeMultiplier(tMultiplier.toFixed(2))
             }*/
-            console.log(data1_1, data2, data3, data4, data5, data6, data7, "kokokokokokok")
+            console.log(data1_1, data2, data3, data4, data5, data6, data7, data8, "kokokokokokok")
         }
         const getAccountsData = async () => {
             let data1 = await getGYSRBalance(address);
@@ -166,7 +166,7 @@ function Stake() {
             getData()
             getAccountsData()
         }
-    }, [address, isConnected])
+    }, [address, isConnected, showPopUp])
 
     useEffect(() => {
         const getMult = async () => {
