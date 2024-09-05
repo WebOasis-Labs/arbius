@@ -463,8 +463,8 @@ function Stake() {
 
                                 <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
                                     <div id="unstakeBalance" className="flex justify-start items-baseline h-[50px]">
-                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0}&nbsp;</h1>
-                                        <p className="text-[14px] xl:text-[16px]  text-black-text  ">UNI-V2</p>
+                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0.00}&nbsp;</h1>
+                                        <p className="text-[14px] lg:text-[10px] xl:text-[12px] 2xl:text-[14px]  text-black-text  whitespace-nowrap">UNI-V2</p>
                                         <HintBox
                                             content={"Total UNI-V2 you have staked in this Pool"}
                                             customStyle={{}}
@@ -634,7 +634,7 @@ function Stake() {
                                 </div>
 
                                 <div id="multiplyQuotient">
-                                    <h1 className="text-[16px] lg:text-[10px] xl:text-[14px] font-semibold 2xl:text-[20px]  text-[#000]">{gysrMultiplier.toFixed(2)} x</h1>
+                                    <h1 className="text-[16px] lg:text-[10px] xl:text-[14px] font-semibold 2xl:text-[20px] whitespace-nowrap  text-[#000]">{gysrMultiplier.toFixed(2)} x</h1>
                                 </div>
                                 <div className='flex justify-center gap-1 items-center rounded-full p-4 px-2 py-3 xl:py-3 border-2 border-[#4A28FF] w-[40%]   xl:w-[38%]' id="">
 
