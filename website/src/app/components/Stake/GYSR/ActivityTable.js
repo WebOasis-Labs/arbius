@@ -125,41 +125,41 @@ function ActivityTable() {
     
     return (
         <div className=''>
-            <div class="flex flex-col bg-white-background table-gysr px-6 py-4 text-[#101010]">
-                <div class=" overflow-x-auto ">
-                    <div class="p-1.5 min-w-full inline-block align-middle">
-                        <div class="overflow-hidden">
+            <div className="flex flex-col bg-white-background table-gysr px-6 py-4 text-[#101010]">
+                <div className=" overflow-x-auto ">
+                    <div className="p-1.5 min-w-full inline-block align-middle">
+                        <div className="overflow-hidden">
                         {
                             data ?
-                            <table class="min-w-full ">
+                            <table className="min-w-full ">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
                                             <div className=' flex justify-center'><Image width={15} height={15} src={sort_icon} alt="" /></div>
 
                                             <h1>Action</h1>
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
                                             <div className=' flex justify-center'><Image width={15} height={15} src={up_icon} alt="" /></div>
 
                                             <h1>Amount</h1>
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
                                             <div className=' flex justify-center'><Image width={15} height={15} src={gift_icon} alt="" /></div>
 
                                             <h1>Earnings</h1>
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500">
                                             <div className=' flex justify-center'><Image width={15} height={15} src={gysr_logo} alt="" className='table-icon' /></div>
 
                                             <h1>GYSR Spent</h1>
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
                                             <div className='flex justify-center'><Image width={15} height={15} src={wallet_icon} alt="" className='table-icon' /></div>
 
                                             <h1>Account</h1>
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
+                                        <th scope="col" className="px-6 py-3 text-center text-[12px] lg:text-[15px] font-medium text-gray-500 ">
                                             <div className=' flex justify-center'><Image width={15} height={15} src={time_icon} alt="" /></div>
 
                                             <h1>Time</h1>
@@ -170,16 +170,16 @@ function ActivityTable() {
                                    {data ? paginatedData?.map((item, key) => {
                                        return <>
                                            <tr key={key} className='text-[#101010]'>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount,false)} UNI-V2</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-" : `${convertNumber(item?.earnings,true)} AIUS`}</td>
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount,false)} UNI-V2</td>
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-" : `${convertNumber(item?.earnings,true)} AIUS`}</td>
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
                                              
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
                                                <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.user.id)}</a></td>
                                                
                                                
-                                               <td class="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
+                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
                                            </tr> 
 
                                        </>

@@ -253,6 +253,9 @@ function Stake() {
         try {
             setShowPopUp("2")
             const claimed = await claimTokens(data?.unstake?.balanceFull, gysr, address)
+            console.log(claimed, "CLAIMED")
+            let wait = await claimed.wait();
+            console.log(wait, "waited")
             if (claimed) {
                 let _claimableRewards = data?.unstake?.rewards
                 setSuccessText(`You have successfully earned ${Number.isInteger(Number(_claimableRewards)) ? Number(_claimableRewards) : Number(_claimableRewards).toFixed(6)} AIUS`)
@@ -270,10 +273,19 @@ function Stake() {
     const handleUnstake = async (amount, gysr) => {
         try {
             setShowPopUp("2")
-            const unstaked = await unstakeTokens(amount, gysr, address)
+            let _claimableRewards = await getGysrMultiplier(amount * eth_wei, Number(gysr), address)
+            _claimableRewards = _claimableRewards[0] * _claimableRewards[1]
+            console.log(_claimableRewards, "UNSTAKE CLAIMABLE")
+            console.log(_claimableRewards / eth_wei)
+
+            const unstaked = await unstakeTokens(amount * eth_wei, gysr, address)
+            console.log(unstaked, "unstaked")
+            let rewardData = 0;
+
             if (unstaked) {
-                let _claimableRewards = data?.unstake.rewards
-                setSuccessText(`You have successfully unstaked ${Number.isInteger(Number(amount)) ? Number(amount) : Number(amount).toFixed(6)} UNI-V2 and earned ${Number.isInteger(Number(_claimableRewards)) ? Number(_claimableRewards) : Number(_claimableRewards).toFixed(6)} AIUS. `)
+                rewardData = unstaked?.events?.RewardsDistributed?.returnValues?.amount;
+
+                setSuccessText(`You have successfully unstaked ${Number.isInteger(Number(amount)) ? Number(amount) : Number(amount).toFixed(6)} UNI-V2 and earned ${(rewardData / eth_wei).toFixed(8)} AIUS. `)
                 setShowPopUp("Success")
             } else {
                 setShowPopUp("Error")
@@ -474,7 +486,7 @@ function Stake() {
                                             <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden">
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                             </h1>
-                                            <h1 className={convertNumber(data?.unstake.rewardsFull).toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
+                                            <h1 className={data?.unstake?.rewardsFull?.toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
                                                 {data?.unstake.rewardsFull ? data?.unstake.rewardsFull : 0.00}&nbsp;
                                             </h1>
                                         </div>

@@ -26,13 +26,14 @@ export const unstakeTokens = async (amount, rewards, connected_address) => {
                         let getRewards
 
                         if(rewards){
-                                getRewards = convertGYSRToBytes32(rewards)
+                                getRewards = convertGYSRToBytes32(rewards).toString()
                         }
                         else{
                                 getRewards = []
                         }
-                        const res = await pool.methods.unstake(Web3.utils.toWei(amount, 'ether'), [], getRewards.toString()).send({ from: account });
-                        return true
+                        console.log(getRewards, "THESE getRewards")
+                        const res = await pool.methods.unstake(amount.toString(), [], getRewards).send({ from: account });
+                        return res
                 }
                 catch(err){
                         console.log(err)
