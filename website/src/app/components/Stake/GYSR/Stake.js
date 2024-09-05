@@ -485,12 +485,14 @@ function Stake() {
                                         <div className="group flex align-bottom">
                                             <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden">
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
+                                                <span className="text-[12px] xl:text-[14px] ">AIUS</span>
                                             </h1>
                                             <h1 className={data?.unstake?.rewardsFull?.toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
                                                 {data?.unstake.rewardsFull ? data?.unstake.rewardsFull : 0.00}&nbsp;
+                                                <span className={data?.unstake?.rewardsFull?.toString().length > 10 ?"text-[10px] xl:text-[10px] " : "text-[12px] xl:text-[14px] "}>AIUS</span>
                                             </h1>
                                         </div>
-                                        <p className="text-[14px] xl:text-[16px] ">AIUS</p>
+                                        
                                         <HintBox
                                             content={"Your estimated rewards if you unstake now"}
                                             customStyle={{}}
@@ -515,8 +517,8 @@ function Stake() {
                                 <div >
 
                                     <div className='flex flex-row gap-1  '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{globalUnlockedValue}</h1>
-                                        <h1 className='text-[14px] self-end mb-1'>AIUS</h1>
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]" id='globalAIUS'>{globalUnlockedValue}  <span className='text-[14px] '>AIUS</span></h1>
+                                        
                                     </div>
                                     <h2 className="text-[15px] font-medium" id="globalUnlocked">Global Unlocked</h2>
                                     <HintBox
@@ -528,30 +530,57 @@ function Stake() {
                                         currentHoverId={currentHoverId}
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
+                                    <HintBox
+                                        content={"Total AIUS currently unlocked for entire pool. This number is important to keep an eye on for timing your unstakes."}
+                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        link={null}
+                                        boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
+                                        hoverId={"globalAIUS"}
+                                        currentHoverId={currentHoverId}
+                                        setCurrentHoverId={setCurrentHoverId}
+                                    />
                                 </div>
                                 <div className='h-[60px] w-[1px] bg-[#5E40FD1A] '>
 
                                 </div>
-                                <div >
+                                <div id='mult'>
 
-                                    <div className='flex flex-row gap-1 text-[#101010] '>
+                                    <div className='flex flex-row gap-1 text-[#101010] ' >
                                         <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? timeMultiplier : "-"}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>{userStaked ? "X" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time mult.</h2>
+                                    <HintBox
+                                        content={"The multiplier on your stake will increase from 1.00x to 3.00x over 90 days."}
+                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        link={null}
+                                        boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
+                                        hoverId={"mult"}
+                                        currentHoverId={currentHoverId}
+                                        setCurrentHoverId={setCurrentHoverId}
+                                    />
 
                                 </div>
 
                                 <div className='h-[60px] w-[1px] bg-[#5E40FD1A] '>
 
                                 </div>
-                                <div >
+                                <div id='timeStaked' >
 
                                     <div className='flex flex-row gap-1 '>
                                         <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? daysStaked : "-"}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>{userStaked ? daysStaked == 1 ? " day" : " days" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time Staked</h2>
+                                    <HintBox
+                                        content={"Number of days you have been staked in this pool."}
+                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        link={null}
+                                        boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
+                                        hoverId={"timeStaked"}
+                                        currentHoverId={currentHoverId}
+                                        setCurrentHoverId={setCurrentHoverId}
+                                    />
 
                                 </div>
                             </div>
@@ -619,7 +648,7 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{formatNumber(gysrMultiplier * inputValue?.unstake)} AIUS</span></h1>
+                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{ data?.unstake.rewards ? convertNumber(formatNumber(gysrMultiplier * data?.unstake.rewards)) : 0 } <span className='text-[12px] lg:text-[7px] xl:text-[12px] 2xl:text-[14px]'>AIUS</span></span></h1>
                                     </div>
                                 </div>
 
