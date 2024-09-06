@@ -64,6 +64,7 @@ function Stake() {
     const [gysrBalance, setGYSRBalance] = useState(0);
     const [gysrAllowanceValue, setGYSRAllowanceValue] = useState(0);
     const [userStaked, setUserStaked] = useState(false);
+    const [calculatedRewards, setCalculatedRewards] = useState(0);
     const [inputValue, setInputValue] = useState({
         univ2: '',
         unstake: '',
@@ -175,12 +176,19 @@ function Stake() {
             const unstakeAmount = Number(inputValue.unstake)
             const gysrAmount = Number(inputValue.gysr)
             console.log(totalStaked, "TST")
-            if (unstakeAmount && gysrAmount) {
-                let gysrM = await getGysrMultiplier(unstakeAmount * eth_wei, gysrAmount * eth_wei, address)
+            if (unstakeAmount) {
+                console.log("COMING IN")
+                let gysrM = await getGysrMultiplier(unstakeAmount * eth_wei * 1000000, gysrAmount * eth_wei, address)
                 if (gysrM?.[2]) {
                     console.log(gysrM)
                     setGysrMultiplier(gysrM[2] / eth_wei)
                 }
+                if (gysrM?.[0]) {
+                    console.log(gysrM[0], "00000rew")
+                    setCalculatedRewards(gysrM[0] / eth_wei)
+                }
+            }else{
+                setCalculatedRewards(0)
             }
         }
         getMult()
@@ -273,19 +281,19 @@ function Stake() {
     const handleUnstake = async (amount, gysr) => {
         try {
             setShowPopUp("2")
-            let _claimableRewards = await getGysrMultiplier(amount * eth_wei, Number(gysr), address)
-            _claimableRewards = _claimableRewards[0] * _claimableRewards[1]
+            let _claimableRewards = await getGysrMultiplier(amount * eth_wei * 1000000, Number(gysr), address)
+            _claimableRewards = _claimableRewards[0]
             console.log(_claimableRewards, "UNSTAKE CLAIMABLE")
             console.log(_claimableRewards / eth_wei)
 
             const unstaked = await unstakeTokens(amount * eth_wei, gysr, address)
             console.log(unstaked, "unstaked")
-            let rewardData = 0;
+            //let rewardData = 0;
 
             if (unstaked) {
-                rewardData = unstaked?.events?.RewardsDistributed?.returnValues?.amount;
+                //rewardData = unstaked?.events?.RewardsDistributed?.returnValues?.amount;
 
-                setSuccessText(`You have successfully unstaked ${Number.isInteger(Number(amount)) ? Number(amount) : Number(amount).toFixed(6)} UNI-V2 and earned ${(rewardData / eth_wei).toFixed(8)} AIUS. `)
+                setSuccessText(`You have successfully unstaked ${Number.isInteger(Number(amount)) ? Number(amount) : Number(amount).toFixed(6)} UNI-V2 and earned ${(_claimableRewards / eth_wei).toFixed(8)} AIUS. `)
                 setShowPopUp("Success")
             } else {
                 setShowPopUp("Error")
@@ -648,7 +656,7 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{ data?.unstake.rewards ? convertNumber(formatNumber(gysrMultiplier * data?.unstake.rewards)) : 0 } <span className='text-[12px] lg:text-[7px] xl:text-[12px] 2xl:text-[14px]'>AIUS</span></span></h1>
+                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{ Number(calculatedRewards).toFixed(8) } <span className='text-[12px] lg:text-[7px] xl:text-[12px] 2xl:text-[14px]'>AIUS</span></span></h1>
                                     </div>
                                 </div>
 
