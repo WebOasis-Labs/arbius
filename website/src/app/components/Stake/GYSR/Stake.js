@@ -487,10 +487,10 @@ function Stake() {
                                 </div>
 
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
-                                    <div id="claimableRewards" className="flex justify-start items-baseline  h-[50px]">
+                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] group max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
+                                    <div id="claimableRewards" className="flex justify-start items-baseline  h-[50px] ">
 
-                                        <div className="group flex align-bottom">
+                                        <div className=" flex align-bottom">
                                             <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden">
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                                 <span className="text-[12px] xl:text-[14px] ">AIUS</span>
@@ -656,7 +656,7 @@ function Stake() {
                                         setCurrentHoverId={setCurrentHoverId}
                                     />
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] text-[12px] xl:text-[10px] 2xl:text-[14px] ">You&apos;ll Receive <span className='text-purple-text  text-[14px] lg:text-[8px] xl:text-[14px] 2xl:text-[16px] lato-bold'>{ Number(calculatedRewards).toFixed(8) } <span className='text-[12px] lg:text-[7px] xl:text-[12px] 2xl:text-[14px]'>AIUS</span></span></h1>
+                                        <h1 className="text-[#777777] text-[8px] md:text-[10px] xl:text-[10px] 2xl:text-[14px] whitespace-pre ">You&apos;ll Receive <span className='text-purple-text text-[8px] md:text-[14px] lg:text-[8px] xl:text-[11px] 2xl:text-[16px] lato-bold'>{ Number(calculatedRewards).toFixed(8) } <span className='text-[8px] md:text-[12px] lg:text-[7px] xl:text-[9px] 2xl:text-[14px]'>AIUS</span></span></h1>
                                     </div>
                                 </div>
 
