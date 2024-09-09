@@ -34,7 +34,7 @@ const HintBox = ({ content, customStyle, link, boxStyle, hoverId, currentHoverId
       <div
         className={`absolute left-1/2 transform -translate-x-1/2  shadow-stats p-3 rounded-lg bg-white-background text-black-text  transition-opacity duration-300 ${isHovered ? 'opacity-100 block' : 'opacity-0 hidden'}`}
         ref={editRef}
-        style={{ width: boxStyle?.width, bottom: '500%', marginBottom: customStyle.marginBottom ? customStyle.marginBottom : '60px', zIndex: boxStyle?.zIndex }}
+        style={{ width: boxStyle?.width, bottom: '500%', marginLeft:customStyle?.marginLeft ? customStyle.marginLeft : '0', marginBottom: customStyle.marginBottom ? customStyle.marginBottom : '60px', zIndex: boxStyle?.zIndex }}
         onMouseEnter={() => setCurrentHoverId(hoverId)}
         onMouseLeave={() => setCurrentHoverId(null)}
       >

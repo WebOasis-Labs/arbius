@@ -1,9 +1,9 @@
 import React from 'react'
 import { useEffect } from 'react';
 import Image from 'next/image';
-import gysr from "@/app/assets/images/gysr_logo_without_name.png";
-import unilogo from "@/app/assets/images/unilogo.png"
-import arbiuslogorounded from "@/app/assets/images/arbiuslogo_rounded.png"
+import gysr from "@/app/assets/images/gysr-logo.png";
+import unilogo from "@/app/assets/images/uniswap-logo.png"
+import arbiuslogorounded from "@/app/assets/images/arbius-logo.png"
 import gysrlogorounded from "@/app/assets/images/gysrlogo_rounded.png"
 import GradientCrad from "@/app/components/Stake/GYSR/GradientCrad";
 import Link from "next/link"

@@ -65,6 +65,8 @@ function Stake() {
     const [gysrAllowanceValue, setGYSRAllowanceValue] = useState(0);
     const [userStaked, setUserStaked] = useState(false);
     const [calculatedRewards, setCalculatedRewards] = useState(0);
+    const [realTimeClaimableRewards, setRealTimeClaimableRewards] = useState(0);
+
     const [inputValue, setInputValue] = useState({
         univ2: '',
         unstake: '',
@@ -85,6 +87,8 @@ function Stake() {
     });
 
     const [error, setError] = useState(null);
+
+
 
     useEffect(() => {
         const getData = async () => {
@@ -131,7 +135,7 @@ function Stake() {
                 setGYSRAllowanceValue(data7)
             }
             if (data8) {
-                if(data8?.[1]){
+                if (data8?.[1]) {
                     setTimeMultiplier((data8[1] / eth_wei).toFixed(2))
                 }
             }
@@ -143,6 +147,8 @@ function Stake() {
                     rewardsFull: rewardWithFixed
                 }
             })
+
+            setRealTimeClaimableRewards(rewardWithFixed)
 
             /*const tMultiplier = calculateBonusMultiplier(data5, data1_1)
             if (tMultiplier) {
@@ -187,7 +193,7 @@ function Stake() {
                     console.log(gysrM[0], "00000rew")
                     setCalculatedRewards(gysrM[0] / eth_wei)
                 }
-            }else{
+            } else {
                 setCalculatedRewards(0)
             }
         }
@@ -358,6 +364,47 @@ function Stake() {
     }
 
 
+const [realtimeInterval, setRealtimeInterval] = useState(null);
+
+const handleRealtimeClaimableRewards = async (mouseOver) => {
+    if (address === null || data?.unstake?.rewardsFull === null || data?.unstake?.rewardsFull === undefined || data?.unstake?.rewardsFull === 0) {
+        return;
+    }
+
+    console.log({ mouseOver });
+
+    if (!mouseOver) {
+        console.log("realtime stopped");
+        console.log("realtime",{ realtimeInterval });
+        
+        clearInterval(realtimeInterval);
+        // interval = null; 
+        setRealtimeInterval(null);
+    } else {
+        console.log("realtime started");
+
+        
+        if (realtimeInterval) {
+            clearInterval(realtimeInterval);
+        }
+
+        let _realTimeRewards = await claimableRewards(address);
+    
+        _realTimeRewards = Number(_realTimeRewards).toFixed(5);
+        // _realTimeRewards = 0.0000004;
+
+        setRealTimeClaimableRewards(_realTimeRewards.toFixed(10));
+
+        let _interval = setInterval(() => {
+            console.log("realtime interval");
+            
+            _realTimeRewards = Number(_realTimeRewards) + 0.0000000001;
+            setRealTimeClaimableRewards(_realTimeRewards.toFixed(10));
+            console.log({ _realTimeRewards });
+        }, 1000);
+        setRealtimeInterval(_interval);
+    }
+};
 
     return (
         <>
@@ -389,22 +436,25 @@ function Stake() {
                                 </div>
 
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
-                                    <div className="flex justify-start items-baseline" id="BonusPeriod">
+                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010] relative' id="BonusPeriod">
+                                    <div className="flex justify-start items-baseline" >
                                         <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">90</h1>
                                         <p className="text-para ml-2 text-black-text">Days</p>
                                     </div>
 
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text ">Bonus Period</h1>
-                                    <HintBox
-                                        content={"The multiplier on your stake will increase from 1.00x to 3.00x over 90 days"}
-                                        customStyle={{}}
-                                        link={null}
-                                        boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
-                                        hoverId={"BonusPeriod"}
-                                        currentHoverId={currentHoverId}
-                                        setCurrentHoverId={setCurrentHoverId}
-                                    />
+                                    <div className='flex justify-center w-[80%] absolute'>
+                                        <HintBox
+                                            content={"The multiplier on your stake will increase from 1.00x to 3.00x over 90 days"}
+                                            customStyle={{}}
+                                            link={null}
+                                            boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
+                                            hoverId={"BonusPeriod"}
+                                            currentHoverId={currentHoverId}
+                                            setCurrentHoverId={setCurrentHoverId}
+                                        />
+
+                                    </div>
                                 </div>
 
                             </div>
@@ -463,53 +513,67 @@ function Stake() {
 
                     </div>
 
-                    <div className="rounded-2xl p-6 lg:p-10 flex flex-col justify-between h-[auto] bg-white-background stake-card">
+                    <div className="rounded-2xl p-6 lg:p-10 flex flex-col justify-between h-[auto] bg-white-background stake-card" >
 
                         <div>
                             <h1 className="text-[15px] lg:text-[20px] text-[#4A28FF] font-medium">Unstake</h1>
                             <div className="flex justify-start items-end mt-6 mb-8 gap-6 text-[#101010]">
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' >
-                                    <div id="unstakeBalance" className="flex justify-start items-baseline h-[50px]">
+                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="unstakeBalance" >
+                                    <div className="flex justify-start items-baseline h-[50px] w-full relative">
                                         <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0.00}&nbsp;</h1>
                                         <p className="text-[14px] lg:text-[10px] xl:text-[12px] 2xl:text-[14px]  text-black-text  whitespace-nowrap">UNI-V2</p>
-                                        <HintBox
-                                            content={"Total UNI-V2 you have staked in this Pool"}
-                                            customStyle={{}}
-                                            link={null}
-                                            boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
-                                            hoverId={"unstakeBalance"}
-                                            currentHoverId={currentHoverId}
-                                            setCurrentHoverId={setCurrentHoverId}
-                                        />
+                                        <div className='flex justify-center w-full absolute'>
+                                            <HintBox
+                                                content={"Total UNI-V2 you have staked in this Pool"}
+                                                customStyle={{ marginBottom: "20px" }}
+                                                link={null}
+                                                boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
+                                                hoverId={"unstakeBalance"}
+                                                currentHoverId={currentHoverId}
+                                                setCurrentHoverId={setCurrentHoverId}
+                                            />
+
+                                        </div>
                                     </div>
                                     <h1 className="text-[10px] xl:text-[13px] font-medium">Staked</h1>
                                 </div>
 
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] group max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]'>
-                                    <div id="claimableRewards" className="flex justify-start items-baseline  h-[50px] ">
+                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px]  max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="claimableRewards">
+                                    <div className="flex justify-start items-baseline  h-[50px] w-full relative">
 
-                                        <div className=" flex align-bottom">
-                                            <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden">
+                                        <div className="h-[45px] min-w-[90px] group" onMouseEnter={()=>{
+                                            // setMouseOverClaimableRewards(true)
+                                            handleRealtimeClaimableRewards(true)
+                                        }} onMouseLeave={()=>{
+                                            // setMouseOverClaimableRewards(false)
+                                            console.log("mouse leave")
+                                            
+                                            handleRealtimeClaimableRewards(false)
+                                        }}>
+                                            <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden ">
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                                 <span className="text-[12px] xl:text-[14px] ">AIUS</span>
                                             </h1>
-                                            <h1 className={data?.unstake?.rewardsFull?.toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block"}>
-                                                {data?.unstake.rewardsFull ? data?.unstake.rewardsFull : 0.00}&nbsp;
-                                                <span className={data?.unstake?.rewardsFull?.toString().length > 10 ?"text-[10px] xl:text-[10px] " : "text-[12px] xl:text-[14px] "}>AIUS</span>
+                                            <h1 className={realTimeClaimableRewards?.toString().length > 10 ? "text-[12px] xl:text-[12px] font-medium text-purple-text hidden group-hover:block mt-4" : "text-[12px] xl:text-[24px] font-medium text-purple-text hidden group-hover:block mt-1"}>
+                                                {realTimeClaimableRewards ? realTimeClaimableRewards : 0.00}&nbsp;
+                                                {/* <span className={data?.unstake?.rewardsFull?.toString().length > 10 ?"text-[10px] xl:text-[10px] " : "text-[12px] xl:text-[14px] "}>AIUS</span> */}
                                             </h1>
                                         </div>
-                                        
-                                        <HintBox
-                                            content={"Your estimated rewards if you unstake now"}
-                                            customStyle={{}}
-                                            link={null}
-                                            boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
-                                            hoverId={"claimableRewards"}
-                                            currentHoverId={currentHoverId}
-                                            setCurrentHoverId={setCurrentHoverId}
-                                        />
+
+                                        <div className='flex justify-center w-full absolute'>
+                                            <HintBox
+                                                content={"Your estimated rewards if you unstake now"}
+                                                customStyle={{ marginBottom: "20px" }}
+                                                link={null}
+                                                boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
+                                                hoverId={"claimableRewards"}
+                                                currentHoverId={currentHoverId}
+                                                setCurrentHoverId={setCurrentHoverId}
+                                            />
+
+                                        </div>
                                     </div>
                                     <h1 className=" text-[#101010] text-[10px] xl:text-[13px] font-medium">Claimable Rewards</h1>
 
@@ -522,14 +586,14 @@ function Stake() {
                             <hr className="opacity-10" />
 
                             <div className="flex justify-center gap-[50px] lg:gap-[30px] xl:gap-[50px] mt-4 text-[#101010] ">
-                                <div >
+                                <div id='globalAIUS' className="h-[80px]" >
 
                                     <div className='flex flex-row gap-1  '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]" id='globalAIUS'>{globalUnlockedValue}  <span className='text-[14px] '>AIUS</span></h1>
-                                        
+                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]" id=''>{globalUnlockedValue}  <span className='text-[14px] '>AIUS</span></h1>
+
                                     </div>
-                                    <h2 className="text-[15px] font-medium" id="globalUnlocked">Global Unlocked</h2>
-                                    <HintBox
+                                    <h2 className="text-[15px] font-medium" id="">Global Unlocked</h2>
+                                    {/* <HintBox
                                         content={"Total AIUS currently unlocked for entire pool. This number is important to keep an eye on for timing your unstakes."}
                                         customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
                                         link={null}
@@ -537,10 +601,10 @@ function Stake() {
                                         hoverId={"globalUnlocked"}
                                         currentHoverId={currentHoverId}
                                         setCurrentHoverId={setCurrentHoverId}
-                                    />
+                                    /> */}
                                     <HintBox
                                         content={"Total AIUS currently unlocked for entire pool. This number is important to keep an eye on for timing your unstakes."}
-                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        customStyle={{ arrowLeft: "50%", 'marginBottom': '70px', 'marginLeft': "30px" }}
                                         link={null}
                                         boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
                                         hoverId={"globalAIUS"}
@@ -551,7 +615,7 @@ function Stake() {
                                 <div className='h-[60px] w-[1px] bg-[#5E40FD1A] '>
 
                                 </div>
-                                <div id='mult'>
+                                <div id='mult' className="h-[80px]">
 
                                     <div className='flex flex-row gap-1 text-[#101010] ' >
                                         <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? timeMultiplier : "-"}</h1>
@@ -560,7 +624,7 @@ function Stake() {
                                     <h2 className="text-[15px] font-medium">Time mult.</h2>
                                     <HintBox
                                         content={"The multiplier on your stake will increase from 1.00x to 3.00x over 90 days."}
-                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        customStyle={{ arrowLeft: "50%", 'marginBottom': '70px', 'marginLeft': "20px" }}
                                         link={null}
                                         boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
                                         hoverId={"mult"}
@@ -573,7 +637,7 @@ function Stake() {
                                 <div className='h-[60px] w-[1px] bg-[#5E40FD1A] '>
 
                                 </div>
-                                <div id='timeStaked' >
+                                <div id='timeStaked' className="h-[80px]" >
 
                                     <div className='flex flex-row gap-1 '>
                                         <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? daysStaked : "-"}</h1>
@@ -582,9 +646,9 @@ function Stake() {
                                     <h2 className="text-[15px] font-medium">Time Staked</h2>
                                     <HintBox
                                         content={"Number of days you have been staked in this pool."}
-                                        customStyle={{ 'arrowLeft': '50%', 'marginBottom': '' }}
+                                        customStyle={{ arrowLeft: "50%", 'marginBottom': '70px', 'marginLeft': "20px" }}
                                         link={null}
-                                        boxStyle={{ width: '200px', top: '0%', zIndex: 10 }}
+                                        boxStyle={{ width: '200px', top: '-10%', zIndex: 10 }}
                                         hoverId={"timeStaked"}
                                         currentHoverId={currentHoverId}
                                         setCurrentHoverId={setCurrentHoverId}
@@ -642,28 +706,29 @@ function Stake() {
                                 </div>
 
                                 <div id="multiplyQuotient">
-                                    <h1 className="text-[16px] lg:text-[10px] xl:text-[14px] font-semibold 2xl:text-[20px] whitespace-nowrap  text-[#000]">{gysrMultiplier.toFixed(2)} x</h1>
+                                    <h1 className="text-[18px] lg:text-[12px] xl:text-[16px] font-semibold 2xl:text-[22px] whitespace-nowrap  text-[#000]">{gysrMultiplier.toFixed(2)} x</h1>
                                 </div>
+                                <HintBox
+                                    content={"By spending GYSR you will multiply the number of share seconds that you have accrued"}
+                                    customStyle={{ arrowLeft: '35%' }}
+                                    link={null}
+                                    boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
+                                    hoverId={"multiplyQuotient"}
+                                    currentHoverId={currentHoverId}
+                                    setCurrentHoverId={setCurrentHoverId}
+                                />
                                 <div className='flex justify-center gap-1 items-center rounded-full p-4 px-2 py-3 xl:py-3 border-2 border-[#4A28FF] w-[40%]   xl:w-[38%]' id="">
 
-                                    <HintBox
-                                        content={"By spending GYSR you will multiply the number of share seconds that you have accrued"}
-                                        customStyle={{ 'arrowLeft': '35%' }}
-                                        link={null}
-                                        boxStyle={{ width: '200px', top: '50%', zIndex: 10 }}
-                                        hoverId={"multiplyQuotient"}
-                                        currentHoverId={currentHoverId}
-                                        setCurrentHoverId={setCurrentHoverId}
-                                    />
+
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] text-[8px] md:text-[10px] xl:text-[10px] 2xl:text-[14px] whitespace-pre ">You&apos;ll Receive <span className='text-purple-text text-[8px] md:text-[14px] lg:text-[8px] xl:text-[11px] 2xl:text-[16px] lato-bold'>{ Number(calculatedRewards).toFixed(8) } <span className='text-[8px] md:text-[12px] lg:text-[7px] xl:text-[9px] 2xl:text-[14px]'>AIUS</span></span></h1>
+                                        <h1 className="text-[#777777] text-[10px] md:text-[12px] xl:text-[14px] 2xl:text-[16px] whitespace-pre "><span className='block text-center'>You&apos;ll Receive</span> <span className='text-purple-text text-[10px] md:text-[16px] lg:text-[10px] xl:text-[15px] 2xl:text-[18px] lato-bold'>{Number(calculatedRewards).toFixed(5)} <span className='text-[10px] md:text-[14px] lg:text-[9px] xl:text-[13px] 2xl:text-[16px]'>AIUS</span></span></h1>
                                     </div>
                                 </div>
 
 
 
                             </div>
-                            <div className="flex justify-start items-center mt-4 opacity-40 text-[12px] text-original-black ">
+                            <div className="flex justify-start items-center mt-0 opacity-40 text-[12px] text-original-black ">
                                 <span className='font-Geist-SemiBold '>Available GYSR:&nbsp;</span>{gysrBalance.toFixed(2)}
                             </div>
 
