@@ -389,17 +389,17 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
         }
 
         let _realTimeRewards = await claimableRewards(address);
-    
-        _realTimeRewards = Number(_realTimeRewards).toFixed(5);
+        console.log(_realTimeRewards)
+        //_realTimeRewards = Number(_realTimeRewards).toFixed(5);
         // _realTimeRewards = 0.0000004;
-
-        setRealTimeClaimableRewards(_realTimeRewards.toFixed(10));
+        console.log(_realTimeRewards)
+        setRealTimeClaimableRewards(_realTimeRewards);
 
         let _interval = setInterval(() => {
             console.log("realtime interval");
             
             _realTimeRewards = Number(_realTimeRewards) + 0.0000000001;
-            setRealTimeClaimableRewards(_realTimeRewards.toFixed(10));
+            setRealTimeClaimableRewards(_realTimeRewards);
             console.log({ _realTimeRewards });
         }, 1000);
         setRealtimeInterval(_interval);

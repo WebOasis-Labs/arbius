@@ -34,7 +34,7 @@ export const getGysrMultiplier = async (amount, gysr, connected_address) => {
             account = padAddress(account)
             console.log(account, amount, gysr)
             // Call the unlocked function
-            const reward = await pool.methods.preview('0xA8f103eEcfb619358C35F98c9372B31c64d3f4A1', account, amount.toString(), gysr.toString()).call();
+            const reward = await pool.methods.preview('0xA8f103eEcfb619358C35F98c9372B31c64d3f4A1', account, BigInt(amount).toString(), gysr.toString()).call();
 
             return reward;
         } catch (error) {
