@@ -129,7 +129,7 @@ function Stats({data}) {
                         </div>
                         <div className="flex justify-start gap-[40px] mt-12 pb-8">
                             <div >
-                                <h1 className="text-[20px] lato-bold">{parseFloat((data?.pool.funded/1000-data?.pool.distributed/1000).toFixed(2))}k AIUS</h1>
+                                <h1 className="text-[20px] lato-bold">{/*parseFloat((data?.pool.funded/1000-data?.pool.distributed/1000).toFixed(2))*/}{parseFloat(data?.pool.rewards / 1000).toFixed(2)}k AIUS</h1>
                                 <h2 className="text-[14px] font-medium opacity-70">Remaining</h2>
                             </div>
                             <div >
