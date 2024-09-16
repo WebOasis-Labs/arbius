@@ -8,7 +8,7 @@ const tabs = [
     "Stake", "Stats", "Activity"
 ]
 const mobiletabs = [
-    "Stats", "Activity"
+    "Stake", "Stats", "Activity"
 ]
 function Tabs({data}) {
     const [selectedTab, setSelectedTab] = useState("Stake");
@@ -65,7 +65,7 @@ function Tabs({data}) {
 
                             return (
                                 <div className="w-[50%]" key={index}>
-                                    <button type="button" className={`${mobileSelectedTab === item ? "bg-buy-hover text-original-white" : "text-subtext-three"} rounded-full  flex items-center w-[100%] justify-center py-4 `} onClick={() => {
+                                    <button type="button" className={`${mobileSelectedTab === item ? "bg-buy-hover text-original-white" : "text-subtext-three"} rounded-full  flex items-center w-[100%] justify-center py-2 `} onClick={() => {
                                         setMobileSelectedTab(item)
                                         setSelectedTab(item)
                                     }}>

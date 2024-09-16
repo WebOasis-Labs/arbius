@@ -424,22 +424,22 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                     <div className="rounded-2xl p-6 lg:p-10 flex flex-col justify-between h-[auto] bg-white-background stake-card">
                         <div>
                             <h1 className="text-[15px] lg:text-[20px] font-medium text-[#4A28FF]">Stake</h1>
-                            <div className="flex justify-between items-end mt-6 gap-6">
+                            <div className="flex justify-between items-end mt-0 md:mt-6 gap-6">
 
-                                <div className="mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
+                                <div className="mt-6 w-1/2 shadow-none p-2 md:p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]">
                                     <div className="flex justify-start items-baseline">
-                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{walletBalance.totalUniv2 ? convertNumber(walletBalance.totalUniv2) : 0}</h1>
-                                        <p className="text-para ml-2 text-black-text ">UNI-V2</p>
+                                        <h1 className="text-[20px] lg:text-[25px] xl:text-[30px] font-medium text-purple-text">{walletBalance.totalUniv2 ? convertNumber(walletBalance.totalUniv2) : 0}</h1>
+                                        <p className="text-[12px] md:text-para ml-2 text-black-text ">UNI-V2</p>
                                     </div>
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text">Wallet Balance</h1>
 
                                 </div>
 
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010] relative' id="BonusPeriod">
+                                <div className='mt-6 w-1/2 shadow-none p-2 md:p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010] relative' id="BonusPeriod">
                                     <div className="flex justify-start items-baseline" >
-                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">90</h1>
-                                        <p className="text-para ml-2 text-black-text">Days</p>
+                                        <h1 className="text-[20px] lg:text-[25px] xl:text-[30px] font-medium text-purple-text">90</h1>
+                                        <p className="text-[12px] md:text-para ml-2 text-black-text">Days</p>
                                     </div>
 
                                     <h1 className="text-[8px] lg:text-[13px] font-medium text-black-text ">Bonus Period</h1>
@@ -468,7 +468,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                     <div className='w-[80%]'>
                                         <input
 
-                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
+                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background py-1 px-1 md:py-2 md:px-2'
                                             placeholder="Amount of UNI-V2 to stake"
                                             value={inputValue.univ2}
                                             type='number'
@@ -487,7 +487,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
 
                         <div className="flex justify-end items-center gap-4 mt-4 md:mb-0 text-[#101010]">
                             {allowance > Number(inputValue.univ2) ? null
-                                : <button type="button" className="relative group bg-black-background py-2  px-8 rounded-full flex items-center  gap-3"
+                                : <button type="button" className="relative group bg-black-background py-2 px-2 md:px-8 rounded-full flex items-center gap-0 md:gap-3"
                                     id={"approveUniV2"}
                                     onClick={() => {
                                         handleApproveClick()
@@ -519,9 +519,9 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                             <h1 className="text-[15px] lg:text-[20px] text-[#4A28FF] font-medium">Unstake</h1>
                             <div className="flex justify-start items-end mt-6 mb-8 gap-6 text-[#101010]">
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="unstakeBalance" >
+                                <div className='mt-6 w-1/2 shadow-none p-2 md:p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="unstakeBalance" >
                                     <div className="flex justify-start items-baseline h-[50px] w-full relative">
-                                        <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0.00}&nbsp;</h1>
+                                        <h1 className="text-[20px] lg:text-[25px] xl:text-[30px] font-medium text-purple-text">{data?.unstake?.balance ? convertNumber(data?.unstake?.balance) : 0}&nbsp;</h1>
                                         <p className="text-[14px] lg:text-[10px] xl:text-[12px] 2xl:text-[14px]  text-black-text  whitespace-nowrap">UNI-V2</p>
                                         <div className='flex justify-center w-full absolute'>
                                             <HintBox
@@ -540,7 +540,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                 </div>
 
 
-                                <div className='mt-6 w-1/2 shadow-none p-6 py-4 rounded-[10px]  max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="claimableRewards">
+                                <div className='mt-6 w-1/2 shadow-none p-2 md:p-6 py-4 rounded-[10px]  max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF] flex flex-col justify-center text-[#101010]' id="claimableRewards">
                                     <div className="flex justify-start items-baseline  h-[50px] w-full relative">
 
                                         <div className="h-[45px] min-w-[90px] group" onMouseEnter={()=>{
@@ -552,7 +552,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                             
                                             handleRealtimeClaimableRewards(false)
                                         }}>
-                                            <h1 className="text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden ">
+                                            <h1 className="text-[20px] lg:text-[25px] xl:text-[30px] font-medium text-purple-text group-hover:hidden ">
                                                 {data?.unstake.rewards ? convertNumber(data?.unstake.rewards) : 0}&nbsp;
                                                 <span className="text-[12px] xl:text-[14px] ">AIUS</span>
                                             </h1>
@@ -585,11 +585,11 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
 
                             <hr className="opacity-10" />
 
-                            <div className="flex justify-center gap-[50px] lg:gap-[30px] xl:gap-[50px] mt-4 text-[#101010] ">
+                            <div className="flex justify-center gap-[10px] md:gap-[50px] lg:gap-[30px] xl:gap-[50px] mt-4 text-[#101010] ">
                                 <div id='globalAIUS' className="h-[80px]" >
 
                                     <div className='flex flex-row gap-1  '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]" id=''>{globalUnlockedValue}  <span className='text-[14px] '>AIUS</span></h1>
+                                        <h1 className="text-[20px] lg:text-[25px] lato-bold text-[#4A28FF]" id=''>{globalUnlockedValue}  <span className='text-[14px] '>AIUS</span></h1>
 
                                     </div>
                                     <h2 className="text-[15px] font-medium" id="">Global Unlocked</h2>
@@ -618,7 +618,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                 <div id='mult' className="h-[80px]">
 
                                     <div className='flex flex-row gap-1 text-[#101010] ' >
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? timeMultiplier : "-"}</h1>
+                                        <h1 className="text-[20px] lg:text-[25px] lato-bold text-[#4A28FF]">{userStaked ? timeMultiplier : "-"}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>{userStaked ? "X" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time mult.</h2>
@@ -640,7 +640,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                 <div id='timeStaked' className="h-[80px]" >
 
                                     <div className='flex flex-row gap-1 '>
-                                        <h1 className="text-[25px] lato-bold text-[#4A28FF]">{userStaked ? daysStaked : "-"}</h1>
+                                        <h1 className="text-[20px] lg:text-[25px] lato-bold text-[#4A28FF]">{userStaked ? daysStaked : "-"}</h1>
                                         <h1 className='text-[14px] self-end mb-1'>{userStaked ? daysStaked == 1 ? " day" : " days" : null}</h1>
                                     </div>
                                     <h2 className="text-[15px] font-medium">Time Staked</h2>
@@ -665,7 +665,7 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                 <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[75%] focus:outline-none bg-original-white flex flex-row justify-between">
                                     <div className='w-[80%]'>
                                         <input
-                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
+                                            className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background py-1 px-1 md:py-2 md:px-2'
                                             placeholder="Amount of UNI-V2 to unstake"
                                             value={inputValue.unstake}
                                             type='number'
@@ -679,18 +679,18 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2 lg:gap-1 xl:gap-2 text-[#101010] mt-6">
-                                <div className="w-[50%]  flex justify-between items-end gap-0">
+                            <div className="flex flex-wrap md:flex-nowrap justify-start items-center gap-2 lg:gap-1 xl:gap-2 text-[#101010] mt-6">
+                                <div className="w-[75%] md:w-[50%]  flex justify-start items-end gap-0">
                                     <div className="rounded-[25px]  flex justify-center w-[100%] ">
-                                        <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
+                                        <div className="p-2 lg:p-3 px-2  rounded-l-[25px] rounded-r-none  border-[1px] w-[33%] md:w-[60%] border-l-0 bg-[#E6DFFF] flex justify-center gap-1 lg:gap-1 items-center">
 
                                             <h1 className="text-[10px] lg:text-[14px] font-medium ">GYSR</h1>
 
                                         </div>
-                                        <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
+                                        <div className="p-1 lg:p-1 border-[1.5px] border-l-0 rounded-r-[25px] rounded-l-none w-[67%] md:w-[65%] focus:outline-none bg-original-white flex flex-row justify-between">
                                             <div className='w-[80%]'>
                                                 <input
-                                                    className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background'
+                                                    className='w-[100%] placeholder:text-sm outline-none border-0 bg-white-background py-1 px-1 md:py-2 md:px-2'
                                                     placeholder="0.00"
                                                     type='number'
                                                     value={inputValue.gysr}
@@ -717,24 +717,23 @@ const handleRealtimeClaimableRewards = async (mouseOver) => {
                                     currentHoverId={currentHoverId}
                                     setCurrentHoverId={setCurrentHoverId}
                                 />
-                                <div className='flex justify-center gap-1 items-center rounded-full p-4 px-2 py-3 xl:py-3 border-2 border-[#4A28FF] w-[40%]   xl:w-[38%]' id="">
 
-
+                                <div className='flex justify-center gap-1 items-center rounded-full p-4 px-2 py-3 xl:py-3 border-2 border-[#4A28FF] w-[40%] xl:w-[38%] basis-9/12 md:basis-[unset]' id="">
                                     <div className="text-[#101010] text-[8px] xl:text-[10px]">
-                                        <h1 className="text-[#777777] text-[10px] md:text-[12px] xl:text-[14px] 2xl:text-[16px] whitespace-pre "><span className='block text-center'>You&apos;ll Receive</span> <span className='text-purple-text text-[10px] md:text-[16px] lg:text-[10px] xl:text-[15px] 2xl:text-[18px] lato-bold'>{Number(calculatedRewards).toFixed(5)} <span className='text-[10px] md:text-[14px] lg:text-[9px] xl:text-[13px] 2xl:text-[16px]'>AIUS</span></span></h1>
+                                        <h1 className="text-[#777777] text-[10px] md:text-[12px] xl:text-[14px] 2xl:text-[16px] whitespace-pre text-center flex justify-center md:block"><span className='block text-center'>You&apos;ll Receive</span> <span className='text-purple-text text-[10px] ml-1 md:ml-0 md:text-[16px] lg:text-[10px] xl:text-[15px] 2xl:text-[18px] lato-bold'>{Number(calculatedRewards).toFixed(5)} <span className='text-[10px] md:text-[14px] lg:text-[9px] xl:text-[13px] 2xl:text-[16px]'>AIUS</span></span></h1>
                                     </div>
                                 </div>
 
 
 
                             </div>
-                            <div className="flex justify-start items-center mt-0 opacity-40 text-[12px] text-original-black ">
+                            <div className="flex justify-start items-center mt-2 md:mt-0 opacity-40 text-[12px] text-original-black ">
                                 <span className='font-Geist-SemiBold '>Available GYSR:&nbsp;</span>{gysrBalance.toFixed(2)}
                             </div>
 
                             <div className="flex justify-end items-center gap-4 mt-6">
                                 {(inputValue.gysr && gysrAllowance < inputValue.gysr) && data?.unstake.rewardsFull > 0 && data?.unstake.balance > 0 ?
-                                    <button type="button" className={`relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-3`}
+                                    <button type="button" className={`relative group bg-[#121212] py-2 px-8 rounded-full flex items-center gap-0 md:gap-3`}
                                         onClick={() => handleGYSRApprove()}>
                                         <div className="absolute w-[100%] h-[100%] left-0 z-0 py-2 px-8 rounded-full bg-buy-hover opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         <p className={`relative z-10 text-original-white text-[15px] mb-[1px]`}>Approve GYSR</p>
