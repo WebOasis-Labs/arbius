@@ -13,7 +13,7 @@ function TopHeaderSection({ data }) {
     const headerCardData = [
 
         {
-            heading: data ? parseFloat(data?.pool?.staked).toFixed(2) : "",
+            heading: data ? parseInt(data?.pool?.staked) : "",
             subheading: "UNI-V2",
             para: "Staked",
             logo: unilogo

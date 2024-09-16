@@ -3,7 +3,7 @@ import React from 'react'
 
 function GradientCrad({ heading, subheading, para, logo,data }) {
     return (
-        <div className='bg-buy-hover py-4 px-6 rounded-xl text-[#ffffff]'>
+        <div className='bg-buy-hover py-4 px-4 lg:px-6 rounded-xl text-[#ffffff]'>
             <div className='flex justify-start items-baseline'>
 
                 <h1 className='text-[20px] lg:text-[25px] font-medium'>{heading}</h1>
