@@ -42,27 +42,27 @@ function Stats({data}) {
     }
     const dataConst = [
         {
-            time: epochToDate(data.pool.createdTimestamp),
+            time: epochToDate(data?.pool.createdTimestamp),
             message: "Pool Created"
         },
         {
-            time: epochToDate(data.pool.fundings[0].start),
+            time: epochToDate(data?.pool.fundings[0].start),
             message: "Funding 1 starts"
         },
         {
-            time: epochToDate(data.pool.fundings[0].end),
+            time: epochToDate(data?.pool.fundings[0].end),
             message: "Funding 1 ends"
         },
         {
-            time: epochToDate(data.pool.fundings[1].start),
+            time: epochToDate(data?.pool.fundings[1].start),
             message: "Funding 2 starts"
         },
         {
-            time: epochToDate(data.pool.fundings[1].end),
+            time: epochToDate(data?.pool.fundings[1].end),
             message: "Funding 1 ends"
         },
         {
-            time: epochToDate(data.pool.end),
+            time: epochToDate(data?.pool.end),
             message: "Pool ends"
         },
     ]
@@ -77,7 +77,7 @@ function Stats({data}) {
                     </div>
                     <div className="mt-6 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF]" id="totalStaked">
                         <div className="flex justify-start items-baseline" >
-                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{parseFloat(data.pool.staked).toFixed(2) }</h1>
+                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{parseFloat(data?.pool.staked).toFixed(2) }</h1>
                             <p className="text-para ml-2 lato-bold">Uni-V2</p>
                             <HintBox
                                 content={"Total UNI-V2 staked in this Geyser"}
@@ -97,7 +97,7 @@ function Stats({data}) {
                     <hr className="opacity-100 mt-6" />
                     <div className="flex justify-start gap-[40px] mt-4">
                         <div >
-                            <h1 className="text-[24px] text-purple-text">${parseFloat(data.pool.tvl/1000000).toFixed(2) }M</h1>
+                            <h1 className="text-[24px] text-purple-text">${parseFloat(data?.pool.tvl/1000000).toFixed(2) }M</h1>
                             <h2 className="text-[18px] font-medium" onClick={()=>claimRwards()}>Value Locked</h2>
                         </div>
                         <div >
@@ -112,7 +112,7 @@ function Stats({data}) {
                     </div>
                     <div className="mt-6 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all  bg-[#F9F6FF]" id="totalStaked">
                         <div className="flex justify-start items-baseline">
-                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{parseFloat(data.pool.apr).toFixed(2)}%</h1>
+                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text">{parseFloat(data?.pool.apr).toFixed(2)}%</h1>
                         </div>
                         <h1 className="text-[8px] xl:text-[13px] font-medium uppercase">apr</h1>
                     </div>
@@ -129,11 +129,11 @@ function Stats({data}) {
                         </div>
                         <div className="flex justify-start gap-[40px] mt-12 pb-8">
                             <div >
-                                <h1 className="text-[20px] lato-bold">{parseFloat((data.pool.funded/1000-data.pool.distributed/1000).toFixed(2))}k AIUS</h1>
+                                <h1 className="text-[20px] lato-bold">{parseFloat((data?.pool.funded/1000-data?.pool.distributed/1000).toFixed(2))}k AIUS</h1>
                                 <h2 className="text-[14px] font-medium opacity-70">Remaining</h2>
                             </div>
                             <div >
-                                <h1 className="text-[20px] lato-bold">{parseFloat(data.pool.distributed/1000).toFixed(2)}k AIUS</h1>
+                                <h1 className="text-[20px] lato-bold">{parseFloat(data?.pool.distributed/1000).toFixed(2)}k AIUS</h1>
                                 <h2 className="text-[14px] font-medium opacity-70">Distributed</h2>
                             </div>
                         </div>
@@ -148,7 +148,7 @@ function Stats({data}) {
 
                     <div className="mt-6 shadow-none p-6 py-4 rounded-[10px] max-h-[150px] transition-all hover:shadow-stats hover:cursor-pointer bg-[#F9F6FF]" id="remaningDyays">
                         <div className="flex justify-start items-baseline">
-                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text" > {daysBetweenCurrentAndPassedDate(epochToDate(data.pool.end))}&nbsp;</h1>
+                            <h1 className="text-[25px] xl:text-[38px] font-medium text-purple-text" > {daysBetweenCurrentAndPassedDate(epochToDate(data?.pool.end))}&nbsp;</h1>
                             <HintBox
                                 content={"remaining days total in number"}
                                 customStyle={{}}

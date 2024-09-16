@@ -27,6 +27,7 @@ const Middleware = () => {
             await window.ethereum.request({ method: 'eth_requestAccounts' });
           }
         } catch (error) {
+          console.log(error, " while fetching data")
           // setError(error);
         }
       };
