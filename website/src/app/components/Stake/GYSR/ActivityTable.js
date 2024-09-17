@@ -227,7 +227,7 @@ function ActivityTable({data}) {
 
 
             <div className='flex justify-end mt-6 text-[#101010]'>
-                <div className='bg-white-background flex gap-4 justify-center items-center p-3 rounded-md'>
+                <div className='bg-white-background flex flex-wrap gap-4 justify-center items-center p-3 rounded-md'>
                     <button className='p-1 rotate-180 w-[50px]'onClick={()=>handleClickPrev()}>
                         <Image src={arrow_icon} width={20} height={20} alt="" />
                     </button>
