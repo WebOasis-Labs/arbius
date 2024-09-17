@@ -12,18 +12,20 @@ import Loader from '../../Loader/loader'
 import { getUserTransactions } from '../../../Utils/getUserActivity'
 
 
-
-function ActivityTable() {
-    const [data, setData] = useState(null);
+function ActivityTable({data}) {
+    const [paginatedData, setData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 20;
+    const itemsPerPage = 10;
+    const totalPages = data?.pool?.operations ? Math.ceil(data?.pool.operations / 10) : 0;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedData = await getUserTransactions()
-                 console.log(fetchedData,"transactions")
+                const fetchedData = await getUserTransactions(itemsPerPage, (currentPage-1)*10)
+                console.log(fetchedData,"transactions")
+                //const paginatedData = data?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
                 setData(fetchedData);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
                 // Handle error as needed
@@ -34,7 +36,7 @@ function ActivityTable() {
     }, [currentPage]);
 
     const handleClickNext = () => {
-        if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -48,7 +50,7 @@ function ActivityTable() {
     const handleClickTab = (pageNum) => {
         setCurrentPage(pageNum);
     };
-    const paginatedData = data?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
     function timeSince(timestamp) {
         const now = Date.now(); // Current time in milliseconds since epoch
         timestamp = Number(timestamp);
@@ -97,30 +99,56 @@ function ActivityTable() {
         var end = address.substring(address.length - 4, address.length); // Change the numbers to adjust the length of the end part you want to keep
         return start + "..." + end;
     }
- // Output: e.g., "2 days ago", "1 hour ago", "5 minutes ago", etc.
- function convertNumber(num , convertLarg) {
-    num = parseFloat(num);
-    
-    if (num === 0) {
-        return "0.00";
+    // Output: e.g., "2 days ago", "1 hour ago", "5 minutes ago", etc.
+    function convertNumber(num , convertLarg) {
+        num = parseFloat(num);
+        
+        if (num === 0) {
+            return "0.00";
+        }
+        
+        if (num < 0.001 && convertLarg) {
+            // Use toExponential to get the scientific notation with 2 significant figures
+            return num.toExponential(2);
+        }
+        else if(num < 0.001){
+            return Number(num.toFixed(8));
+        }
+         else {
+            return Math.round(num * 10) / 10;
+        }
     }
-    
-    if (num < 0.001 && convertLarg) {
-        // Use toExponential to get the scientific notation with 2 significant figures
-        return num.toExponential(2);
-    }
-    else if(num < 0.001){
-        return Number(num.toFixed(8));
-    }
-     else {
-        return Math.round(num * 10) / 10;
-    }
-}
 
 
+    const getPageNumbers = () => {
+        const pages = [];
+        const addPage = (page) => pages.push({ page, key: `page_${page}` });
+        const addEllipsis = () => pages.push({ page: '...', key: `ellipsis_${pages.length}` });
 
+        addPage(1);
 
+        if (currentPage <= 4) {
+            for (let i = 2; i <= Math.min(5, totalPages - 1); i++) {
+                addPage(i);
+            }
+            if (totalPages > 6) addEllipsis();
+        } else if (currentPage >= totalPages - 3) {
+            if (totalPages > 6) addEllipsis();
+            for (let i = totalPages - 4; i < totalPages; i++) {
+                addPage(i);
+            }
+        } else {
+            addEllipsis();
+            for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+                addPage(i);
+            }
+            addEllipsis();
+        }
 
+        if (totalPages > 1) addPage(totalPages);
+
+        return pages;
+    };
 
     
     return (
@@ -130,7 +158,7 @@ function ActivityTable() {
                     <div className="p-1.5 min-w-full inline-block align-middle">
                         <div className="overflow-hidden">
                         {
-                            data ?
+                            paginatedData ?
                             <table className="min-w-full ">
                                 <thead>
                                     <tr>
@@ -166,34 +194,29 @@ function ActivityTable() {
                                         </th>
                                     </tr>
                                 </thead>
-                                 <tbody className="text-[#101010]">
-                                   {data ? paginatedData?.map((item, key) => {
+                                <tbody className="text-[#101010]">
+                                    {
+                                    paginatedData ? paginatedData?.map((item, key) => {
                                        return <>
-                                           <tr key={key} className='text-[#101010]'>
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount,false)} UNI-V2</td>
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-" : `${convertNumber(item?.earnings,true)} AIUS`}</td>
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
-                                             
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
-                                               <a target="_blank" href={`https://etherscan.io/tx/${item.blockHash}`}>{cropAddress(item?.user.id)}</a></td>
-                                               
-                                               
-                                               <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
-                                           </tr> 
-
-                                       </>
-                                   }):null}
+                                            <tr key={key} className='text-[#101010]'>
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] font-medium ">{item?.type}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{convertNumber(item?.amount,false)} UNI-V2</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-" : `${convertNumber(item?.earnings,true)} AIUS`}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{item?.type == "Stake" ?"-": `${convertNumber(item?.gysrSpent)} GYSR`}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">
+                                                    <a target="_blank" href={`https://etherscan.io/address/${item?.user.id}`}>{cropAddress(item?.user.id)}</a>
+                                                </td>                                               
+                                                <td className="px-6 py-4 whitespace-nowrap text-[#101010] text-center text-[12px] lg:text-[15px] ">{timeSince(item?.timestamp)}</td>
+                                            </tr> 
+                                        </>
+                                    }):null}
 
 
-                               </tbody>:<thread className='w-[100%] flex justify-center items-center'>
-                               
-                               </thread>
-                                
-                                
-                            </table>:
-                            <div className='w-[100%] flex justify-center'>
-                            <Loader/>
+                                </tbody>
+                                <thread className='w-[100%] flex justify-center items-center'></thread>
+                            </table>
+                            : <div className='w-[100%] flex justify-center'>
+                                <Loader/>
                             </div>
                             }
                         </div>
@@ -205,25 +228,43 @@ function ActivityTable() {
 
             <div className='flex justify-end mt-6 text-[#101010]'>
                 <div className='bg-white-background flex gap-4 justify-center items-center p-3 rounded-md'>
-                    <button className='p-1 rotate-180 'onClick={()=>handleClickPrev()}>
-
+                    <button className='p-1 rotate-180 w-[50px]'onClick={()=>handleClickPrev()}>
                         <Image src={arrow_icon} width={20} height={20} alt="" />
-
                     </button>
-
-                    <button className={`p-1 ${currentPage ===1 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(1)}>1</button>
+                    {/*
+                        Array(totalPages).fill(null).map((item, key) => {
+                            return <button className={`p-1 ${currentPage === (key + 1) && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(key+1)}>{key+1}</button>
+                        })
+                    */}
+                    {/*getPageNumbers().map((pageNumber, index) => (
+                        <React.Fragment key={index}>
+                        {
+                            typeof pageNumber === 'number' ? (
+                                <button className={`p-1 ${currentPage === (index + 1) && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(index+1)}>{index+1}</button>
+                            )
+                            : pageNumber
+                        }
+                        </React.Fragment>
+                    ))}
+                    {currentPage*/}
+                    {getPageNumbers().map(({ page, key }) => (
+                        <button key={key} onClick={() => page !== '...' && handleClickTab(page)} className={`px-3 py-1 rounded-md
+                        ${ currentPage === page ? 'text-purple-text font-bold'
+                            : page === '...' ? 'cursor-default' : 'hover:bg-purple-background hover:text-original-white'
+                        }`}
+                        disabled={page === '...'}>
+                        {page}
+                        </button>
+                    ))}
+                    {/*<button className={`p-1 ${currentPage ===1 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(1)}>1</button>
                     <button className={`p-1 ${currentPage ===2 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(2)}>2</button>
                     <button className={`p-1 ${currentPage ===3 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(3)}>3</button>
                     <button className={`p-1 ${currentPage ===4 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(4)}>4</button>
                     <button className={`p-1 ${currentPage ===5 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(5)}>5</button>
                     <button className={`p-1 ${currentPage ===6 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(6)}>6</button>
-                    <button className={`p-1 ${currentPage ===7 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(7)}>7</button>
-
-
-                    <button className='p-1' onClick={()=>handleClickNext()}>
-
+                    <button className={`p-1 ${currentPage ===7 && 'text-purple-text font-bold'}`} onClick={()=>handleClickTab(7)}>7</button>*/}
+                    <button className='p-1 w-[50px]' onClick={()=>handleClickNext()}>
                         <Image src={arrow_icon} width={20} height={20} alt="" />
-
                     </button>
                 </div>
 

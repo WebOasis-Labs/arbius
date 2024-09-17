@@ -84,7 +84,7 @@ function Tabs({data}) {
                 )}
                 {selectedTab === "Activity" && (
                     <div className="w-mobile-section-width lg:w-section-width m-[auto] pt-8 pb-16 max-w-center-width ">
-                        <ActivityTable />
+                        <ActivityTable data={data} />
                     </div>
                 )}
             </div>
