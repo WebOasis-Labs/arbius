@@ -285,9 +285,9 @@ export default function Stake({ selectedtab, setSelectedTab, data, isLoading, is
 
     const handleStake = async()=>{
         //console.log({stakeData});
-        console.log(amount, allowance, "ALLOWANCE AND AMOUNT before staking");
+        console.log(amount * AIUS_wei, allowance, "ALLOWANCE AND AMOUNT before staking");
 
-        if(amount > allowance || allowance === 0){
+        if( ((amount * AIUS_wei) > allowance) || allowance === 0){
             /*if(amount && (duration.months || duration.weeks)){
                 setShowPopUp(1)
                 approveWrite?.()
