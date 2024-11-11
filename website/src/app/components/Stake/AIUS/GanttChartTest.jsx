@@ -10,11 +10,11 @@ import { useAccount, useContractRead, useContractReads } from 'wagmi';
 
 import { getTokenIDs, getTotalEscrowBalance, init } from '../../../Utils/gantChart/contractInteractions';
 const CustomGanttChart = ({ allStakingData }) => {
-    //   const tasks = [
-    //   { name: 'Task 1', startDate: '2024-09-01', endDate: '2025-03-15' },
-    //   { name: 'Task 2', startDate: '2024-09-02', endDate: '2024-09-25' },
-    //   { name: 'Task 3', startDate: '2024-09-03', endDate: '2024-10-05' },
-    // ];
+    //const tasks = [
+      //{ name: 'Task 1', startDate: '2024-09-01', endDate: '2025-03-15' },
+      //{ name: 'Task 2', startDate: '2024-09-02', endDate: '2024-09-25' },
+      //{ name: 'Task 3', startDate: '2024-09-03', endDate: '2024-10-05' },
+    //];
     const tasks = allStakingData?.allStakes ? allStakingData?.allStakes : [];
     const today = new Date();
     const earliestStart = new Date(Math.min(...tasks.map(task => new Date(task.startDate))));
@@ -67,9 +67,10 @@ const CustomGanttChart = ({ allStakingData }) => {
             return (
                 <div key={month.toISOString()} className="month-marker" style={{ left: `${(position / totalDays) * 100}%`, width: `${width}%`, color: "#4A28FF" }}>
                     {/*month.toLocaleString('default', { month: 'short', year: 'numeric' })*/}
-                    { months.length < 5 || index % 4 === 0 ?
-                        new Intl.DateTimeFormat('en', { year: '2-digit', month: 'short' }).format(month)
-                        : ""
+                    { months.length < 5 || index % 3 === 0 ?
+                        index == months.length - 1 ? ""
+                        : new Intl.DateTimeFormat('en', { year: '2-digit', month: 'short' }).format(month)
+                    : ""
                     }
                 </div>
             );
@@ -166,7 +167,7 @@ const CustomGanttChart = ({ allStakingData }) => {
                     {tasks.map((task, index) => {
                         const { elapsed, remaining } = getElapsedAndRemainingPercentages(task.startDate, task.endDate);
                         return (
-                            <div key={index} className="task-row">
+                            <div key={index} className={`task-row ${tasks?.length == 1 ? "mb-[80px]" : "mb-[20px]"}`}>
                                 <div className="task-info">
                                     {/* <span className="task-name">{task.name}</span>
                                     <span className="task-dates">
@@ -222,7 +223,6 @@ const CustomGanttChart = ({ allStakingData }) => {
         }
         .task-row {
           display: flex;
-          margin-bottom: 20px;
           align-items: center;
         }
         .task-info {

@@ -9,7 +9,7 @@ import { relative } from "path"
 import { BigNumber } from "ethers"
 import { getAIUSVotingPower } from "../../../Utils/getAIUSVotingPower"
 import { getAPR } from "../../../Utils/getAPR"
-import { useContractRead , useAccount, useContractWrite, usePrepareContractWrite, useContractReads, useWaitForTransaction} from 'wagmi'
+import { useContractRead, useAccount, useNetwork, useContractWrite, usePrepareContractWrite, useContractReads, useWaitForTransaction} from 'wagmi'
 // import config from "../../../../sepolia_config.json"
 import votingEscrow from "../../../abis/votingEscrow.json"
 import veStaking from "../../../abis/veStaking.json"
@@ -30,6 +30,7 @@ export default function Stake({ selectedtab, setSelectedTab, data, isLoading, is
 
     const [sliderValue, setSliderValue] = useState(0)
     const { address, isConnected } = useAccount()
+    const { chain, chains } = useNetwork()
     //const [totalEscrowBalance, setTotalEscrowBalance] = useState(0)
     const [veAiusBalance, setVeAIUSBalance] = useState(0)
     const [allowance, setAllowance] = useState(0)
@@ -230,6 +231,16 @@ export default function Stake({ selectedtab, setSelectedTab, data, isLoading, is
         const f = async() => {
 
             try {
+                if(localStorage.getItem("faucetCalled")){
+                    if(Array.isArray(JSON.parse(localStorage.getItem("faucetCalled"))) && JSON.parse(localStorage.getItem("faucetCalled")).includes(address)){
+                        setFaucetCalled(true);
+                    }else{
+                        setFaucetCalled(false);
+                    }
+                }else{
+                    setFaucetCalled(false)
+                }
+
                 const web3 = new Web3(window.ethereum);
                 const votingEscrowContract = new web3.eth.Contract(votingEscrow.abi, VOTING_ESCROW_ADDRESS);
                 const veStakingContract = new web3.eth.Contract(veStaking.abi, VE_STAKING_ADDRESS);
@@ -263,24 +274,26 @@ export default function Stake({ selectedtab, setSelectedTab, data, isLoading, is
                 const _checkAllowance = await baseTokenContract.methods.allowance(address, VOTING_ESCROW_ADDRESS).call()
                 setAllowance(_checkAllowance)
 
-                if(localStorage.getItem("faucetCalled")){
-                    if(Array.isArray(JSON.parse(localStorage.getItem("faucetCalled"))) && JSON.parse(localStorage.getItem("faucetCalled")).includes(address)){
-                        setFaucetCalled(true);
-                    }else{
-                        setFaucetCalled(false);
-                    }
-                }else{
-                    setFaucetCalled(false)
-                }
-
             }catch(err){
                 console.log(err)
             }
         }
         if(address){
             f();
+        }else{
+            setDuration({
+                months: 0,
+                weeks: 0
+            })
+            setAmount(0)
+            setWalletBalance(0)
+            setRewardRate(0)
+            setTotalSupply(0)
+            setEscrowBalanceData(0)
+            setVeAIUSBalance(0)
+            setAllowance(0)
         }
-    },[address, updateValue])
+    },[address, chain?.id, updateValue])
 
 
     const handleStake = async()=>{
