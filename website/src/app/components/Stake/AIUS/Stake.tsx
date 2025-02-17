@@ -639,7 +639,7 @@ export default function Stake({
             )}
           </PopUp>
         )}
-        <div className='stake-box-shadow box-border flex h-auto flex-col justify-between rounded-2xl bg-white-background px-8 pb-8 pt-8 lg:pt-14 2xl:pt-10'>
+        <div className='stake-box-shadow box-border flex h-auto flex-col justify-between rounded-2xl bg-white-background px-8 pb-8 pt-8 lg:pt-14 2xl:pt-10 relative'>
           {/*2xl:h-[530px] lg:h-[535px]*/}
           <div>
             <div>
@@ -785,7 +785,7 @@ export default function Stake({
             </div>
           </div>
 
-          <div className='mb-4 flex justify-end gap-2'>
+          <div className='left-0 w-full bottom-[-70px] absolute md:w-auto md:left-[unset] md:bottom-[unset] md:relative mb-4 flex justify-end gap-2'>
             {/*
             <div className='mt-6'>
               <button

@@ -103,11 +103,12 @@ export default function AIUS({ protocolData }: AIUSProps) {
                     setUpdateValue={setUpdateValue}
                   />
                 </div>
+                <div className="md:hidden mt-[70px] mb-[10px] border-[0.5px] border-black/10"></div>
                 <div className='w-[100%] lg:w-[48%]'>
                   <div className='mb-4'>
                     <Steps />
                   </div>
-                  <div>
+                  <div className="hidden md:block">
                     <Process />
                   </div>
                 </div>
