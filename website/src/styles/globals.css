@@ -306,13 +306,16 @@
     @apply flex-grow p-[10px_0px] text-center;
   }
   .all-stake > div {
-    @apply flex-1 cursor-pointer pb-[20px] font-At-Hauss text-[17px] text-subtext-two;
+    @apply flex-1 cursor-pointer py-[20px] font-At-Hauss text-[17px] text-subtext-two;
   }
   .all-stake > .selected {
-    @apply gradient-border border-b-[2px] text-blue-text;
+    @apply gradient-border border-b-[2px] text-original-white md:text-blue-text;
   }
 }
 
+.mobile-selected-background{
+  background: linear-gradient(94.07deg, #4A28FF 3.32%, #92BDFF 105.37%);
+}
 .stake-card {
   box-shadow: -4px 0px 50px rgba(74, 40, 255, 0.1);
 }
