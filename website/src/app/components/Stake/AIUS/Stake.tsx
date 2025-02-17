@@ -644,11 +644,11 @@ export default function Stake({
           <div>
             <div>
               <div className='mb-4 flex items-center justify-between'>
-                <p className='lato-bold text-[18px] text-stake'>
+                <p className='!font-[400] um:!font-[600] lato-bold text-[18px] text-stake'>
                   Amount to lock
                 </p>
                 <p className='lato-regular text-[15px] text-available'>
-                  Available {Number(walletBalance / AIUS_wei)?.toFixed(2).toString()} AIUS
+                  Available <span className="font-[100] md:font-normal">{Number(walletBalance / AIUS_wei)?.toFixed(2).toString()}</span> AIUS
                 </p>
               </div>
               <div>
@@ -691,7 +691,7 @@ export default function Stake({
               </div>
             </div>
             <div>
-              <p className='lato-bold mb-8 mt-8 h-12 text-[15px] text-stake lg:text-[20px]'>
+              <p className='!font-[400] um:!font-[600] lato-bold mb-8 mt-8 h-12 text-[15px] text-stake lg:text-[20px]'>
                 Locking for{' '}
                 {duration.months !== 0
                   ? `${duration.months} ${duration.months === 1 ? 'month' : 'months'} `
@@ -700,7 +700,7 @@ export default function Stake({
                 {(
                   getAIUSVotingPower(amount, sliderValue) / AIUS_wei
                 ).toFixed(2)}{' '}
-                veAIUS.
+                veAIUS.*
               </p>
               <div className='mb-10'>
                 <div className='mb-8'>
@@ -733,7 +733,7 @@ export default function Stake({
                       props.className = `customSlider-mark customSlider-mark-before text-[16px] text-start w-[16.66%]  ${isSingleDigit ? '!ml-[4px]' : '!ml-[0px]'}`;
                       return (
                         <span {...props}>
-                          <h1>{props.key}</h1>
+                          <h1 className="text-[11px] um:text-16px">{props.key}</h1>
                         </span>
                       );
                     }}
@@ -743,24 +743,24 @@ export default function Stake({
             </div>
           </div>
           <div className='mt-8 flex items-center justify-between'>
-            <div className='relative box-border w-[48%] rounded-2xl bg-apr px-4 py-4'>
+            <div className='relative box-border w-[48%] rounded-[10px] bg-apr px-4 py-4'>
               <div className='group absolute right-3 top-3 cursor-pointer'>
                 <Image src={info_icon} width={20} height={20} alt='info' />
                 <div className='lato-bold absolute right-6 top-0 hidden rounded-md bg-white-background p-2 text-center text-[.7rem] text-black-text group-hover:block xl:w-[110px]'>
                   2-Year APR Est.
                 </div>
               </div>
-              <p className='lato-regular mb-4 text-[12px] text-original-white md:text-[16px]'>
+              <p className='lato-regular mb-4 text-[10px] lm:text-[12px] text-original-white md:text-[16px]'>
                 APR
               </p>
-              <p className='lato-bold text-[16px] text-original-white md:text-[28px]'>
+              <p className='lato-bold text-[12px] lm:text-[14px] text-original-white md:text-[28px]'>
                 {totalSupply && rewardRate
                   ? getAPR(rewardRate, totalSupply).toFixed(2)
                   : 0}
                 %
               </p>
             </div>
-            <div className='relative box-border w-[48%] rounded-2xl bg-apr px-4 py-4'>
+            <div className='relative box-border w-[48%] rounded-[10px] bg-apr px-4 py-4'>
               <div className='group absolute right-3 top-3 cursor-pointer'>
                 <Image
                   src={info_icon}
@@ -773,10 +773,10 @@ export default function Stake({
                   Total veAIUS staked by user
                 </div>
               </div>
-              <p className='lato-regular mb-4 text-[12px] text-original-white md:text-[16px]'>
+              <p className='lato-regular mb-4 text-[10px] lm:text-[12px] text-original-white md:text-[16px]'>
                 veAIUS Balance
               </p>
-              <p className='lato-bold text-[16px] text-original-white md:text-[28px]'>
+              <p className='lato-bold text-[12px] lm:text-[14px] text-original-white md:text-[28px]'>
                 {Number(veAiusBalance)?.toFixed(2)}{' '}
                 <span className='lato-regular text-[12px] md:text-[20px]'>
                   veAIUS
@@ -806,7 +806,7 @@ export default function Stake({
               </button>
             </div>
             */}
-            <div className='mt-6'>
+            <div className='basis-[50%] um:basis-[unset] mt-6'>
               <Link
                 href={'#dashboard'}
                 onClick={() => setSelectedTab('Dashboard')}
@@ -822,7 +822,7 @@ export default function Stake({
                 </button>
               </Link>
             </div>
-            <div className='mt-6'>
+            <div className='basis-[50%] um:basis-[unset] mt-6'>
               <button
                 type='button'
                 onClick={async () => {
