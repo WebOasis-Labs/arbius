@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import SlidingCards from './SlidingCards';
 import Image from 'next/image';
 import aius_icon from '../../../assets/images/aius_icon.png';
+import protocol from '../../../assets/images/protocol.svg';
+import wallet from '../../../assets/images/wallet.svg';
 import gysr_logo_wallet from '../../../assets/images/gysr_logo_wallet.png';
 import GanttChart from './GanttChart';
 import { useAccount, useContractRead, useNetwork } from 'wagmi';
@@ -385,23 +387,23 @@ function DashBoard({
 
       <div className='my-10 mt-14 grid-cols-3 gap-10 xl:grid'>
         <div className='col-span-1 h-auto'>
-          <div className='stake-box-shadow stake-box-shadow h-full rounded-2xl bg-white-background p-8'>
-            <h1 className='text-[20px] font-semibold text-purple-text'>
-              Wallet
+          <div className='stake-box-shadow h-full rounded-2xl bg-white-background p-[15px_10px] md:p-8'>
+            <h1 className='text-[20px] md:font-semibold text-purple-text flex items-center'>
+              Wallet <span className="md:hidden bg-light-purple-background-2 p-2 rounded-full ml-2"><Image src={wallet} alt="" /></span>
             </h1>
-            <div className='mt-6 grid grid-cols-2 gap-[1vw] xl:mt-8 2xl:gap-[2vw]'>
-              <div className='flex flex-col items-start justify-start gap-8'>
-                <div>
-                  <h2 className='text-[14px] font-semibold text-aius-tabs-gray'>
+            <div className='mt-2 md:mt-6 grid grid-cols-2 gap-[1vw] xl:mt-8 2xl:gap-[2vw]'>
+              <div className='flex flex-col items-start justify-start gap-2 md:gap-8'>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
                     Balance
                   </h2>
-                  <h2 className='mt-[2px] text-[16px] font-semibold 2xl:text-[18px]'>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
                     {Number(walletBalance / AIUS_wei)?.toFixed(2).toString()}{' '}
                     <span className='text-[11px] font-medium'>AIUS</span>
                   </h2>
                 </div>
                 <div>
-                  <h2 className='text-[14px] font-semibold text-aius-tabs-gray'>
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
                     {/*Historical LP Profit*/}
                   </h2>
                   <div className='mt-[2px] flex items-center justify-start gap-2'>
@@ -420,12 +422,12 @@ function DashBoard({
                   </div>
                 </div>
               </div>
-              <div className='flex flex-col items-start justify-start gap-8'>
-                <div>
-                  <h2 className='text-[14px] font-semibold text-aius-tabs-gray'>
+              <div className='flex flex-col items-start justify-start gap-2 md:gap-8'>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
                     Wallet TVL
                   </h2>
-                  <h2 className='mt-[2px] text-[16px] font-semibold 2xl:text-[18px]'>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
                     ${' '}
                     {protocolData?.data?.AIUS?.quote?.USD?.price
                       ? (
@@ -458,7 +460,7 @@ function DashBoard({
               </div>
             </div>
             <div className="horizontal-section">
-              <div className="bg-stake-input text-[#404040] p-[8px_25px] text-center rounded-[10px]">
+              <div className="bg-light-purple-background-2 md:bg-stake-input text-[#404040] p-[8px_25px] text-center rounded-[10px]">
                 APR :  <span className="text-purple-text">{totalSupply && rewardRate
                       ? getAPR(rewardRate, totalSupply)?.toLocaleString(
                           'en-US',
@@ -474,7 +476,7 @@ function DashBoard({
           </div>
         </div>
         <div className='col-span-2 mt-10 xl:mt-0'>
-          <div className='pl-2'>
+          <div className='md:pl-2'>
             <div className='stake-box-shadow mb-2 w-full rounded-2xl bg-white-background px-8 py-3'>
               <h1 className='text-[20px] font-semibold text-purple-text'>
                 My Stakes
@@ -483,7 +485,7 @@ function DashBoard({
           </div>
           <div className=''>
             {loading ? (
-              <div className='h-[300px] pl-2'>
+              <div className='h-[300px] md:pl-2'>
                 <Loader />
               </div>
             ) : tokenIDs?.slidingCards && tokenIDs?.slidingCards.length > 0 ? (
@@ -498,7 +500,7 @@ function DashBoard({
                 setUpdateValue={setUpdateValue}
               />
             ) : (
-              <div className='flex h-[300px] items-center justify-center pl-2'>
+              <div className='flex h-[300px] items-center justify-center md:pl-2'>
                 <div className='flex h-full w-full items-center justify-center rounded-2xl bg-white-background'>
                   <h1 className='text-[20px] font-semibold text-purple-text'>
                     No Stakes Found
@@ -511,7 +513,7 @@ function DashBoard({
       </div>
       <div className='mt-10 hidden grid-cols-1 gap-10 xl:grid xl:grid-cols-3'>
         <div className='col-span-1 block h-auto'>
-          <div className='stake-box-shadow stake-box-shadow h-full rounded-2xl bg-white-background px-2 py-8 um:p-8'>
+          <div className='stake-box-shadow h-full rounded-2xl bg-white-background px-2 py-8 um:p-8'>
             <h1 className='text-[20px] font-semibold text-purple-text'>
               Protocol Info
             </h1>
