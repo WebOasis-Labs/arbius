@@ -375,19 +375,19 @@ function DashBoard({
 
   return (
     <div
-      className='mx-auto w-mobile-section-width max-w-center-width py-10 text-black-text lg:py-16 xl:w-section-width'
+      className='mx-auto w-mobile-section-width max-w-center-width py-6 md:py-10 text-black-text lg:py-16 xl:w-section-width'
       id='dashboard'
     >
-      <div className='flex items-baseline justify-start gap-3'>
-        <h1 className='lato-bold text-[40px] text-purple-text'>
-          <span className='hidden um:inline'>veAIUS</span> Dashboard{' '}
+      <div className='flex items-center justify-start gap-3'>
+        <h1 className='lato-regular md:lato-bold text-[20px] md:text-[40px] text-purple-text'>
+          <span className='um:inline'>veAIUS</span> Dashboard{' '}
         </h1>{' '}
-        <Image src={aius_icon} width={'auto'} height={33} alt='' />
+        <Image src={aius_icon} className="h-[18px] md:h-[33px] w-auto" alt='' />
       </div>
 
-      <div className='my-10 mt-14 grid-cols-3 gap-10 xl:grid'>
+      <div className='my-6 md:my-10 md:mt-14 grid-cols-3 gap-10 xl:grid'>
         <div className='col-span-1 h-auto'>
-          <div className='stake-box-shadow h-full rounded-2xl bg-white-background p-[15px_10px] md:p-8'>
+          <div className='stake-box-shadow h-full rounded-2xl bg-white-background p-[10px_10px] md:p-8'>
             <h1 className='text-[20px] md:font-semibold text-purple-text flex items-center'>
               Wallet <span className="md:hidden bg-light-purple-background-2 p-2 rounded-full ml-2"><Image src={wallet} alt="" /></span>
             </h1>
@@ -474,8 +474,71 @@ function DashBoard({
               </div>
             </div>
           </div>
+          {/* ONLY MOBILE */}
+          <div className='md:hidden stake-box-shadow h-full rounded-2xl bg-white-background p-[10px_10px] mt-4'>
+            <h1 className='text-[20px] md:font-semibold text-purple-text flex items-center'>
+              Protocol Info <span className="md:hidden bg-light-purple-background-2 p-[8px_5px] rounded-full ml-2"><Image src={protocol} alt="" /></span>
+            </h1>
+            <div className='grid grid-cols-2 gap-[1vw] mt-2 xl:mt-8 2xl:gap-[2vw]'>
+              <div className='flex flex-col items-start justify-center gap-2 md:gap-8'>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
+                    AIUS Staked
+                  </h2>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
+                    {veSupplyData
+                      ? (Number(veSupplyData) / AIUS_wei).toFixed(2)
+                      : 0}
+                  </h2>
+                </div>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
+                    Total Supply
+                  </h2>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
+                    1,000,000
+                    <span className='text-[11px] font-medium'>&nbsp;AIUS</span>
+                  </h2>
+                </div>
+              </div>
+              <div className='flex flex-col items-start justify-center gap-2 md:gap-8'>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
+                    AIUS Market Cap
+                  </h2>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
+                    $
+                    {new Intl.NumberFormat('en-US', {
+                      notation: 'compact',
+                      compactDisplay: 'short',
+                      maximumFractionDigits: 2,
+                      minimumFractionDigits: 2,
+                    }).format(
+                      protocolData?.data?.AIUS?.self_reported_market_cap
+                    )}{' '}
+                  </h2>
+                </div>
+                <div className="w-full md:w-auto bg-light-purple-background-2 md:bg-transparent p-2 md:p-0 rounded-[10px] md:rounded-[0px]">
+                  <h2 className='text-[14px] md:font-semibold text-aius-tabs-gray'>
+                    Circulating supply
+                  </h2>
+                  <h2 className='mt-[2px] text-[16px] md:font-semibold 2xl:text-[18px]'>
+                    {protocolData?.data?.AIUS?.self_reported_circulating_supply.toLocaleString(
+                      'en-US',
+                      {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      }
+                    )}{' '}
+                    <span className='text-[11px] font-medium'>AIUS</span>
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* ONLY MOBILE */}
         </div>
-        <div className='col-span-2 mt-10 xl:mt-0'>
+        <div className='col-span-2 mt-4 md:mt-10 xl:mt-0'>
           <div className='md:pl-2'>
             <div className='stake-box-shadow mb-2 w-full rounded-2xl bg-white-background px-8 py-3'>
               <h1 className='text-[20px] font-semibold text-purple-text'>
