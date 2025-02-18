@@ -100,7 +100,7 @@ function FLink(link: FooterLink) {
   return (
     <Link href={link.link} target='_blank' key={link.id}>
       <div>
-        <p className='lato-regular text-right text-[16px] font-medium text-[#393939] hover:text-purple-text'>
+        <p className='text-right text-[16px] lato-light md:lato-regular text-[#393939] hover:text-purple-text'>
           {link.name}
         </p>
       </div>
@@ -186,7 +186,29 @@ export default function Footer() {
                     alt='arbius'
                   />
                 </div>
-                <div className='mt-6 flex items-center gap-4'>
+                <div
+                  className='absolute right-0 top-[12px] flex cursor-pointer items-center gap-2'
+                  onClick={scrollTop}
+                >
+                  <p className='lato-light text-[14px] text-[#393939]'>
+                    Back to top
+                  </p>
+                  <Image
+                    src={small_arrow}
+                    className='rotate-[-90deg]'
+                    alt='arrow'
+                    width={6}
+                  />
+                </div>
+                <div className='flex flex-row justify-between mt-6'>
+                  <div className='mt-4 flex flex-col flex-wrap items-start gap-4 lm:mt-0 lm:gap-0 lg:flex-row'>
+                    {footerLinks.slice(0, 4).map(FLink)}
+                  </div>
+                  <div className='mt-4 flex flex-col flex-wrap items-start gap-4 lm:mt-0 lm:gap-0 lg:flex-row'>
+                    {footerLinks.slice(-4).map(FLink)}
+                  </div>
+                </div>
+                <div className='mt-6 flex items-center justify-between'>
                   {socialIcons.map((social) => {
                     return (
                       <Link href={social.link} target='_blank' key={social.id}>
@@ -202,16 +224,8 @@ export default function Footer() {
                     );
                   })}
                 </div>
-                <div className='flex flex-row justify-between mt-6'>
-                  <div className='mt-4 flex flex-col flex-wrap items-start gap-4 lm:mt-0 lm:gap-0 lg:flex-row'>
-                    {footerLinks.slice(0, 4).map(FLink)}
-                  </div>
-                  <div className='mt-4 flex flex-col flex-wrap items-start gap-4 lm:mt-0 lm:gap-0 lg:flex-row'>
-                    {footerLinks.slice(-4).map(FLink)}
-                  </div>
-                </div>
                 <div className='mt-6'>
-                  <p className='lato-regular text-[13px] text-copyright-text'>
+                  <p className='text-center md:text-left lato-regular text-[13px] text-copyright-text'>
                     &copy; Arbius 2024
                   </p>
                 </div>
