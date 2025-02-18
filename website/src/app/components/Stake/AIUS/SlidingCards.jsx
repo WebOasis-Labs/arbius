@@ -208,7 +208,7 @@ const AddPopUpChildren = ({
     <>
       <div className={showPopUp == 'add' ? 'block' : 'hidden'}>
         <div className={'my-2 flex items-center justify-between'}>
-          <div className='flex items-center justify-start gap-3'>
+          <div className='flex items-center justify-start gap-3 text-blue-text md:text-original-black'>
             <h1>Add AIUS</h1>
           </div>
           <div className='cursor-pointer' onClick={() => setShowPopUp(false)}>
@@ -249,7 +249,7 @@ const AddPopUpChildren = ({
             </div>
           </div>
           <h1 className='my-1 text-[0.6rem] opacity-50'>
-            Available AIUS {Number(walletBalance / AIUS_wei)?.toFixed(2).toString()}
+            Available AIUS <span className="lato-light md:font-normal">{Number(walletBalance / AIUS_wei)?.toFixed(2).toString()}</span>
           </h1>
         </div>
         <div className='flex items-center justify-center gap-2'>
@@ -278,7 +278,7 @@ const AddPopUpChildren = ({
         <div className='mt-16 flex justify-end gap-2'>
           <button
             type='button'
-            className='group relative flex items-center gap-3 rounded-full bg-light-gray-background px-3 py-1 lg:px-5'
+            className='group relative flex items-center gap-3 rounded-full bg-light-gray-background px-4 py-1 lg:px-5 justify-center basis-[50%] md:basis-[unset]'
             onClick={() => setShowPopUp(false)}
           >
             <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-5 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
@@ -286,10 +286,10 @@ const AddPopUpChildren = ({
               Cancel
             </div>
           </button>
-          <div className='flex justify-end'>
+          <div className='flex justify-end basis-[50%] md:basis-[unset]'>
             <button
               type='button'
-              className={`group relative bg-black-background ${Number(walletBalance) >= Number(aiusToStake) ? '' : 'opacity-40'} flex items-center gap-3 rounded-full px-7 py-1`}
+              className={`group relative bg-black-background ${Number(walletBalance) >= Number(aiusToStake) ? '' : 'opacity-40'} flex justify-center items-center gap-3 rounded-full px-7 py-1 w-full md:w-auto`}
               onClick={async() => {
                 if (Number(aiusToStake) && Number(walletBalance) >= Number(aiusToStake)) {
                   await handleStake()
@@ -489,7 +489,7 @@ const ExtendPopUpChildren = ({
     <>
       <div className={showPopUp === 'extend' ? 'block' : 'hidden'}>
         <div className='my-2 flex items-center justify-between'>
-          <div className='flex items-center justify-start gap-3'>
+          <div className='flex items-center justify-start gap-3 text-blue-text md:text-original-black'>
             <h1>Extend</h1>
           </div>
           <div className='cursor-pointer' onClick={() => setShowPopUp(false)}>
@@ -593,7 +593,7 @@ const ExtendPopUpChildren = ({
         <div className='mt-4 flex justify-end gap-2'>
           <button
             type='button'
-            className='group relative flex items-center gap-3 rounded-full bg-light-gray-background px-3 py-1 lg:px-5'
+            className='group relative flex items-center justify-center gap-3 rounded-full bg-light-gray-background px-4 py-1 lg:px-5 basis-[50%] md:basis-[unset]'
             onClick={() => setShowPopUp(false)}
           >
             <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-5 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
@@ -601,14 +601,14 @@ const ExtendPopUpChildren = ({
               Cancel
             </div>
           </button>
-          <div className='flex justify-end'>
+          <div className='flex justify-end basis-[50%] md:basis-[unset]'>
             <button
               type='button'
               onClick={() => {
                 extendAIUS?.();
                 setShowPopUp('extend/2');
               }}
-              className='group relative flex items-center gap-3 rounded-full bg-black-background px-3 py-1 lg:px-5'
+              className='group relative flex justify-center items-center gap-3 rounded-full bg-black-background px-4 py-1 lg:px-5 w-full md:w-auto'
             >
               <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-5 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
               <div className='lato-bold relative z-10 text-original-white lg:text-[100%]'>
@@ -783,7 +783,7 @@ const ClaimPopUpChildren = ({
         <div className='mt-12 flex justify-end gap-2'>
           <button
             type='button'
-            className='group relative flex items-center gap-3 rounded-full bg-light-gray-background px-3 py-1 lg:px-5'
+            className='group relative flex items-center justify-center gap-3 rounded-full bg-light-gray-background px-4 py-1 lg:px-5 basis-[50%] md:basis-[unset]'
             onClick={() => setShowPopUp(false)}
           >
             <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-5 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
@@ -792,14 +792,14 @@ const ClaimPopUpChildren = ({
             </div>
           </button>
 
-          <div className='flex justify-end'>
+          <div className='flex justify-end basis-[50%] md:basis-[unset]'>
             <button
               type='button'
               onClick={() => {
                 claimAIUS?.();
                 setShowPopUp('claim/2');
               }}
-              className='group relative flex items-center gap-3 rounded-full bg-black-background px-3 py-1 lg:px-5'
+              className='group relative flex items-center justify-center gap-3 rounded-full bg-black-background px-4 py-1 lg:px-5 w-full md:w-auto'
             >
               <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-5 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
               <div className='lato-bold relative z-10 text-original-white lg:text-[100%]'>
