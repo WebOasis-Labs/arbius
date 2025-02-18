@@ -540,7 +540,7 @@ function DashBoard({
         </div>
         <div className='col-span-2 mt-4 md:mt-10 xl:mt-0'>
           <div className='md:pl-2'>
-            <div className='stake-box-shadow mb-2 w-full rounded-2xl bg-white-background px-8 py-3'>
+            <div className='hidden md:block stake-box-shadow mb-2 w-full rounded-2xl bg-white-background px-8 py-3'>
               <h1 className='text-[20px] font-semibold text-purple-text'>
                 My Stakes
               </h1>

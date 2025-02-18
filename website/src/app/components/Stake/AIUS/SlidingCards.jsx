@@ -9,7 +9,7 @@ import cross_icon from '../../../assets/images/cross_icon.png';
 import arbius_logo_without_name from '@/app/assets/images/arbius_logo_without_name.png';
 import ReactSlider from 'react-slider';
 import info_icon from '../../../assets/images/info_icon.png';
-import arbius_logo_slider from '@/app/assets/images/arbius_logo_slider.png';
+import arbius_logo_plain from '@/app/assets/images/arbius_logo_without_name.png';
 import veStaking from '../../../abis/veStaking.json';
 import votingEscrow from '../../../abis/votingEscrow.json';
 import { getAPR } from '../../../Utils/getAPR';
@@ -1095,6 +1095,7 @@ function SlidingCards({
         </>
       )}
       <div className='relative'>
+        { windowWidth > 768 ?
         <div
           className='relative flex w-full items-center justify-start pl-2'
           ref={sliderRef}
@@ -1114,7 +1115,29 @@ function SlidingCards({
               />
             ))}
           </Slider>
+        </div> :
+
+        <div className='relative flex flex-col w-full items-center justify-start md:pl-2'>
+          <div className='stake-box-shadow mb-2 w-full rounded-2xl bg-white-background px-2 py-4'>
+            <h1 className='flex  text-[20px] md:font-semibold text-purple-text'>
+              My Stakes <span className="md:hidden bg-light-purple-background-2 p-[8px_5px] rounded-full ml-2"><Image className="h-[15px] w-auto" src={arbius_logo_plain} alt="" /></span>
+            </h1>
+            {tokenIDs?.map((item, key) => (
+              <StakeCard
+                token={item}
+                rewardRate={rewardRate}
+                totalSupply={totalSupply}
+                getAPR={getAPR}
+                key={key}
+                setSelectedStake={setSelectedStake}
+                setShowPopUp={setShowPopUp}
+                updateValue={updateValue}
+                setUpdateValue={setUpdateValue}
+              />
+            ))}
+          </div>
         </div>
+        }
       </div>
     </div>
   );

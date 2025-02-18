@@ -733,7 +733,7 @@ export default function Stake({
                       props.className = `customSlider-mark customSlider-mark-before text-[16px] text-start w-[16.66%]  ${isSingleDigit ? '!ml-[4px]' : '!ml-[0px]'}`;
                       return (
                         <span {...props}>
-                          <h1 className="text-[11px] um:text-16px">{props.key}</h1>
+                          <h1 className="text-[11px] um:text-[16px]">{props.key}</h1>
                         </span>
                       );
                     }}

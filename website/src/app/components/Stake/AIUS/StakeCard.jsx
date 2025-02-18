@@ -261,7 +261,7 @@ function StakeCard({
 
 
   return (
-    <div className='relative rounded-2xl bg-white-background px-8 py-6'>
+    <div className='border-[0.5px] border-[#BFB4FE80] md:border-0 relative rounded-2xl bg-white-background my-[20px] md:my-0 px-4 py-4 md:px-8 md:py-6'>
       <Link
         href={`${openseaLink}${Config.v4_votingEscrowAddress}/${Number(token?.tokenID)}`}
         target='_blank'
@@ -275,10 +275,10 @@ function StakeCard({
       <div className='flex items-start justify-start gap-8'>
         <div className='flex flex-col items-start justify-center gap-3'>
           <div>
-            <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+            <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
               Total Staked
             </h2>
-            <h2 className='text-[15px] font-semibold'>
+            <h2 className='text-[15px] md:font-semibold'>
               {totalStaked?.amount
                 ? (Number(totalStaked.amount) / AIUS_wei)?.toFixed(2).toString()
                 : 0}{' '}
@@ -286,10 +286,10 @@ function StakeCard({
             </h2>
           </div>
           <div>
-            <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+            <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
               Initial Balance
             </h2>
-            <h2 className='text-[15px] font-semibold'>
+            <h2 className='text-[15px] md:font-semibold'>
               {initialBalance
                 ? (Number(initialBalance) / AIUS_wei)?.toFixed(2).toString()
                 : 0}{' '}
@@ -297,30 +297,30 @@ function StakeCard({
             </h2>
           </div>
           <div>
-            <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+            <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
               Staked on
             </h2>
-            <h2 className='text-[15px] font-semibold'>
+            <h2 className='text-[15px] md:font-semibold'>
               {new Date(Number(stakedOn) * 1000).toLocaleDateString('en-US')}
             </h2>
           </div>
         </div>
         <div className='flex flex-col items-start justify-center gap-3'>
           <div>
-            <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+            <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
               Governance Power
             </h2>
-            <h2 className='text-[15px] font-semibold'>
+            <h2 className='text-[15px] md:font-semibold'>
               {governancePower
                 ? (Number(governancePower) / AIUS_wei)?.toFixed(2).toString()
                 : 0}
             </h2>
           </div>
           <div>
-            <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+            <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
               Rewards
             </h2>
-            <h2 className={"text-[12px] font-semibold mt-[4px]"} /*onMouseEnter={()=>handleRealtimeClaimableRewards(true, initialBalance)} onMouseLeave={()=>handleRealtimeClaimableRewards(false, initialBalance)}*/>
+            <h2 className={"text-[12px] md:font-semibold mt-[4px]"} /*onMouseEnter={()=>handleRealtimeClaimableRewards(true, initialBalance)} onMouseLeave={()=>handleRealtimeClaimableRewards(false, initialBalance)}*/>
               { earned ?
                 (Number(earned) / AIUS_wei)?.toFixed(11).toString()
                 : "0.00"
@@ -330,10 +330,10 @@ function StakeCard({
           </div>
           <div className='' /* Extra margin : because rewards has less font size, so to maintain the gap there is mt added */> 
             <div>
-              <h2 className='text-[12px] font-semibold text-[#8D8D8D]'>
+              <h2 className='text-[12px] md:font-semibold text-[#8D8D8D]'>
                 End Date
               </h2>
-              <h2 className='text-[15px] font-semibold'>
+              <h2 className='text-[15px] md:font-semibold'>
                 {new Date(Number(endDate) * 1000).toLocaleDateString('en-US')}
               </h2>
             </div>
@@ -358,7 +358,7 @@ function StakeCard({
                 className='group relative flex w-full items-center justify-center gap-3 rounded-full bg-black-background px-3 py-1 py-2 lg:px-4'
               >
                 <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-4 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
-                <div className='lato-bold relative z-10 text-original-white lg:text-[15px]'>
+                <div className='md:lato-bold relative z-10 text-original-white text-[13px] md:text-[15px]'>
                   Add
                 </div>
               </button>
@@ -373,7 +373,7 @@ function StakeCard({
                 className={`group relative flex w-full items-center justify-center gap-3 rounded-full ${extendMonths ? "bg-black-background" : "bg-light-gray-background"} px-3 py-1 py-2 lg:px-4`}
               >
                 <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-4 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
-                <div className={`lato-bold relative z-10 ${extendMonths ? "text-original-white" : "text-black-text text-opacity-40"} lg:text-[15px]`}>
+                <div className={`md:lato-bold relative z-10 ${extendMonths ? "text-original-white" : "text-black-text text-opacity-40"} text-[13px] md:text-[15px]`}>
                   Extend
                 </div>
               </button>
@@ -388,7 +388,7 @@ function StakeCard({
                 className='group relative flex w-full items-center justify-center gap-3 rounded-full bg-black-background px-3 py-1 py-2 lg:px-4'
               >
                 <div className='absolute left-0 z-0 h-[100%] w-[100%] rounded-full bg-buy-hover px-4 py-2 opacity-0 transition-opacity duration-500 group-hover:opacity-100'></div>
-                <div className='lato-bold relative z-10 text-original-white lg:text-[15px]'>
+                <div className='md:lato-bold relative z-10 text-original-white text-[13px] md:text-[15px]'>
                   Claim
                 </div>
               </button>
