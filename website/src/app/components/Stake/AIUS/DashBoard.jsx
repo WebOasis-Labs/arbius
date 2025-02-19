@@ -72,7 +72,7 @@ function DashBoard({
   // const [walletBalance, setWalletBalance] = useState(0);
   // const [protocolData, setProtocolData] = useState([]);
   /*const rewardRate = useContractRead({
-        address: Config.v4_veStakingAddress,
+        address: Config.veStakingAddress,
         abi: veStaking.abi,
         functionName: 'rewardRate',
         args: [],
@@ -80,7 +80,7 @@ function DashBoard({
     })
 
     const totalSupply = useContractRead({
-        address: Config.v4_veStakingAddress,
+        address: Config.veStakingAddress,
         abi: veStaking.abi,
         functionName: 'totalSupply',
         args: [],
@@ -88,7 +88,7 @@ function DashBoard({
     })
 
     const { data: veSupplyData, isLoading: veSupplyIsLoading, isError: veSupplyIsError } = useContractRead({
-        address: Config.v4_votingEscrowAddress,
+        address: Config.votingEscrowAddress,
         abi: votingEscrow.abi,
         functionName: 'supply',
         args: [],
@@ -135,11 +135,11 @@ function DashBoard({
 
         const veStakingContract = new web3.eth.Contract(
           veStaking.abi,
-          Config.v4_veStakingAddress
+          Config.veStakingAddress
         );
         const votingEscrowContract = new web3.eth.Contract(
           votingEscrow.abi,
-          Config.v4_votingEscrowAddress
+          Config.votingEscrowAddress
         );
 
         const _rewardRate = await veStakingContract.methods.rewardRate().call();
@@ -161,15 +161,15 @@ function DashBoard({
         const web3 = new Web3(window.ethereum);
         const votingEscrowContract = new web3.eth.Contract(
           votingEscrow.abi,
-          Config.v4_votingEscrowAddress
+          Config.votingEscrowAddress
         );
         const veStakingContract = new web3.eth.Contract(
           veStaking.abi,
-          Config.v4_veStakingAddress
+          Config.veStakingAddress
         );
         const baseTokenContract = new web3.eth.Contract(
           baseTokenV1.abi,
-          Config.v4_baseTokenAddress
+          Config.baseTokenAddress
         );
 
         const _rewardRate = await veStakingContract.methods.rewardRate().call();
