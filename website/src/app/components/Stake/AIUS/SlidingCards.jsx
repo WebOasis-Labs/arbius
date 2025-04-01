@@ -24,7 +24,7 @@ import {
 import { BigNumber } from 'ethers';
 import baseTokenV1 from '../../../abis/baseTokenV1.json';
 import StakeCard from './StakeCard';
-import { AIUS_wei, t_max, defaultApproveAmount } from '../../../Utils/constantValues';
+import { AIUS_wei, t_max, defaultApproveAmount, alchemyUrl, infuraUrl } from '../../../Utils/constantValues';
 import CircularProgressBar from './CircularProgressBar';
 import powered_by from '../../../assets/images/powered_by.png';
 import cross from '../../../assets/images/cross.png';
@@ -461,7 +461,7 @@ const ExtendPopUpChildren = ({
     functionName: 'increase_unlock_time',
     args: [
       Number(selectedStake),
-      parseInt((extendEndDate - getCurrentTimeInMSeconds()) / 1000).toString(), // value in months(decimal) * 4*7*24*60*60
+      parseInt( ( (extendEndDate - getCurrentTimeInMSeconds()) / 1000) + 1000 ).toString(), // value in months(decimal) * 4*7*24*60*60
     ],
     enabled: extendEndDate > 0,
   });
@@ -501,6 +501,39 @@ const ExtendPopUpChildren = ({
       setShowPopUp('extend/Error');
     }
   }, [addAIUSError]);
+
+  const getWeb3 = async() => {
+    return await fetch(alchemyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "eth_blockNumber",
+          params: []
+        }),
+      })
+      .then(res => res.json())
+        .then(_data => {
+          if (_data.error) {
+            console.error("Alchemy error:", _data.error.message);
+            let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+            return web3
+          } else {
+            let web3 = new Web3(new Web3.providers.HttpProvider(alchemyUrl));
+            console.log("Successfully connected. Block number:", _data.result);
+            return web3
+          }
+        })
+        .catch((err) => {
+          console.log("Request failed:", err)
+          let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+          return web3
+        });
+  }
+
 
   useEffect(() => {
     const f = async () => {
@@ -739,6 +772,38 @@ const ClaimPopUpChildren = ({
       setShowPopUp('claim/Error');
     }
   }, [addAIUSError]);
+
+  const getWeb3 = async() => {
+    return await fetch(alchemyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "eth_blockNumber",
+          params: []
+        }),
+      })
+      .then(res => res.json())
+        .then(_data => {
+          if (_data.error) {
+            console.error("Alchemy error:", _data.error.message);
+            let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+            return web3
+          } else {
+            let web3 = new Web3(new Web3.providers.HttpProvider(alchemyUrl));
+            console.log("Successfully connected. Block number:", _data.result);
+            return web3
+          }
+        })
+        .catch((err) => {
+          console.log("Request failed:", err)
+          let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+          return web3
+        });
+    }
 
 
   useEffect(() => {
