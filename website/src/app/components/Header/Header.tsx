@@ -20,7 +20,6 @@ import ConnectWallet from '@/components/ConnectWallet'; // main arbius component
 import { useWeb3Modal } from '@web3modal/react'; // main arbius component
 import { useAccount, useContractRead, useNetwork } from 'wagmi'; // main arbius component
 import baseTokenV1 from '../../abis/baseTokenV1.json';
-import getAIUSBalance from '../../Utils/aiusWalletBalance';
 import { BigNumber } from 'ethers';
 import { AIUS_wei } from '../../Utils/constantValues';
 import Config from '@/config.one.json';
@@ -73,14 +72,7 @@ export default function Header() {
   const [loadingWeb3Modal, setLoadingWeb3Modal] = useState(false);
 
   useEffect(() => {
-    // if(localStorage.getItem('aiusBalance')){
-    //   const wallet=getAIUSBalance()
-    //   // setWalletBalance(localStorage.getItem('aiusBalance'))
-    //   setWalletConnected(true);
-    // }
-    // else{
     setWalletConnected(isConnected);
-    // }
   }, [isConnected]);
 
   function clickConnect() {

@@ -32,7 +32,8 @@ import success_stake from '../../../assets/images/success_stake.png';
 import { ethers } from 'ethers';
 import Config from '@/config.one.json';
 import { getTransactionReceiptData } from '../../../Utils/getTransactionReceiptData';
-import Web3 from 'web3';
+
+import { getWeb3 } from '@/app/Utils/getWeb3RPC';
 import { AbiItem } from 'web3-utils'; // or relevant package
 import Decimal from 'decimal.js';
 
@@ -59,16 +60,16 @@ export default function Stake({
   const [sliderValue, setSliderValue] = useState(0);
   const { address, isConnected } = useAccount();
   const { chain, chains } = useNetwork()
-  //const [totalEscrowBalance, setTotalEscrowBalance] = useState(0)
+
   const [veAiusBalance, setVeAIUSBalance] = useState(0);
   const [allowance, setAllowance] = useState(0);
-  //const [veAIUSBalancesContracts, setVeAIUSBalancesContracts] = useState(null);
+
   const [duration, setDuration] = useState({
     months: 0,
     weeks: 0,
   });
   const [amount, setAmount] = useState(0);
-  //const walletBalance = data && !isLoading ? Number(data._hex) / AIUS_wei : 0;
+
   const [walletBalance, setWalletBalance] = useState(0);
   const [rewardRate, setRewardRate] = useState(0);
   const [totalSupply, setTotalSupply] = useState(0);
@@ -103,208 +104,9 @@ export default function Stake({
   ];
 
   const [faucetCalled, setFaucetCalled] = useState(false);
-  /*const rewardRate = useContractRead({
-    address: Config.veStakingAddress,
-    abi: veStaking.abi,
-    functionName: 'rewardRate',
-    args: [
 
-    ],
-    enabled: isConnected
-  })
-
-  const totalSupply = useContractRead({
-    address: Config.veStakingAddress,
-    abi: veStaking.abi,
-    functionName: 'totalSupply',
-    args: [
-
-    ],
-    enabled: isConnected
-  })
-  const { data: escrowBalanceData, isLoading: escrowBalanceIsLoading, isError: escrowBalanceIsError } = useContractRead({
-    address: Config.votingEscrowAddress,
-    abi: votingEscrow.abi,
-    functionName: 'balanceOf',
-    args: [
-      address
-    ],
-    enabled: isConnected
-  })
-
-  const { data: tokenIDs, isLoading: tokenIDsIsLoading, isError: tokenIDsIsError } = useContractReads({
-    contracts: (totalEscrowBalance) ? new Array(totalEscrowBalance).fill(0).map((i, index) => {
-      return {
-        address: Config.votingEscrowAddress,
-        abi: votingEscrow.abi,
-        functionName: 'tokenOfOwnerByIndex',
-        args: [
-          address,
-          index
-        ]
-      }
-    }) : null,
-  });*/
-
-  /*useEffect(() => {
-    if (tokenIDs && tokenIDs.length > 0 && !tokenIDsIsLoading && !tokenIDsIsError) {
-      const contracts = tokenIDs?.map((tokenID) => ({
-        address: Config.veStakingAddress,
-        abi: veStaking.abi,
-        functionName: 'balanceOf',
-        args: [
-          Number(tokenID?._hex)
-        ]
-      }));
-      setVeAIUSBalancesContracts(contracts);
-    }
-  }, [tokenIDs, tokenIDsIsLoading, tokenIDsIsError]);
-
-  //console.log(veAIUSBalancesContracts, "stake")
-  const { data: veAIUSBalances, isLoading: veAIUSBalancesIsLoading, isError: veAIUSBalancesIsError } = useContractReads({
-    contracts: veAIUSBalancesContracts,
-  });
-  console.log(veAIUSBalances, "Stake data")
-  const { data: checkAllowance, isLoading: checkIsLoading, isError: checkIsError, refetch: refetchAllowance } = useContractRead({
-    address: Config.baseTokenAddress,
-    abi: baseTokenV1.abi,
-    functionName: 'allowance',
-    args: [
-      address,
-      Config.votingEscrowAddress,
-    ],
-    enabled: isConnected
-  })
-  //console.log(checkAllowance, "TO CHECK ALLOWANCE")
-  useEffect(() => {
-    console.log(veAIUSBalances, "veAIUSBalances")
-    let sum = 0
-    veAIUSBalances?.forEach((veAIUSBalance, index) => {
-      if (veAIUSBalance) {
-        sum = sum + Number(veAIUSBalance?._hex) / AIUS_wei
-      }
-    })
-    setVeAIUSBalance(sum);
-  }, [veAIUSBalances])
-
-  console.log(escrowBalanceData, "ESCROW BALANCE DATA")
-  useEffect(() => {
-    console.log(escrowBalanceData, "escrowBalanceData")
-    if (escrowBalanceData) {
-      setTotalEscrowBalance(Number(escrowBalanceData?._hex))
-    }
-  }, [escrowBalanceData])
-
-  useEffect(() => {
-    console.log(checkAllowance, "CHECK ALLOWANCE")
-    if (checkAllowance) {
-      const val = Number(checkAllowance?._hex) / AIUS_wei
-      setAllowance(val)
-    }
-  },[checkAllowance?._hex])
-
-  /*const { config: approveConfig } = usePrepareContractWrite({
-    address: Config.baseTokenAddress,
-    abi: baseTokenV1.abi,
-    functionName: 'approve',
-    args: [
-      Config.votingEscrowAddress,
-      defaultApproveAmount
-      //(amount * AIUS_wei).toString()
-    ]
-  });
-
-  const { data: approveData, error: approveError, isPending: approvePending, write: approveWrite } = useContractWrite(approveConfig)
-  console.log({ approveData, approveError, approvePending, allowance });*/
-
-  /*const { config: stakeConfig } = usePrepareContractWrite({
-    address: Config.votingEscrowAddress,
-    abi: votingEscrow.abi,
-    functionName: 'create_lock',
-    args: [
-      (Number(amount) * AIUS_wei).toString(),
-      (duration.months !== 0 ? duration.months * (52 / 12) : duration.weeks) * 7 * 24 * 60 * 60
-    ],
-    enabled: allowance >= amount,
-  });*/
   console.log(allowance, amount, 'ALLOWANCE AND AMOUNT');
-  //const {data:stakeData, error:stakeError, isPending:stakeIsPending, write:stakeWrite} = useContractWrite(stakeConfig)
-  //console.log({stakeData, stakeError,stakeWrite})
-
-  /*const { data: approveTx, isError: txError, isLoading: txLoading } = useWaitForTransaction({
-    hash: approveData?.hash,
-    confirmations: 3,
-    onSuccess(data) {
-      console.log('approve tx successful data ', data);
-      setAllowance(Number(defaultApproveAmount) / AIUS_wei);
-    },
-    onError(err) {
-      console.log('approve tx error data ', err);
-    }
-  });*/
-
-  /*const { data: approveTx2, isError: txError2, isLoading: txLoading2 } = useWaitForTransaction({
-    hash: stakeData?.hash,
-    confirmations: 3,
-    onSuccess(data) {
-      console.log('approve tx successful data 2', data);
-      setShowPopUp("Success")
-      getTransactionReceiptData(stakeData?.hash).then(function(){
-        window.location.reload(true)
-      })
-    },
-    onError(err) {
-      console.log('approve tx error data 2', err);
-      setShowPopUp("Error")
-    }
-  });*/
-
-  /*useEffect(() => {
-    console.log(allowance, amount)
-    if(allowance > amount && showPopUp === 1){
-      console.log("running")
-      setShowPopUp(2)
-      console.log("calling stake")
-      setTimeout(() => {
-        console.log("HEllo")
-        stakeWrite()
-      },2000)
-    }
-  },[allowance])*/
-  // Use effect to fetch all values
-
-  const getWeb3 = async() => {
-    return await fetch(alchemyUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          jsonrpc: "2.0",
-          id: 1,
-          method: "eth_blockNumber",
-          params: []
-        }),
-      })
-      .then(res => res.json())
-        .then(data => {
-          if (data.error) {
-            console.error("Alchemy error:", data.error.message);
-            let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
-            return web3
-          } else {
-            let web3 = new Web3(new Web3.providers.HttpProvider(alchemyUrl));
-            console.log("Successfully connected. Block number:", data.result);
-            return web3
-          }
-        })
-        .catch((err) => {
-          console.log("Request failed:", err)
-          let web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
-          return web3
-        });
-  }
-
+  
   useEffect(() => {
 
     const f1 = async () => {
